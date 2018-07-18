@@ -5,8 +5,9 @@
 
 #include "Object\Object.cpp"
 #include "Object\ObjectHandler.cpp"
-#include "OpenGL\Frame.cpp"
+#include "OpenGL\FrameGL.cpp"
 #include "Logic\Script.cpp"
+#include "Input\KeyHandler.cpp"
 
 
 // Engine makros
@@ -46,7 +47,7 @@ int isCollide(Object * object1, Object * object2) {
 class Engine {
 public:
 	static Engine * getInstance();
-	void setFrame(Frame * frame);
+	void setFrame(FrameGL * frame);
 	void setGame(Script * mainScript);
 	void startGame();
 
@@ -63,9 +64,10 @@ private:
 	void render();
 
 	Script * mainScript;
-	Frame * frame;
+	FrameGL * frame;
 	static Engine * instance;
 	ObjectHandler * objectHandler;
+	KeyHandler * keyHandler;
 
 	int tickMax;
 	int tickCount;
@@ -80,6 +82,7 @@ Engine::Engine() {
 	tickMax = 50;
 
 	this->objectHandler = new ObjectHandler();
+	this->keyHandler = new KeyHandler();
 }
 
 Engine * Engine::getInstance() {
@@ -90,7 +93,7 @@ Engine * Engine::getInstance() {
 	return instance;
 }
 
-void Engine::setFrame(Frame  * frame) {
+void Engine::setFrame(FrameGL  * frame) {
 	this->frame = frame;
 };
 
@@ -140,8 +143,7 @@ float Engine::getDeltaTime() {
 }
 
 int Engine::keyStatus(int key){	
-	//TODO
-	return 0;
+	return keyHandler->getKeyStatus(key);
 }
 
 int Engine::isCollide(Object * object1, Object * object2) {
@@ -150,9 +152,9 @@ int Engine::isCollide(Object * object1, Object * object2) {
 }
 
 void Engine::tick() {
-	
+	// TODO
 }
 
 void Engine::render() {
-
+	// TODO
 }
