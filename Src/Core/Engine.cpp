@@ -10,12 +10,14 @@ Engine::Engine() {
 	this->keyHandler = new KeyHandler();
 }
 
+Engine *Engine::engineInstance = NULL;
+
 Engine * Engine::getInstance() {
-	if (instance == nullptr) {
-		instance = new Engine();
+	if (engineInstance == 0) {
+		engineInstance = new Engine();
 	}
 
-	return instance;
+	return engineInstance;
 }
 
 void Engine::setFrame(FrameGL  * frame) {

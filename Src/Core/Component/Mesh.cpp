@@ -40,5 +40,7 @@ void Mesh::squareMesh() {
 	objectGL->setPoints(points, 6);
 }
 
-
+ObjectGL * Mesh::getObjectGL() {
+	return this->objectGL;
+};
 #endif

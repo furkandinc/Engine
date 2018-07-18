@@ -4,7 +4,7 @@
 
 class Renderable {
 public:
-	virtual ObjectGL * getObjectGL();
+	virtual ObjectGL * getObjectGL() = 0;
 };
 
 #endif

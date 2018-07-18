@@ -11,7 +11,7 @@ public:
 	Mesh();
 	void setColor(int r, int g, int b);
 
-	ObjectGL * getObjectGL();
+	virtual ObjectGL * getObjectGL();
 
 private:
 	void squareMesh();

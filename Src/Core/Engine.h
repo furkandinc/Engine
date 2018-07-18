@@ -30,7 +30,7 @@ private:
 
 	Script * mainScript;
 	FrameGL * frame;
-	static Engine * instance;
+	static Engine * engineInstance;
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
 
