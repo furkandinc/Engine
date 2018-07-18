@@ -99,8 +99,6 @@ void Engine::setGame(Script * mainScript) {
 }
 
 void Engine::startGame() {
-	// TODO
-
 	initTime = clock();
 	lastTime = initTime;
 	tickCount = 0;
@@ -120,17 +118,17 @@ void Engine::startGame() {
 			tickNext = tickNext + tickGap;
 		}
 		this-> render();
-
 	}
 }
 
 Object * Engine::createObject() {
-	 // TODO
-	return nullptr;
+	Object * object = new Object();
+	objectHandler->add(object);
+	return object;
 }
 
 void Engine::removeObject(Object * object) {
-	// TODO
+	objectHandler->remove(objectHandler->indexOf(object));
 }
 
 void Engine::setScreenSize(int x, int y) {
