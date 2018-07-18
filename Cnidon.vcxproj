@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{86D5D22A-0E9F-478B-A728-E523F84584E4}</ProjectGuid>
-    <RootNamespace>Assignment4</RootNamespace>
+    <RootNamespace>Cnidon</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>Cnidon</ProjectName>
   </PropertyGroup>
@@ -29,7 +29,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -73,13 +73,23 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)\include;$(IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)\lib;$(LibraryPath);</LibraryPath>
+    <SourcePath>$(SourcePath);</SourcePath>
+    <ExecutablePath>$(ProjectDir)\dll;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -97,13 +107,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\Windows Kits\10\Lib\10.0.16299.0\um\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>"freeglut.lib;glu32.lib;opengl32.lib;glew32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,32 +132,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Arayuz\Bicim.cpp" />
-    <ClCompile Include="Src\Arayuz\Donusum.cpp" />
-    <ClCompile Include="Src\Arayuz\Motor.cpp" />
-    <ClCompile Include="Src\Arayuz\Tuslar.cpp" />
-    <ClCompile Include="Src\Core\Keys.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
-    <ClCompile Include="Src\Core\Component\Renderable.cpp" />
-    <ClCompile Include="Src\Core\PointGL.cpp" />
-    <ClCompile Include="Src\Arayuz\OyunScript.cpp" />
-    <ClCompile Include="Src\Arayuz\Eleman.cpp" />
-    <ClCompile Include="Src\Core\Engine.cpp" />
-    <ClCompile Include="Src\Core\Frame.cpp" />
-    <ClCompile Include="Src\Arayuz\Obje.cpp" />
-    <ClCompile Include="Src\Core\ObjectHandler.cpp" />
-    <ClCompile Include="Src\Core\includes\InitShader.cpp" />
-    <ClCompile Include="Src\Core\Script.cpp" />
-    <ClCompile Include="Src\Game\Snek.cpp" />
-    <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\Source.cpp" />
+    <ClCompile Include="Src\Core\*\*.cpp" />
+    <ClCompile Include="Src\Core\*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Core\includes\Angel.h" />
-    <ClInclude Include="Src\Core\includes\CheckError.h" />
-    <ClInclude Include="Src\Core\includes\mat.h" />
-    <ClInclude Include="Src\Core\includes\Tolos.h" />
-    <ClInclude Include="Src\Core\includes\vec.h" />
+    <ClInclude Include="Src\Core\includes\*.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,20 +3,19 @@
 
 #include "PointGL.cpp"
 
-#endif
-
-class ObjectGL{
+class ObjectGL {
 public:
 	ObjectGL() {
-		this->hasId = false;
+		this->idStat = false;
 	}
 
 	void setId(int id) {
 		this->id = id;
+		this->idStat;
 	}
 
 	bool hasId() {
-		return hasId;
+		return idStat;
 	}
 
 	int getId() {
@@ -45,7 +44,10 @@ public:
 	}
 private:
 	int id;
-	bool dirty, hasId;
+	bool dirty, idStat;
 	PointGL ** points;
 	int size;
 };
+
+#endif
+

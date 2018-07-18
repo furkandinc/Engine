@@ -9,41 +9,6 @@
 #include "Logic\Script.cpp"
 #include "Input\KeyHandler.cpp"
 
-
-// Engine makros
-Object * createObject();
-void removeObject(Object * object);
-void setScreenSize(int x, int y);
-float getDeltaTime();
-int keyStatus(int key);
-int isCollide(Object * object1, Object * object2);
-
-Object * createObject() {
-	return Engine::getInstance()->createObject();
-}
-
-void removeObject(Object * object) {
-	Engine::getInstance()->removeObject(object);
-}
-
-void setScreenSize(int x, int y) {
-	Engine::getInstance()->setScreenSize(x, y);
-}
-
-float getDeltaTime() {
-	Engine::getInstance()->getDeltaTime();
-}
-
-int keyStatus(int key) {
-	Engine::getInstance()->keyStatus(key);
-}
-
-int isCollide(Object * object1, Object * object2) {
-
-}
-
-#endif // ENGINE_H
-
 class Engine {
 public:
 	static Engine * getInstance();
@@ -77,6 +42,40 @@ private:
 	clock_t lastTime;
 	float lastDeltaTime;
 };
+
+// Engine makros
+Object * createObject();
+void removeObject(Object * object);
+void setScreenSize(int x, int y);
+float getDeltaTime();
+int keyStatus(int key);
+int isCollide(Object * object1, Object * object2);
+
+Object * createObject() {
+	return Engine::getInstance()->createObject();
+}
+
+void removeObject(Object * object) {
+	Engine::getInstance()->removeObject(object);
+}
+
+void setScreenSize(int x, int y) {
+	Engine::getInstance()->setScreenSize(x, y);
+}
+
+float getDeltaTime() {
+	return Engine::getInstance()->getDeltaTime();
+}
+
+int keyStatus(int key) {
+	return Engine::getInstance()->keyStatus(key);
+}
+
+int isCollide(Object * object1, Object * object2) {
+	// TODO
+	return 0;
+}
+
 
 Engine::Engine() {
 	tickMax = 50;
@@ -158,3 +157,6 @@ void Engine::tick() {
 void Engine::render() {
 	// TODO
 }
+
+
+#endif // ENGINE_H

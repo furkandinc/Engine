@@ -1,15 +1,11 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "Component.cpp"
-
-#include <stdlib.h>
-
 #include "..\OpenGL\PointGL.cpp"
-#include "..\OpenGL\Renderable.cpp"
 #include "..\OpenGL\ObjectGL.cpp"
-
-#endif
+#include "Renderable.cpp"
+#include "Component.cpp"
+#include <stdlib.h>
 
 class Mesh : public Component, Renderable {
 public:
@@ -25,6 +21,7 @@ private:
 
 	ObjectGL * objectGL;
 };
+
 
 Mesh::Mesh() {
 	objectGL = new ObjectGL();
@@ -60,3 +57,6 @@ void Mesh::squareMesh() {
 
 	objectGL->setPoints(points, 6);
 }
+
+
+#endif

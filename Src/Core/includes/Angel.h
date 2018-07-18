@@ -41,7 +41,6 @@
 //#  include <GL/freeglut_ext.h>
 #  include <GL/glew.h>
 #  include <GL/freeglut.h>
-#  include <GL/glext.h>
 #pragma comment(lib, "glew32.lib") 
 #endif  // __APPLE__
 

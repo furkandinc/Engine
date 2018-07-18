@@ -1,6 +1,6 @@
 #ifndef RENDERABLE_H
 
-#include "..\OpenGL\PointGL.cpp"
+#include "..\OpenGL\ObjectGL.cpp"
 
 #endif
 
