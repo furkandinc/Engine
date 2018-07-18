@@ -1,21 +1,7 @@
-#ifndef FRAMEGL_H
-#define FRAMEGL_H
+#ifndef FRAMEGL_CPP
+#define FRAMEGL_CPP
 
-#include "..\includes\Angel.h"
-#include "..\includes\Tolos.h"
-
-#endif
-
-class FrameGL {
-public:
-	FrameGL(int argc, char ** argv, char * title, int width, int height);
-	int getWidth();
-	int getHeight();
-private:
-	char * title;
-	int width;
-	int height;
-};
+#include "FrameGL.h"
 
 FrameGL::FrameGL(int argc, char ** argv, char * title, int width, int height) {
 	this->title = title;
@@ -31,3 +17,5 @@ int FrameGL::getWidth() {
 int FrameGL::getHeight() {
 	return this->height;
 }
+
+#endif

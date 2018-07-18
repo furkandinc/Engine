@@ -22,7 +22,6 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{86D5D22A-0E9F-478B-A728-E523F84584E4}</ProjectGuid>
     <RootNamespace>Cnidon</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>Cnidon</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -78,6 +77,7 @@
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath);</LibraryPath>
     <SourcePath>$(SourcePath);</SourcePath>
     <ExecutablePath>$(ProjectDir)\dll;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <ReferencePath>$(ProjectDir)\dll;$(VC_ReferencesPath_x86);</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,6 +89,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,11 +133,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Core\*\*.cpp" />
+    <ClCompile Include="Src\Core\Component\Mesh.cpp" />
+    <ClCompile Include="Src\Core\Component\Transform.cpp" />
+    <ClCompile Include="Src\Core\includes\InitShader.cpp" />
+    <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
+    <ClCompile Include="Src\Core\Object\Object.cpp" />
+    <ClCompile Include="Src\Core\Object\ObjectHandler.cpp" />
+    <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
+    <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
+    <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
     <ClCompile Include="Src\Core\*.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Core\Component\Component.h" />
+    <ClInclude Include="Src\Core\Component\Mesh.h" />
+    <ClInclude Include="Src\Core\Component\Renderable.h" />
+    <ClInclude Include="Src\Core\Component\Transform.h" />
+    <ClInclude Include="Src\Core\Engine.h" />
     <ClInclude Include="Src\Core\includes\*.h" />
+    <ClInclude Include="Src\Core\Input\KeyHandler.h" />
+    <ClInclude Include="Src\Core\Input\Keys.h" />
+    <ClInclude Include="Src\Core\Logic\Script.h" />
+    <ClInclude Include="Src\Core\Object\Object.h" />
+    <ClInclude Include="Src\Core\Object\ObjectHandler.h" />
+    <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
+    <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
+    <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
+    <ClInclude Include="Src\Main.h" />
+    <ClInclude Include="Src\TestGames\Snek\Snek.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

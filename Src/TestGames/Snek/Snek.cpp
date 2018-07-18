@@ -1,35 +1,9 @@
-#ifndef SNEK_H
-#define SNEK_H
+#ifndef SNEK_CPP
+#define SNEK_CPP
 
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
+#include "Snek.h"
 
-#include "..\..\Core\Engine.cpp"
-#include "..\..\Core\Component\Transform.cpp"
-#include "..\..\Core\Component\Mesh.cpp"
-#include "..\..\Core\Input\Keys.cpp"
-
-#endif
-
-float random(int a, int b) {
-	return a +  rand() % (b - a);
-}
-
-class Snek {
-public:
-	void start();
-	void update();
-private:
-	Object * oyuncu;
-	Object * hedef;
-
-	int puan;
-	int ekranGenislik = 800;
-	int ekranYukseklik = 800;
-};
-
-void Snek::start() {
+void Snek::onStart() {
 	srand(time(NULL));
 
 	this->puan = 0;
@@ -45,7 +19,7 @@ void Snek::start() {
 	oyuncu->getComponent<Transform>()->setPosition(200, 400);
 }
 
-void Snek::update() {
+void Snek::onUpdate() {
 	Transform * transform = oyuncu->getComponent<Transform>();
 	float oyuncuX = transform->getX();
 	float oyuncuY = transform->getY();
@@ -89,3 +63,5 @@ void Snek::update() {
 		printf("%i \n" , puan);
 	}
 }
+
+#endif

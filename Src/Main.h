@@ -1,5 +1,5 @@
-#include "Core\Engine.cpp"
-#include "TestGames\Snek\Snek.cpp"
+#include "Core\Engine.h"
+#include "TestGames\Snek\Snek.h"
 
 int main() {
 	Engine * engine = Engine::getInstance();

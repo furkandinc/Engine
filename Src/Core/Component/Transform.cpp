@@ -1,19 +1,7 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef TRANSFORM_CPP
+#define TRANSFORM_CPP
 
-#include "Component.cpp"
-class Transform : public Component {
-public:
-	Transform();
-	void setPosition(float x, float y);
-	float getX();
-	float getY();
-private:
-	float x;
-	float y;
-};
-
-
+#include "Transform.h"
 
 Transform::Transform() {
 	this->x = 0;
@@ -32,6 +20,5 @@ float Transform::getX() {
 float Transform::getY() {
 	return y;
 }
-
 
 #endif

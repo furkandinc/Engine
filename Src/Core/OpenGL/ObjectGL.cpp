@@ -1,53 +1,46 @@
-#ifndef OBJECTGL_H
-#define OBJECTGL_H
+#ifndef OBJECTGL_CPP
+#define OBJECTGL_CPP
 
-#include "PointGL.cpp"
+#include "ObjectGL.h"
 
-class ObjectGL {
-public:
-	ObjectGL() {
-		this->idStat = false;
-	}
 
-	void setId(int id) {
-		this->id = id;
-		this->idStat;
-	}
+ObjectGL::ObjectGL() {
+	this->idStat = false;
+}
 
-	bool hasId() {
-		return idStat;
-	}
+void ObjectGL::setId(int id) {
+	this->id = id;
+	this->idStat;
+}
 
-	int getId() {
-		return this->id;
-	}
+bool ObjectGL::hasId() {
+	return idStat;
+}
 
-	PointGL ** getPoints() {
-		return points;
-	}
+int ObjectGL::getId() {
+	return this->id;
+}
 
-	void setDirty(bool dirty) {
-		this->dirty = dirty;
-	}
+PointGL ** ObjectGL::getPoints() {
+	return points;
+}
 
-	bool isDirty() {
-		return this->dirty;
-	}
+void ObjectGL::setDirty(bool dirty) {
+	this->dirty = dirty;
+}
 
-	int getPointsSize() {
-		return this->size;
-	}
+bool ObjectGL::isDirty() {
+	return this->dirty;
+}
 
-	void setPoints(PointGL ** points, int size) {
+int ObjectGL::getPointsSize() {
+	return this->size;
+}
+
+void ObjectGL::setPoints(PointGL ** points, int size) {
 		this->points = points;
 		this->size = size;
-	}
-private:
-	int id;
-	bool dirty, idStat;
-	PointGL ** points;
-	int size;
-};
+}
 
 #endif
 

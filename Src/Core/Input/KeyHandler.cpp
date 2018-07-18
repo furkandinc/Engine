@@ -1,24 +1,7 @@
-#ifndef KEYHANDLER_H
-#define KEYHANDLER_H
+#ifndef KEYHANDLER_CPP
+#define KEYHANDLER_CPP
 
-#include "Keys.cpp"
-#include <stdlib.h>
-
-#endif
-class KeyHandler {
-
-public:
-	KeyHandler();
-	int getKeyStatus(int key);
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void tick();
-private:
-	const static enum Push : int { PUSHED, NOTPUSHED};
-	int * pushList;
-	int * keyList;
-};
-
+#include "KeyHandler.h"
 KeyHandler::KeyHandler() {
 	keyList = (int *)malloc(Keys::COUNT * sizeof(int));
 	pushList = (int *)malloc(Keys::COUNT * sizeof(int));
@@ -91,3 +74,4 @@ void KeyHandler::tick() {
 		}
 	}
 }
+#endif

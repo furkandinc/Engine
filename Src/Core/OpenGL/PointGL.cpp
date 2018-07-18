@@ -1,12 +1,7 @@
-#ifndef POINTGL_H
-#define POINTGL_H
+#ifndef POINTGL_CPP
+#define POINTGL_CPP
 
-class PointGL {
-	float x, y, z, w;
-	float r, g, b, a;
-public:
-	PointGL(float x, float y, float z, int r, int g, int b, int a);
-};
+#include "PointGL.h"
 
 PointGL::PointGL(float x, float y, float z, int r, int g, int b, int a) {
 	this->x = x;

@@ -1,30 +1,7 @@
-#ifndef OBJECT_HANDLER_H
-#define OBJECT_HANDLER_H
+#ifndef OBJECTHANDLER_CPP
+#define OBJECTHANDLER_CPP
 
-#include "Object.cpp"
-#include <stdlib.h>
-
-#endif
-
-class ObjectHandler {
-public:
-	
-	ObjectHandler();
-	
-	void add(Object * object);
-	int indexOf(Object * object);
-	int getSize();
-	Object * remove(int index);
-	Object ** getList();
-
-private:
-
-	Object ** list;
-	int count;
-	int size;
-
-	void checkSize();
-};
+#include "ObjectHandler.h"
 
 ObjectHandler::ObjectHandler() {
 	this->list = (Object **)malloc(sizeof(Object *) * 10);
@@ -82,3 +59,5 @@ void ObjectHandler::checkSize() {
 		}
 	}
 }
+
+#endif

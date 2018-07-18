@@ -1,27 +1,9 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef MESH_CPP
+#define MESH_CPP
 
-#include "..\OpenGL\PointGL.cpp"
-#include "..\OpenGL\ObjectGL.cpp"
-#include "Renderable.cpp"
-#include "Component.cpp"
 #include <stdlib.h>
 
-class Mesh : public Component, Renderable {
-public:
-	Mesh();
-	void setColor(int r, int g, int b);
-
-	ObjectGL * getObjectGL();
-
-private:
-	void squareMesh();
-
-	int red, green, blue;
-
-	ObjectGL * objectGL;
-};
-
+#include "Mesh.h"
 
 Mesh::Mesh() {
 	objectGL = new ObjectGL();

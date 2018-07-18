@@ -1,10 +1,10 @@
 #ifndef RENDERABLE_H
 
-#include "..\OpenGL\ObjectGL.cpp"
-
-#endif
+#include "..\OpenGL\ObjectGL.h"
 
 class Renderable {
 public:
 	virtual ObjectGL * getObjectGL();
 };
+
+#endif
