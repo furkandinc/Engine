@@ -146,6 +146,7 @@
     <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
     <ClCompile Include="Src\Core\*.cpp" />
     <ClCompile Include="Src\Source.cpp" />
+	<ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Component\Component.h" />
@@ -153,7 +154,6 @@
     <ClInclude Include="Src\Core\Component\Renderable.h" />
     <ClInclude Include="Src\Core\Component\Transform.h" />
     <ClInclude Include="Src\Core\Engine.h" />
-    <ClInclude Include="Src\Core\includes\*.h" />
     <ClInclude Include="Src\Core\Input\KeyHandler.h" />
     <ClInclude Include="Src\Core\Input\Keys.h" />
     <ClInclude Include="Src\Core\Logic\Script.h" />
@@ -162,8 +162,8 @@
     <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
     <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
     <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
-    <ClInclude Include="Src\Main.cpp" />
     <ClInclude Include="Src\TestGames\Snek\Snek.h" />
+    <ClInclude Include="Src\Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
