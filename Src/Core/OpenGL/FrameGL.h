@@ -1,7 +1,6 @@
 #ifndef FRAMEGL_H
 #define FRAMEGL_H
 
-#include "..\includes\Angel.h"
 
 class FrameGL {
 public:
