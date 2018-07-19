@@ -51,29 +51,29 @@ void Engine::startGame() {
 	}
 }
 
-Object * Engine::createObject() {
+Object * Engine::_createObject() {
 	Object * object = new Object();
 	objectHandler->add(object);
 	return object;
 }
 
-void Engine::removeObject(Object * object) {
+void Engine::_removeObject(Object * object) {
 	objectHandler->remove(objectHandler->indexOf(object));
 }
 
-void Engine::setScreenSize(int x, int y) {
+void Engine::_setScreenSize(int x, int y) {
 	// TODO
 }
 
-float Engine::getDeltaTime() {
+float Engine::_getDeltaTime() {
 	return lastDeltaTime;
 }
 
-int Engine::keyStatus(int key){	
+int Engine::_keyStatus(int key){	
 	return keyHandler->getKeyStatus(key);
 }
 
-int Engine::isCollide(Object * object1, Object * object2) {
+int Engine::_isCollide(Object * object1, Object * object2) {
 	// TODO
 	return 0;
 }
@@ -87,4 +87,28 @@ void Engine::render() {
 }
 
 
+Object * createObject() {
+	return Engine::getInstance()->_createObject();
+}
+
+void removeObject(Object * object) {
+	Engine::getInstance()->_removeObject(object);
+}
+
+void setScreenSize(int x, int y) {
+	Engine::getInstance()->_setScreenSize(x, y);
+}
+
+float getDeltaTime() {
+	return Engine::getInstance()->_getDeltaTime();
+}
+
+int keyStatus(int key) {
+	return Engine::getInstance()->_keyStatus(key);
+}
+
+int isCollide(Object * object1, Object * object2) {
+	// TODO
+	return 0;
+}
 #endif // ENGINE_CPP

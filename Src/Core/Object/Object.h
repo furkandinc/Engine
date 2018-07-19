@@ -20,4 +20,15 @@ private:
 	int componentCount;
 };
 
+template<typename T>
+T * Object::getComponent() {
+	int i;
+	for (i = 0; i<componentCount; i++) {
+		Component * component = componentList[i];
+		if (T * v = dynamic_cast<T *>((T * ) component)) {
+			return v;
+		}
+	}
+	return nullptr;
+};
 #endif

@@ -3,7 +3,11 @@
 
 #include "Snek.h"
 
-void Snek::onStart() {
+float random(int a, int b) {
+	return a + rand() % (b - a);
+}
+
+void Snek::onStart(void) {
 	srand(time(NULL));
 
 	this->puan = 0;
@@ -19,7 +23,7 @@ void Snek::onStart() {
 	oyuncu->getComponent<Transform>()->setPosition(200, 400);
 }
 
-void Snek::onUpdate() {
+void Snek::onUpdate(void) {
 	Transform * transform = oyuncu->getComponent<Transform>();
 	float oyuncuX = transform->getX();
 	float oyuncuY = transform->getY();

@@ -16,12 +16,12 @@ public:
 	void setGame(Script * mainScript);
 	void startGame();
 
-	Object * createObject();
-	void removeObject(Object * object);
-	void setScreenSize(int x, int y);
-	float getDeltaTime();
-	int keyStatus(int key);
-	int isCollide(Object * object1, Object * object2);
+	Object * _createObject();
+	void _removeObject(Object * object);
+	void _setScreenSize(int x, int y);
+	float _getDeltaTime();
+	int _keyStatus(int key);
+	int _isCollide(Object * object1, Object * object2);
 
 private:
 	Engine();
@@ -51,30 +51,6 @@ float getDeltaTime();
 int keyStatus(int key);
 int isCollide(Object * object1, Object * object2);
 
-Object * createObject() {
-	return Engine::getInstance()->createObject();
-}
-
-void removeObject(Object * object) {
-	Engine::getInstance()->removeObject(object);
-}
-
-void setScreenSize(int x, int y) {
-	Engine::getInstance()->setScreenSize(x, y);
-}
-
-float getDeltaTime() {
-	return Engine::getInstance()->getDeltaTime();
-}
-
-int keyStatus(int key) {
-	return Engine::getInstance()->keyStatus(key);
-}
-
-int isCollide(Object * object1, Object * object2) {
-	// TODO
-	return 0;
-}
 
 
 #endif

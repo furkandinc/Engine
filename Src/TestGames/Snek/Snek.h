@@ -5,20 +5,19 @@
 #include <time.h>
 #include <stdlib.h>
 
+#include "..\..\Core\Object\Object.h"
 #include "..\..\Core\Engine.h"
 #include "..\..\Core\Component\Transform.h"
 #include "..\..\Core\Component\Mesh.h"
 #include "..\..\Core\Input\Keys.h"
 #include "..\..\Core\Logic\Script.h"
 
-float random(int a, int b) {
-	return a + rand() % (b - a);
-}
 
+float random(int a, int b);
 class Snek: public Script {
 public:
-	virtual void onStart();
-	virtual void onUpdate();
+	void onStart(void);
+	void onUpdate(void);
 private:
 	Object * oyuncu;
 	Object * hedef;

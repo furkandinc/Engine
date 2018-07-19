@@ -77,8 +77,8 @@
     <IncludePath>$(ProjectDir)\include;$(IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath);</LibraryPath>
     <SourcePath>$(SourcePath);</SourcePath>
-    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
-    <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
+    <ExecutablePath>$(ProjectDir)\dll;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <ReferencePath>$(ProjectDir)\dll;$(VC_ReferencesPath_x86);</ReferencePath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -93,6 +93,9 @@
       <AdditionalDependencies>freeglut.lib;glu32.lib;opengl32.lib;glew32.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d  "$(ProjectDir)dll\*" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -135,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Core\Component\Component.cpp" />
     <ClCompile Include="Src\Core\Component\Mesh.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
@@ -144,9 +148,10 @@
     <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
-    <ClCompile Include="Src\Core\*.cpp" />
+    <ClCompile Include="Src\Core\Engine.cpp" />
     <ClCompile Include="Src\Source.cpp" />
-	<ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\TestGames\Snek\Snek.cpp" />
+    <ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Component\Component.h" />
@@ -164,6 +169,12 @@
     <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
     <ClInclude Include="Src\TestGames\Snek\Snek.h" />
     <ClInclude Include="Src\Main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dll\freeglut.dll" />
+    <None Include="dll\glew32.dll" />
+    <None Include="dll\glewinfo.exe" />
+    <None Include="dll\visualinfo.exe" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

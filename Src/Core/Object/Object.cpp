@@ -15,15 +15,6 @@ void Object::addComponent(Component * component) {
 	componentCount++;
 };
 
-template <typename T>
-T * Object::getComponent() {
-	int i;
-	for (i = 0; i<componentCount; i++) {
-		Component * component = componentList[i];
-		if (typeid(*component) == typeid(T)) {
-			return component;
-		}
-	}
-};
+
 
 #endif
