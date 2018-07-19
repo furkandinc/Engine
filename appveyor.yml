@@ -1,7 +1,7 @@
 install:
   - cmd: msbuild "Cnidon.sln"
   
-configuration: Debug
+configuration: Release
 
 environment:
   GENERATOR: Visual Studio 15 2017
