@@ -1,0 +1,10 @@
+install:
+  - cmd: msbuild "Cnidon.sln"
+  
+configuration: Debug
+
+environment:
+  GENERATOR: Visual Studio 15 2017
+  PLATFORM: Win32
+  APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+build: off
