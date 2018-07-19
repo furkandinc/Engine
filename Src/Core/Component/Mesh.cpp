@@ -6,7 +6,7 @@
 #include "Mesh.h"
 
 Mesh::Mesh() {
-	objectGL = new ObjectGL();
+	this->objectGL = new ObjectGL();
 
 	red = 128;
 	green = 128;

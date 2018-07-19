@@ -6,8 +6,8 @@
 Object::Object() {
 	componentList = (Component **)malloc(sizeof(Component *) * 10);
 	componentCount = 0;
-	addComponent((Component *) new Transform());
-	addComponent((Component *) new Mesh());
+	addComponent(new Transform());
+	addComponent(new Mesh());
 };
 
 void Object::addComponent(Component * component) {

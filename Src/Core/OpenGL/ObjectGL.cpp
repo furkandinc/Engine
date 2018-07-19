@@ -41,7 +41,8 @@ int ObjectGL::getPointsSize() {
 }
 
 void ObjectGL::setPoints(PointGL * pts, int size) {
-	// TODO
+	this->points = points;
+	this->size = size;
 }
 
 #endif
