@@ -13,7 +13,7 @@ public:
 
 	int getId();
 
-	PointGL ** getPoints();
+	PointGL * getPoints();
 
 	void setDirty(bool dirty);
 
@@ -21,11 +21,11 @@ public:
 
 	int getPointsSize();
 
-	void setPoints(PointGL ** points, int size);
+	void setPoints(PointGL * points, int size);
 private:
 	int id;
 	bool dirty, idStat;
-	PointGL ** points;
+	PointGL * points;
 	int size;
 };
 

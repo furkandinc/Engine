@@ -41,6 +41,8 @@ private:
 	clock_t initTime;
 	clock_t lastTime;
 	float lastDeltaTime;
+	int lastFrameCount;
+	int frameCount;
 };
 
 // Engine makros

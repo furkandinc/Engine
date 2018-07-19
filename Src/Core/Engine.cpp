@@ -2,6 +2,7 @@
 #define ENGINE_CPP
 
 #include "Engine.h"
+#include <stdio.h>
 
 Engine::Engine() {
 	tickMax = 50;
@@ -34,6 +35,9 @@ void Engine::startGame() {
 	tickCount = 0;
 	tickGap = (1.0 / tickMax) * CLOCKS_PER_SEC;
 	tickNext = lastTime + tickGap;
+	frameCount = 0;
+
+	clock_t debugNext = lastTime + CLOCKS_PER_SEC;
 
 	mainScript->onStart();
 
@@ -44,10 +48,16 @@ void Engine::startGame() {
 
 		if (tickNext < currentTime) {
 			this->tick();
-
 			tickNext = tickNext + tickGap;
 		}
 		this-> render();
+		if (debugNext < currentTime) {
+			printf("Fps: %d, tps: %d\n", frameCount, tickCount);
+
+			tickCount = 0;
+			frameCount = 0;
+			debugNext = currentTime + CLOCKS_PER_SEC;
+		}
 	}
 }
 
@@ -80,10 +90,14 @@ int Engine::_isCollide(Object * object1, Object * object2) {
 
 void Engine::tick() {
 	// TODO
+
+	tickCount++;
 }
 
 void Engine::render() {
 	// TODO
+
+	frameCount++;
 }
 
 

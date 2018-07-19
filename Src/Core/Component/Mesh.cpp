@@ -23,21 +23,22 @@ void Mesh::setColor(int r, int g, int b) {
 }
 
 void Mesh::squareMesh() {
-	PointGL ** points = (PointGL **)malloc(sizeof(PointGL * ) * 6);
+	PointGL pts[6];
 	PointGL nokta1(0, 1, 0, 1, red, green, blue);
 	PointGL nokta2(0, 0, 0, 1, red, green, blue);
 	PointGL nokta3(1, 0, 0, 1, red, green, blue);
 	PointGL nokta4(1, 0, 0, 1, red, green, blue);
 	PointGL nokta5(1, 1, 0, 1, red, green, blue);
 	PointGL nokta6(0, 1, 0, 1, red, green, blue);
-	points[0] = &nokta1;
-	points[1] = &nokta2;
-	points[2] = &nokta3;
-	points[3] = &nokta4;
-	points[4] = &nokta5;
-	points[5] = &nokta6;
+	pts[0] = nokta1;
+	pts[1] = nokta2;
+	pts[2] = nokta3;
+	pts[3] = nokta4;
+	pts[4] = nokta5;
+	pts[5] = nokta6;
 
-	objectGL->setPoints(points, 6);
+	this->objectGL->setPoints(pts, 6);
+
 }
 
 ObjectGL * Mesh::getObjectGL() {

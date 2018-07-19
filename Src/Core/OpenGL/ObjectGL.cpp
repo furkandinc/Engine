@@ -2,10 +2,13 @@
 #define OBJECTGL_CPP
 
 #include "ObjectGL.h"
-
+#include <stdlib.h>
 
 ObjectGL::ObjectGL() {
 	this->idStat = false;
+	this->points = nullptr;
+	this->dirty = false;
+	this->id = 0;
 }
 
 void ObjectGL::setId(int id) {
@@ -21,7 +24,7 @@ int ObjectGL::getId() {
 	return this->id;
 }
 
-PointGL ** ObjectGL::getPoints() {
+PointGL * ObjectGL::getPoints() {
 	return points;
 }
 
@@ -37,9 +40,8 @@ int ObjectGL::getPointsSize() {
 	return this->size;
 }
 
-void ObjectGL::setPoints(PointGL ** points, int size) {
-		this->points = points;
-		this->size = size;
+void ObjectGL::setPoints(PointGL * pts, int size) {
+	// TODO
 }
 
 #endif
