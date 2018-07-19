@@ -1,5 +1,7 @@
 x64*
 Debug*
+Release*
+x64*
 .vs*
 Cnidon.sdf
 Cnidon.opensdf
