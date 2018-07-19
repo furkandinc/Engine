@@ -1,6 +1,8 @@
 #ifndef ENGINE_CPP
 #define ENGINE_CPP
 
+#define _ENGINE_DEBUG
+
 #include "Engine.h"
 #include <stdio.h>
 
@@ -34,26 +36,29 @@ void Engine::startGame() {
 	lastTime = initTime;
 	tickCount = 0;
 	tickGap = (1.0 / tickMax) * CLOCKS_PER_SEC;
-	tickNext = lastTime + tickGap;
+	tickNext = initTime + tickGap;
 	frameCount = 0;
 
-	clock_t debugNext = lastTime + CLOCKS_PER_SEC;
+	clock_t debugNext = initTime + CLOCKS_PER_SEC;
 
-	mainScript->onStart();
+	this->tick(START);
 
 	while (true) {
 		clock_t currentTime = clock();
-		lastDeltaTime = float(currentTime - lastTime) / CLOCKS_PER_SEC;
-		lastTime = currentTime;
 
 		if (tickNext < currentTime) {
-			this->tick();
+			this->tick(UPDATE);
 			tickNext = tickNext + tickGap;
+			lastDeltaTime = float(currentTime - lastTime) / CLOCKS_PER_SEC;
+			lastTime = currentTime;
 		}
+		
 		this-> render();
-		if (debugNext < currentTime) {
-			printf("Fps: %d, tps: %d\n", frameCount, tickCount);
 
+		if (debugNext < currentTime) {
+#ifdef _ENGINE_DEBUG
+			printf("Fps: %d, tps: %d\n", frameCount, tickCount);
+#endif
 			tickCount = 0;
 			frameCount = 0;
 			debugNext = currentTime + CLOCKS_PER_SEC;
@@ -88,14 +93,23 @@ int Engine::_isCollide(Object * object1, Object * object2) {
 	return 0;
 }
 
-void Engine::tick() {
+void Engine::tick(int tickType) {
 	// TODO
+	
+	if (tickType == START) {
+		mainScript->onStart();
+	}
+	else if(tickType == UPDATE){
+		mainScript->onUpdate();
+	}
 
 	tickCount++;
 }
 
 void Engine::render() {
 	// TODO
+	
+
 
 	frameCount++;
 }

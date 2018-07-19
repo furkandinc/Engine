@@ -30,6 +30,10 @@ void Snek::onUpdate(void) {
 	float hiz = 25;
 	float araZaman = getDeltaTime();
 
+	Transform * hedefTransform = hedef->getComponent<Transform>();
+	float hedefX = hedefTransform->getX();
+	float hedefY = hedefTransform->getY();
+
 	if (keyStatus(Keys::KEY_UP_ARROW) == Keys::STATUS_PRESS) {
 		float y = oyuncuY + hiz * araZaman;
 		if (y<ekranGenislik) {
@@ -66,6 +70,8 @@ void Snek::onUpdate(void) {
 		hedef->getComponent<Transform>()->setPosition(yeniX, yeniY);
 		printf("%i \n" , puan);
 	}
+
+	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", araZaman, oyuncuX, oyuncuY, hedefX, hedefY);
 }
 
 #endif

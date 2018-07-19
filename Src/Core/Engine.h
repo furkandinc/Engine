@@ -25,8 +25,9 @@ public:
 
 private:
 	Engine();
-	void tick();
+	void tick(int tickType);
 	void render();
+	static enum tickType : int {START, UPDATE};
 
 	Script * mainScript;
 	FrameGL * frame;
