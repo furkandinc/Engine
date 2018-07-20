@@ -1,3 +1,6 @@
+// This class will self destroy
+// 10
+
 // rotating cube with two texture objects
 // change textures with 1 and 2 keys
 /*
