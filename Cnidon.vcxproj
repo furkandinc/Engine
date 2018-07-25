@@ -148,6 +148,7 @@
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
     <ClCompile Include="Src\Core\Object\Object.cpp" />
     <ClCompile Include="Src\Core\Object\ObjectHandler.cpp" />
+    <ClCompile Include="Src\Core\OpenGL\BufferGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Src\Core\Logic\Script.h" />
     <ClInclude Include="Src\Core\Object\Object.h" />
     <ClInclude Include="Src\Core\Object\ObjectHandler.h" />
+    <ClInclude Include="Src\Core\OpenGL\BufferGL.h" />
     <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
     <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
     <ClInclude Include="Src\Core\OpenGL\PointGL.h" />

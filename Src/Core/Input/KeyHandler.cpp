@@ -19,7 +19,8 @@ int KeyHandler::getKeyStatus(int key) {
 	return keyList[key];
 }
 
-void KeyHandler::keyPressed(int key) {
+void KeyHandler::keyPressed(unsigned int keyCode) {
+	int key = Keys::toKeys(keyCode);
 	if (key < 0 || key >= Keys::COUNT) {
 		return;
 	}
@@ -27,7 +28,8 @@ void KeyHandler::keyPressed(int key) {
 	pushList[key] = Push::PUSHED;
 }
 
-void KeyHandler::keyReleased(int key) {
+void KeyHandler::keyReleased(unsigned int keyCode) {
+	int key = Keys::toKeys(keyCode);
 	if (key < 0 || key >= Keys::COUNT) {
 		return;
 	}

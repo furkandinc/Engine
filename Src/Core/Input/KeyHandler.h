@@ -9,8 +9,8 @@ class KeyHandler {
 public:
 	KeyHandler();
 	int getKeyStatus(int key);
-	void keyPressed(int key);
-	void keyReleased(int key);
+	void keyPressed(unsigned int keyCode);
+	void keyReleased(unsigned int keyCode);
 	void tick();
 private:
 	const static enum Push : int { PUSHED, NOTPUSHED };

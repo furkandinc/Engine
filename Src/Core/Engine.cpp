@@ -100,6 +100,9 @@ void Engine::tick(int tickType) {
 		mainScript->onStart();
 	}
 	else if(tickType == UPDATE){
+		if (this->keyHandler != nullptr) {
+			this->keyHandler->tick();
+		}
 		mainScript->onUpdate();
 	}
 
