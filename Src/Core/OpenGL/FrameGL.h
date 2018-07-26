@@ -9,12 +9,14 @@ class FrameGL {
 public:
 	
 	void init(int argc, char ** argv, const char * title, int width, int height);
-	void drawObject(Object * object);
+	void addObject(Object * object);
 	void setKeyHandler(KeyHandler * keyHandler);
 	int getWidth();
 	int getHeight();
+	void render();
 
 	static FrameGL * getInstance();
+
 private:
 	char * title;
 	int width;

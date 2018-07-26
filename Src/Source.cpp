@@ -1,6 +1,6 @@
 // rotating cube with two texture objects
 // change textures with 1 and 2 keys
-
+/*
 #include "Core\includes\Angel.h"
 #include "Core\includes\Tolos.h"
 typedef Angel::vec4 point4;
@@ -233,3 +233,4 @@ int mani(int argc, char **argv)
 	glutMainLoop();
 	return 0;
 }
+*/

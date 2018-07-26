@@ -25,4 +25,8 @@ PointGL::PointGL(float x, float y, float z, int r, int g, int b, int a) {
 	this->a= a / (float) 255;
 }
 
+int PointGL::size() {
+	return sizeof(float) * 8;
+}
+
 #endif

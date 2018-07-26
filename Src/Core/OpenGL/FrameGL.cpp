@@ -44,6 +44,13 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	initBuffers();
 }
 
+void FrameGL::initBuffers() {
+
+}
+void FrameGL::render() {
+	glutPostRedisplay();
+}
+
 void FrameGL::displayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -53,9 +60,37 @@ void FrameGL::displayFunc() {
 	mat4 mv = LookAt(eye, at, up);
 	glUniformMatrix4fv(ModelView, 1, GL_TRUE, mv);
 	
-	// mat4 mo;
-	// ObjectGL ** objects bufferGL->
+	mat4 mo;
+	BufferGL * buffer = frameInstance->bufferGL;
+
+	PointGL * points = buffer->getPoints();
+	int numPoints = buffer->getNumPoints();
+	mat4 * mos = buffer->getMatrices();
+	int * sizes = buffer->getSizes();
+	int count = buffer->getCount();
+	bool dirty = buffer->getDirty();
+
+	if (dirty) {
+		GLuint bfId;
+		glGenBuffers(1, &bfId);
+		glBindBuffer(GL_ARRAY_BUFFER, bfId);
+		glBufferData(GL_ARRAY_BUFFER, PointGL::size() * numPoints, points, GL_STATIC_DRAW);
+		buffer->setDirty(false);
+	}
+
+	int i, offset = 0;
+	for (i = 0; i < count; i++) {
+		mo = mos[i];
+		glUniformMatrix4fv(ModelOBJ, 1, GL_TRUE, mo);
+		glDrawArrays(GL_TRIANGLES, offset, sizes[i]);
+		offset += sizes[i];
+	}
+
 	glutSwapBuffers();
+}
+
+void FrameGL::addObject(Object * object) {
+	bufferGL->add(object);
 }
 
 void FrameGL::idleFunc() {

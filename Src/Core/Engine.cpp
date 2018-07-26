@@ -112,7 +112,7 @@ void Engine::tick(int tickType) {
 void Engine::render() {
 	// TODO
 	
-
+	frame->render();
 
 	frameCount++;
 }
