@@ -1,6 +1,12 @@
 #ifndef BUFFERGL_H
 #define BUFFERGL_H
 
+#include <vector>
+
+#include "PointGL.h"
+#include "../Object/Object.h"
+#include "../includes/Angel.h"
+
 class BufferGL {
 public:
 	BufferGL();
@@ -14,12 +20,21 @@ public:
 	void add(Object * object);
 
 private:
-	int numPoints;
-	PointGL * 
-	int totalBufferSize;
-	bool dirty;
-	mat4 * matrices;
-	int * sizes;
-};
+	
+	std::vector<PointGL> points;
 
+	std::vector<mat4> matrices;
+	std::vector<int> sizes;
+	std::vector<int> ids;
+	int count;
+
+	bool dirty;
+	int lastGeneratedID;
+
+	int generateID();
+	mat4 generateMatris(Transform * transform);
+
+	int indexOfId(int id);
+	void addToArray(PointGL * points, int size);
+};
 #endif
