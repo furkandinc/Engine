@@ -1,4 +1,4 @@
-Cnidon Game Engine
+Game Engine
 ------------------
 ## Build Status
 
@@ -9,7 +9,7 @@ Windows:
 Visual Studio 2017
 
 ## Building
-Run Cnidon.sln with vs2017
+Run Engine.sln with vs2017
 
 ## Contributing
 No commits to master branch allowed. You should create branch named "issue #[issue-number] [issue-header]" and pull request.

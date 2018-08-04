@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{86D5D22A-0E9F-478B-A728-E523F84584E4}</ProjectGuid>
-    <RootNamespace>Cnidon</RootNamespace>
-    <ProjectName>Cnidon</ProjectName>
+    <RootNamespace>Engine</RootNamespace>
+    <ProjectName>Engine</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
