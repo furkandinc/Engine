@@ -3,7 +3,7 @@ Game Engine
 ## Build Status
 
 Windows:
-[![Build status](https://ci.appveyor.com/api/projects/status/b823cwnfqil3dda1/branch/master?svg=true)](https://ci.appveyor.com/project/furkandinc/cnidon-engine/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/d5pv1s224dphyhu9?svg=true)](https://ci.appveyor.com/project/furkandinc/engine)
 
 ## Requirements
 Visual Studio 2017
