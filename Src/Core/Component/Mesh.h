@@ -3,10 +3,10 @@
 
 #include <stdlib.h>
 
-#include "Renderable.h"
 #include "Component.h"
+#include "../OpenGL/ObjectGL.h"
 
-class Mesh : public Component, Renderable {
+class Mesh : public Component{
 public:
 	Mesh();
 	void setColor(int r, int g, int b);

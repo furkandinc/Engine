@@ -60,4 +60,7 @@ void ObjectHandler::checkSize() {
 	}
 }
 
+Object ** ObjectHandler::getList() {
+	return list;
+}
 #endif

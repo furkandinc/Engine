@@ -112,8 +112,19 @@ void Engine::tick(int tickType) {
 void Engine::render() {
 	// TODO
 	
-	frame->render();
+	Object ** list = this->objectHandler->getList();
+	int size = this->objectHandler->getSize();
 
+	int i;
+	for (i = 0; i < size; i++) {
+		
+		if (list[i]->getComponent<Mesh>() != nullptr) {
+			frame->addObject(list[i]);
+			printf("YOLO\n");
+		}
+	}
+
+	frame->render();
 	frameCount++;
 }
 

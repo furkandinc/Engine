@@ -12,7 +12,7 @@ GLuint vPosition, vColor, VTextCoord, vNormal; // FIXME are theese necessary
 FrameGL * FrameGL::frameInstance = NULL;
 
 FrameGL::FrameGL() {
-
+	bufferGL = new BufferGL();
 }
 
 FrameGL * FrameGL::getInstance() {
@@ -66,7 +66,7 @@ void FrameGL::displayFunc() {
 	PointGL * points = buffer->getPoints();
 	int numPoints = buffer->getNumPoints();
 	mat4 * mos = buffer->getMatrices();
-	int * sizes = buffer->getSizes();
+	Integer * sizes = buffer->getSizes();
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
 
@@ -82,8 +82,8 @@ void FrameGL::displayFunc() {
 	for (i = 0; i < count; i++) {
 		mo = mos[i];
 		glUniformMatrix4fv(ModelOBJ, 1, GL_TRUE, mo);
-		glDrawArrays(GL_TRIANGLES, offset, sizes[i]);
-		offset += sizes[i];
+		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
+		offset += sizes[i].get();
 	}
 
 	glutSwapBuffers();

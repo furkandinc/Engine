@@ -2,26 +2,32 @@
 #define BUFFERGL_CPP
 
 #include "BufferGL.h"
+#include <stdio.h>
 
 BufferGL::BufferGL() {
 	count = 0;
 	lastGeneratedID = 100;
+	
+	points = new ArrayList<PointGL>();
+	matrices = new ArrayList<mat4>();
+	sizes = new ArrayList<Integer>();
+	ids = new ArrayList<Integer>();
 }
 
 PointGL * BufferGL::getPoints() {
-	return this->points.data;
+	return this->points->toArray();
 }
 
 int BufferGL::getNumPoints() {
-	return this->points.size;
+	return this->points->size();
 }
 
 mat4 * BufferGL::getMatrices() {
-	return this->matrices.data();
+	return this->matrices->toArray();
 }
 
-int * BufferGL::getSizes() {
-	return this->sizes.data();
+Integer * BufferGL::getSizes() {
+	return this->sizes->toArray();
 }
 
 int BufferGL::getCount() {
@@ -37,7 +43,7 @@ void BufferGL::setDirty(bool dirty) {
 }
 
 void BufferGL::add(Object * object) {
-	ObjectGL * objectGL = object->getComponent<Renderable>()->getObjectGL();
+	ObjectGL * objectGL = object->getComponent<Mesh>()->getObjectGL();
 	Transform * transform = object->getComponent<Transform>();
 	if (!objectGL->hasId()) {
 		objectGL->setId(generateID());
@@ -46,16 +52,16 @@ void BufferGL::add(Object * object) {
 	int id = objectGL->getId();
 	int index = indexOfId(id);
 	if (id < 0) {
-		addToArray(objectGL->getPoints, objectGL->getPointsSize);
-		matrices.push_back(generateMatris(transform));
-		sizes.push_back(objectGL->getPointsSize);
-		ids.push_back(id);
+		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
+		matrices->add(generateMatris(transform));
+		sizes->add(objectGL->getPointsSize());
+		ids->add(id);
 		count++;
 		objectGL->setDirty(false);
 		dirty = true;
 	}
 	else {
-		matrices[index] = generateMatris(transform);
+		matrices->set(index, generateMatris(transform));
 		// TODO if objectGL is dirty
 	}
 }
@@ -68,7 +74,7 @@ int BufferGL::generateID() {
 int BufferGL::indexOfId(int id) {
 	int i = 0;
 	for (i = 0; i < count; i++) {
-		if (id == ids[i]) {
+		if (id == ids->get(i).get()) {
 			return i;
 		}
 	}
@@ -78,12 +84,12 @@ int BufferGL::indexOfId(int id) {
 void BufferGL::addToArray(PointGL * points, int size) {
 	int i;
 	for (i = 0; i < size; i++) {
-		this->points.push_back(points[i]);
+		this->points->add(points[i]);
 	}
 }
 
 mat4 BufferGL::generateMatris(Transform * transform) {
-	return Translate(vec3(transform->getX, transform->getY, 0));
+	return Translate(vec3(transform->getX(), transform->getY(), 0));
 }
 
 #endif

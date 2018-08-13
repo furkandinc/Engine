@@ -153,6 +153,8 @@
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
     <ClCompile Include="Src\Core\Engine.cpp" />
+    <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
+    <ClCompile Include="Src\Core\Util\Integer.cpp" />
     <ClCompile Include="Src\Source.cpp" />
     <ClCompile Include="Src\TestGames\Snek\Snek.cpp" />
     <ClCompile Include="Src\Main.cpp" />
@@ -160,7 +162,6 @@
   <ItemGroup>
     <ClInclude Include="Src\Core\Component\Component.h" />
     <ClInclude Include="Src\Core\Component\Mesh.h" />
-    <ClInclude Include="Src\Core\Component\Renderable.h" />
     <ClInclude Include="Src\Core\Component\Transform.h" />
     <ClInclude Include="Src\Core\Engine.h" />
     <ClInclude Include="Src\Core\Input\KeyHandler.h" />
@@ -172,6 +173,8 @@
     <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
     <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
     <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
+    <ClInclude Include="Src\Core\Util\ArrayList.h" />
+    <ClInclude Include="Src\Core\Util\Integer.h" />
     <ClInclude Include="Src\TestGames\Snek\Snek.h" />
     <ClInclude Include="Src\Main.h" />
   </ItemGroup>

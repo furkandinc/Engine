@@ -6,6 +6,8 @@
 #include "PointGL.h"
 #include "../Object/Object.h"
 #include "../includes/Angel.h"
+#include "../Util/ArrayList.h"
+#include "../Util/Integer.h"
 
 class BufferGL {
 public:
@@ -13,19 +15,19 @@ public:
 	PointGL * getPoints();
 	int getNumPoints();
 	mat4 * getMatrices();
-	int * getSizes();
+	Integer * getSizes();
 	int getCount();
 	bool getDirty();
 	void setDirty(bool dirty);
 	void add(Object * object);
 
 private:
-	
-	std::vector<PointGL> points;
 
-	std::vector<mat4> matrices;
-	std::vector<int> sizes;
-	std::vector<int> ids;
+	ArrayList<PointGL> * points;
+	ArrayList<mat4> * matrices;
+	ArrayList<Integer> * sizes;
+	ArrayList<Integer> * ids;
+
 	int count;
 
 	bool dirty;
