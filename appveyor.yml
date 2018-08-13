@@ -1,5 +1,5 @@
 install:
-  - cmd: msbuild "Cnidon.vcxproj"
+  - cmd: msbuild "Engine.vcxproj"
   
 configuration: Release
 
