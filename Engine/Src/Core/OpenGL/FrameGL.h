@@ -17,6 +17,11 @@ public:
 
 	static FrameGL * getInstance();
 
+	static void displayFunc();
+	static void idleFunc();
+	static void keyboardDownFunc(unsigned char key, int x, int y);
+	static void keyboardUpFunc(unsigned char key, int x, int y);
+	static void reshapeFunc(int w, int h);
 private:
 	char * title;
 	int width;
@@ -27,10 +32,5 @@ private:
 
 	FrameGL();
 	void initBuffers();
-	static void displayFunc();
-	static void idleFunc();
-	static void keyboardDownFunc(unsigned char key, int x, int y);
-	static void keyboardUpFunc(unsigned char key, int x, int y);
-	static void reshapeFunc(int w, int h);
 };
 #endif

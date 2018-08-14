@@ -7,5 +7,6 @@
     <LocalDebuggerEnvironment>$(ProjectDir)\dll
 ;$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\Debug</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

@@ -6,13 +6,17 @@
 
 typedef Angel::vec4 point4;
 
-GLuint ModelView, Projection, ModelOBJ, program;
-GLuint vPosition, vColor, VTextCoord, vNormal; // FIXME are theese necessary
+GLuint ModelView, Projection, program;
+GLuint vPosition, vColor; // FIXME are theese necessary
 
 FrameGL * FrameGL::frameInstance = NULL;
 
+void iDisplayFunc() {
+	FrameGL::displayFunc();
+}
+
 FrameGL::FrameGL() {
-	bufferGL = new BufferGL();
+
 }
 
 FrameGL * FrameGL::getInstance() {
@@ -42,16 +46,24 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glutReshapeFunc(reshapeFunc);
 
 	initBuffers();
+
+	glutMainLoop();
 }
 
 void FrameGL::initBuffers() {
+	bufferGL = new BufferGL();
+
+	program = InitShader("vshader1.glsl", "fshader1.glsl");
+	glUseProgram(program);
 
 }
+
 void FrameGL::render() {
 	glutPostRedisplay();
 }
 
 void FrameGL::displayFunc() {
+	printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	point4 eye = point4(400, 300, 100, 1);
@@ -69,8 +81,9 @@ void FrameGL::displayFunc() {
 	Integer * sizes = buffer->getSizes();
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
-
+	
 	if (dirty) {
+		printf("dirty\n");
 		GLuint bfId;
 		glGenBuffers(1, &bfId);
 		glBindBuffer(GL_ARRAY_BUFFER, bfId);
@@ -80,8 +93,8 @@ void FrameGL::displayFunc() {
 
 	int i, offset = 0;
 	for (i = 0; i < count; i++) {
-		mo = mos[i];
-		glUniformMatrix4fv(ModelOBJ, 1, GL_TRUE, mo);
+		mo = mv * mos[i];
+		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
 		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
 		offset += sizes[i].get();
 	}
@@ -98,6 +111,7 @@ void FrameGL::idleFunc() {
 }
 
 void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
+	//printf("keydownfunc");
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyPressed(key);
@@ -105,6 +119,7 @@ void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
+	//printf("keyupfunc");
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyReleased(key);
@@ -112,7 +127,14 @@ void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::reshapeFunc(int w, int h) {
-	//TODO
+	frameInstance->width = w;
+	frameInstance->height = h;
+
+	glViewport(0, 0, w, h);
+	GLfloat aspect = GLfloat(w) / h;
+	mat4 projection = Ortho(0, w, 0, h, -1, 1);
+
+	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
 
 int FrameGL::getWidth() {

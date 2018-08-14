@@ -51,7 +51,7 @@ void BufferGL::add(Object * object) {
 
 	int id = objectGL->getId();
 	int index = indexOfId(id);
-	if (id < 0) {
+	if (index < 0) {
 		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
 		matrices->add(generateMatris(transform));
 		sizes->add(objectGL->getPointsSize());

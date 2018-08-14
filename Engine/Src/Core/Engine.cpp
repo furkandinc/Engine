@@ -120,7 +120,6 @@ void Engine::render() {
 		
 		if (list[i]->getComponent<Mesh>() != nullptr) {
 			frame->addObject(list[i]);
-			printf("YOLO\n");
 		}
 	}
 
