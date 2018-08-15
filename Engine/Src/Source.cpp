@@ -1,6 +1,6 @@
 // rotating cube with two texture objects
 // change textures with 1 and 2 keys
-// Self Destruction 10
+// Self Destruction 9
 /*
 #include "Core\includes\Angel.h"
 #include "Core\includes\Tolos.h"

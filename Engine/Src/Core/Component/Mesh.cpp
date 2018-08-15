@@ -2,7 +2,7 @@
 #define MESH_CPP
 
 #include <stdlib.h>
-
+#include <stdio.h>
 #include "Mesh.h"
 
 Mesh::Mesh() {
@@ -19,7 +19,6 @@ void Mesh::setColor(int r, int g, int b) {
 	this->red = r;
 	this->green = g;
 	this->blue = b;
-	squareMesh();
 }
 
 void Mesh::squareMesh() {
@@ -36,7 +35,7 @@ void Mesh::squareMesh() {
 	pts[3] = nokta4;
 	pts[4] = nokta5;
 	pts[5] = nokta6;
-
+	printf("Mesh:squaremesh\n");
 	this->objectGL->setPoints(pts, 6);
 
 }

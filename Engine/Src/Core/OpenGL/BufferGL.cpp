@@ -48,10 +48,11 @@ void BufferGL::add(Object * object) {
 	if (!objectGL->hasId()) {
 		objectGL->setId(generateID());
 	}
-
+	printf("buffergl:add id:%d\n", objectGL->getId());
 	int id = objectGL->getId();
 	int index = indexOfId(id);
 	if (index < 0) {
+		printf("Buffergl:add:index<0 id:%d\n", id);
 		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
 		matrices->add(generateMatris(transform));
 		sizes->add(objectGL->getPointsSize());
@@ -63,6 +64,7 @@ void BufferGL::add(Object * object) {
 	else {
 		matrices->set(index, generateMatris(transform));
 		// TODO if objectGL is dirty
+		
 	}
 }
 

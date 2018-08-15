@@ -47,7 +47,6 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 
 	initBuffers();
 
-	glutMainLoop();
 }
 
 void FrameGL::initBuffers() {
@@ -56,10 +55,20 @@ void FrameGL::initBuffers() {
 	program = InitShader("vshader1.glsl", "fshader1.glsl");
 	glUseProgram(program);
 
+	GLsizei stride = PointGL::size();
+
+	vPosition = glGetAttribLocation(program, "vPosition");
+	glEnableVertexAttribArray(vPosition);
+	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(0));
+
+	vColor = glGetAttribLocation(program, "vColor");
+	glEnableVertexAttribArray(vColor);
+	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(4 * sizeof(float)));
+
 }
 
 void FrameGL::render() {
-	glutPostRedisplay();
+	displayFunc();
 }
 
 void FrameGL::displayFunc() {
@@ -83,7 +92,7 @@ void FrameGL::displayFunc() {
 	bool dirty = buffer->getDirty();
 	
 	if (dirty) {
-		printf("dirty\n");
+		printf("displayfunc:dirty\n");
 		GLuint bfId;
 		glGenBuffers(1, &bfId);
 		glBindBuffer(GL_ARRAY_BUFFER, bfId);
@@ -93,6 +102,7 @@ void FrameGL::displayFunc() {
 
 	int i, offset = 0;
 	for (i = 0; i < count; i++) {
+		printf("displayfunc:for%d\n", i);
 		mo = mv * mos[i];
 		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
 		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());

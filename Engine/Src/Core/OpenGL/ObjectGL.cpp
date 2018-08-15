@@ -13,7 +13,7 @@ ObjectGL::ObjectGL() {
 
 void ObjectGL::setId(int id) {
 	this->id = id;
-	this->idStat;
+	this->idStat = true;
 }
 
 bool ObjectGL::hasId() {
@@ -41,7 +41,7 @@ int ObjectGL::getPointsSize() {
 }
 
 void ObjectGL::setPoints(PointGL * pts, int size) {
-	this->points = points;
+	this->points = pts;
 	this->size = size;
 }
 

@@ -119,6 +119,7 @@ void Engine::render() {
 	for (i = 0; i < size; i++) {
 		
 		if (list[i]->getComponent<Mesh>() != nullptr) {
+			printf("Engine:render:for%d\n", i);
 			frame->addObject(list[i]);
 		}
 	}
