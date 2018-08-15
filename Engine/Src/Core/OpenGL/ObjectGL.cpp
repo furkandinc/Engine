@@ -3,6 +3,7 @@
 
 #include "ObjectGL.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 ObjectGL::ObjectGL() {
 	this->idStat = false;
@@ -41,6 +42,7 @@ int ObjectGL::getPointsSize() {
 }
 
 void ObjectGL::setPoints(PointGL * pts, int size) {
+	printf("objectgl:setpoints\n");
 	this->points = pts;
 	this->size = size;
 }

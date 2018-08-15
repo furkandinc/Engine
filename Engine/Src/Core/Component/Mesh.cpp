@@ -22,6 +22,7 @@ void Mesh::setColor(int r, int g, int b) {
 }
 
 void Mesh::squareMesh() {
+	printf("Mesh:squaremesh\n");
 	PointGL pts[6];
 	PointGL nokta1(0, 1, 0, 1, red, green, blue);
 	PointGL nokta2(0, 0, 0, 1, red, green, blue);
@@ -35,7 +36,6 @@ void Mesh::squareMesh() {
 	pts[3] = nokta4;
 	pts[4] = nokta5;
 	pts[5] = nokta6;
-	printf("Mesh:squaremesh\n");
 	this->objectGL->setPoints(pts, 6);
 
 }

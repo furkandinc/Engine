@@ -7,17 +7,12 @@
 typedef Angel::vec4 point4;
 
 GLuint ModelView, Projection, program;
-GLuint vPosition, vColor; // FIXME are theese necessary
+GLuint vPosition, vColor;
+GLuint Vao, Buffer;
 
 FrameGL * FrameGL::frameInstance = NULL;
 
-void iDisplayFunc() {
-	FrameGL::displayFunc();
-}
-
-FrameGL::FrameGL() {
-
-}
+FrameGL::FrameGL() {}
 
 FrameGL * FrameGL::getInstance() {
 	if (frameInstance == nullptr) {
@@ -42,9 +37,9 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardDownFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
-	//glutPassiveMotionFunc(this->mouseFunc);
+	glutPassiveMotionFunc(passiveMouseFunc);
 	glutReshapeFunc(reshapeFunc);
-
+	// TODO glutMouseFunc(clickMouseFunc);
 	initBuffers();
 
 }
@@ -57,6 +52,9 @@ void FrameGL::initBuffers() {
 
 	GLsizei stride = PointGL::size();
 
+	glGenVertexArrays(1, &Vao);
+	glBindVertexArray(Vao);
+
 	vPosition = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(vPosition);
 	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(0));
@@ -65,14 +63,17 @@ void FrameGL::initBuffers() {
 	glEnableVertexAttribArray(vColor);
 	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(4 * sizeof(float)));
 
+	ModelView = glGetUniformLocation(program, "ModelView");
+	Projection = glGetUniformLocation(program, "Projection");
 }
 
 void FrameGL::render() {
-	displayFunc();
+	glutPostRedisplay();
+	glutMainLoopEvent();
 }
 
 void FrameGL::displayFunc() {
-	printf("frame:display\n");
+	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	point4 eye = point4(400, 300, 100, 1);
@@ -84,6 +85,7 @@ void FrameGL::displayFunc() {
 	mat4 mo;
 	BufferGL * buffer = frameInstance->bufferGL;
 
+	
 	PointGL * points = buffer->getPoints();
 	int numPoints = buffer->getNumPoints();
 	mat4 * mos = buffer->getMatrices();
@@ -91,6 +93,9 @@ void FrameGL::displayFunc() {
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
 	
+	
+
+
 	if (dirty) {
 		printf("displayfunc:dirty\n");
 		GLuint bfId;
@@ -102,7 +107,7 @@ void FrameGL::displayFunc() {
 
 	int i, offset = 0;
 	for (i = 0; i < count; i++) {
-		printf("displayfunc:for%d\n", i);
+		//printf("displayfunc:for%d\n", i);
 		mo = mv * mos[i];
 		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
 		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
@@ -117,11 +122,11 @@ void FrameGL::addObject(Object * object) {
 }
 
 void FrameGL::idleFunc() {
-	//TODO
+	//TODO nothing?
 }
 
 void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
-	//printf("keydownfunc");
+	printf("framegl:keydownfunc key:%d\n", key);
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyPressed(key);
@@ -129,7 +134,7 @@ void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
-	//printf("keyupfunc");
+	printf("framegl:keyupfunc key:%d\n", key);
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyReleased(key);
@@ -137,6 +142,7 @@ void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::reshapeFunc(int w, int h) {
+	printf("framegl:reshapefunc w:%d h%d\n", w, h);
 	frameInstance->width = w;
 	frameInstance->height = h;
 
@@ -146,6 +152,12 @@ void FrameGL::reshapeFunc(int w, int h) {
 
 	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
+
+void FrameGL::passiveMouseFunc(int x, int y) {
+	// printf("framegl::passiveMouseFunc x:%d y:%d\n", x, y);
+}
+
+
 
 int FrameGL::getWidth() {
 	return this->width;

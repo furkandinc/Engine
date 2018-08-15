@@ -19,7 +19,7 @@ PointGL * BufferGL::getPoints() {
 }
 
 int BufferGL::getNumPoints() {
-	return this->points->size();
+	return this->points->getCount();
 }
 
 mat4 * BufferGL::getMatrices() {
@@ -48,12 +48,19 @@ void BufferGL::add(Object * object) {
 	if (!objectGL->hasId()) {
 		objectGL->setId(generateID());
 	}
-	printf("buffergl:add id:%d\n", objectGL->getId());
+	//printf("buffergl:add id:%d\n", objectGL->getId());
 	int id = objectGL->getId();
 	int index = indexOfId(id);
 	if (index < 0) {
 		printf("Buffergl:add:index<0 id:%d\n", id);
 		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
+		/*DEBUG*/
+		PointGL dbPoints[1000];
+		int db;
+		for (db = 0; db < objectGL->getPointsSize() && db < 1000; db++) {
+			dbPoints[db] = objectGL->getPoints()[db];
+		}
+		/*DEBUG*/
 		matrices->add(generateMatris(transform));
 		sizes->add(objectGL->getPointsSize());
 		ids->add(id);

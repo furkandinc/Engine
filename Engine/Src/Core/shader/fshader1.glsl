@@ -1,4 +1,5 @@
 #version 150
+//Becareful of line eding only lf accepted
 
 in vec4 color;
 
