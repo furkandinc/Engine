@@ -85,7 +85,6 @@ void FrameGL::displayFunc() {
 	mat4 mo;
 	BufferGL * buffer = frameInstance->bufferGL;
 
-	
 	PointGL * points = buffer->getPoints();
 	int numPoints = buffer->getNumPoints();
 	mat4 * mos = buffer->getMatrices();
@@ -93,7 +92,13 @@ void FrameGL::displayFunc() {
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
 	
-	
+	/*DEBUG*/
+	PointGL dbPoints[1000];
+	int db;
+	for (db = 0; db < numPoints && db < 1000; db++) {
+		dbPoints[db] = points[db];
+	}
+	/*DEBUG*/
 
 
 	if (dirty) {
