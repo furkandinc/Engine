@@ -19,11 +19,11 @@ public:
 	void onStart(void);
 	void onUpdate(void);
 private:
-	Object * oyuncu;
-	Object * hedef;
+	Object * player;
+	Object * target;
 
-	int puan;
-	int ekranGenislik = 800;
-	int ekranYukseklik = 800;
+	int score;
+	int boundaryWidth = 800;
+	int boundaryHeight = 600;
 };
 #endif
