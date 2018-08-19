@@ -25,6 +25,7 @@ Engine * Engine::getInstance() {
 
 void Engine::setFrame(FrameGL  * frame) {
 	this->frame = frame;
+	this->frame->setKeyHandler(this->keyHandler);
 };
 
 void Engine::setGame(Script * mainScript) {
