@@ -1,2 +1,2 @@
 * text=auto
-*.glsl text eof=lf
+*.glsl text eol=lf
