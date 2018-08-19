@@ -11,6 +11,8 @@ Engine::Engine() {
 
 	this->objectHandler = new ObjectHandler();
 	this->keyHandler = new KeyHandler();
+
+	printf("Engine Initialized! \n");
 }
 
 Engine *Engine::engineInstance = NULL;
@@ -33,6 +35,8 @@ void Engine::setGame(Script * mainScript) {
 }
 
 void Engine::startGame() {
+	printf("Engine Started! \n");
+
 	initTime = clock();
 	lastTime = initTime;
 	tickCount = 0;

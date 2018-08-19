@@ -76,7 +76,7 @@ void FrameGL::initBuffers() {
 	program = InitShader("vshader1.glsl", "fshader1.glsl");
 	glUseProgram(program);
 	debug();
-	printf("version: %s\n", glGetString(GL_VERSION));
+	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
 
 	glGenVertexArrays(1, &Vao);
 	glBindVertexArray(Vao);

@@ -45,6 +45,7 @@ void BufferGL::setDirty(bool dirty) {
 void BufferGL::add(Object * object) {
 	ObjectGL * objectGL = object->getComponent<Mesh>()->getObjectGL();
 	Transform * transform = object->getComponent<Transform>();
+	
 	if (!objectGL->hasId()) {
 		objectGL->setId(generateID());
 	}
@@ -70,8 +71,32 @@ void BufferGL::add(Object * object) {
 	}
 	else {
 		matrices->set(index, generateMatris(transform));
-		// TODO if objectGL is dirty
-		
+
+		if (objectGL->isDirty()) {
+			ArrayList<PointGL> * temp = new ArrayList<PointGL>();
+			int newSize = objectGL->getPointsSize();
+			int offset = 0;
+			for (int i = 0; i < count; i++) {
+				if (i != index) {
+					for (int j = 0; j < sizes->get(i).get(); j++) {
+						temp->add(points->get(offset + j));
+					}
+				}
+				else {
+					PointGL * newPoints = objectGL->getPoints();
+					for (int j = 0; j < newSize; j++) {
+						temp->add(newPoints[j]);
+					}
+				}
+
+				offset += sizes->get(i).get();
+			}
+			sizes->set(index, Integer(newSize));
+			free(points);
+			points = temp;
+			objectGL->setDirty(false);
+			dirty = true;
+		}
 	}
 }
 
