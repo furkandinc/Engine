@@ -1,5 +1,5 @@
 install:
-  - cmd: msbuild "Engine.vcxproj"
+  - cmd: msbuild "Engine/Engine.vcxproj"
   
 configuration: Release
 

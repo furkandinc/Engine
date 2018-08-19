@@ -1,7 +1,6 @@
-x64*
-Debug*
-Release*
-x64*
-.vs*
-Cnidon.sdf
-Cnidon.opensdf
+Engine/x64*
+Engine/Debug*
+Engine/*.glsl
+Engine/Release*
+Engine/x64*
+Engine/.vs*
