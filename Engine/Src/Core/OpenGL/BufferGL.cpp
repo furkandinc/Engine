@@ -98,7 +98,9 @@ void BufferGL::addToArray(PointGL * points, int size) {
 }
 
 mat4 BufferGL::generateMatris(Transform * transform) {
-	return Translate(vec3(transform->getX(), transform->getY(), 0));
+	mat4 t = Translate(vec3(transform->getX(), transform->getY(), 0));
+	mat4 s = Scale(vec3(transform->getW(), transform->getH(), 1));
+	return t * s;
 }
 
 #endif
