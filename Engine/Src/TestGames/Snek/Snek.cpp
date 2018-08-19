@@ -10,68 +10,68 @@ float random(int a, int b) {
 void Snek::onStart(void) {
 	srand(time(NULL));
 
-	this->puan = 0;
+	this->score = 0;
 
-	setScreenSize(ekranGenislik, ekranYukseklik);
+	setScreenSize(boundaryWidth, boundaryHeight);
 
-	hedef = createObject();
-	hedef->getComponent<Mesh>()->setColor(255, 0, 0);
-	hedef->getComponent<Transform>()->setPosition(600, 400);
+	target = createObject();
+	target->getComponent<Mesh>()->setColor(255, 0, 0);
+	target->getComponent<Transform>()->setPosition(600, 400);
 
-	oyuncu = createObject();
-	oyuncu->getComponent<Mesh>()->setColor(0, 255, 0);
-	oyuncu->getComponent<Transform>()->setPosition(200, 400);
+	player = createObject();
+	player->getComponent<Mesh>()->setColor(0, 255, 0);
+	player->getComponent<Transform>()->setPosition(200, 400);
 }
 
 void Snek::onUpdate(void) {
-	Transform * transform = oyuncu->getComponent<Transform>();
-	float oyuncuX = transform->getX();
-	float oyuncuY = transform->getY();
+	Transform * transform = player->getComponent<Transform>();
+	float playerX = transform->getX();
+	float playerY = transform->getY();
 	float hiz = 25;
 	float araZaman = getDeltaTime();
 
-	Transform * hedefTransform = hedef->getComponent<Transform>();
-	float hedefX = hedefTransform->getX();
-	float hedefY = hedefTransform->getY();
+	Transform * targetTransform = target->getComponent<Transform>();
+	float targetX = targetTransform->getX();
+	float targetY = targetTransform->getY();
 
 	if (keyStatus(Keys::KEY_UP_ARROW) == Keys::STATUS_PRESS) {
-		float y = oyuncuY + hiz * araZaman;
-		if (y<ekranGenislik) {
-			transform->setPosition(oyuncuX, y);
+		float y = playerY + hiz * araZaman;
+		if (y<boundaryWidth) {
+			transform->setPosition(playerX, y);
 		}
 	}
 
 	if (keyStatus(Keys::KEY_DOWN_ARROW) == Keys::STATUS_PRESS) {
-		float y = oyuncuY - hiz * araZaman;
-		if (y < ekranGenislik) {
-			transform->setPosition(oyuncuX, y);
+		float y = playerY - hiz * araZaman;
+		if (y < boundaryWidth) {
+			transform->setPosition(playerX, y);
 		}
 	}
 
 	if (keyStatus(Keys::KEY_LEFT_ARROW) == Keys::STATUS_PRESS) {
-		float x = oyuncuX - hiz * araZaman;
+		float x = playerX - hiz * araZaman;
 		if (x > 0) {
-			transform->setPosition(x, oyuncuY);
+			transform->setPosition(x, playerY);
 		}
 	}
 
 	if (keyStatus(Keys::KEY_RIGHT_ARROW) == Keys::STATUS_PRESS) {
-		float x = oyuncuX + hiz * araZaman;
-		if (x<ekranGenislik) {
-			transform->setPosition(x, oyuncuY);
+		float x = playerX + hiz * araZaman;
+		if (x<boundaryWidth) {
+			transform->setPosition(x, playerY);
 		}
 	}
 
-	if (isCollide(oyuncu, hedef)) {
-		float yeniX = random(100, 700);
-		float yeniY = random(100, 700);
+	if (isCollide(player, target)) {
+		float newX = random(100, 700);
+		float newY = random(100, 500);
 
-		this->puan += 1;
-		hedef->getComponent<Transform>()->setPosition(yeniX, yeniY);
-		printf("%i \n" , puan);
+		this->score += 1;
+		target->getComponent<Transform>()->setPosition(newX, newY);
+		printf("SCORE: %i \n" , score);
 	}
 
-	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", araZaman, oyuncuX, oyuncuY, hedefX, hedefY);
+	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", araZaman, playerX, playerY, targetX, targetY);
 }
 
 #endif
