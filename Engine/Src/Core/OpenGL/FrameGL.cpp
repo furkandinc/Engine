@@ -186,4 +186,8 @@ int FrameGL::getHeight() {
 void FrameGL::setKeyHandler(KeyHandler * keyHandler) {
 	this->keyHandler = keyHandler;
 }
+
+void FrameGL::setSize(int width, int height) {
+	glutReshapeWindow(width, height);
+}
 #endif

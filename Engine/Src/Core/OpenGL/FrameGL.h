@@ -14,6 +14,7 @@ public:
 	int getWidth();
 	int getHeight();
 	void render();
+	void setSize(int width, int height);
 
 	static FrameGL * getInstance();
 

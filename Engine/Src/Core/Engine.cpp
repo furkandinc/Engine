@@ -78,7 +78,9 @@ void Engine::_removeObject(Object * object) {
 }
 
 void Engine::_setScreenSize(int x, int y) {
-	// TODO
+	if (this->frame != nullptr && x > 0 && y > 0) {
+		this->frame->setSize(x, y);
+	}
 }
 
 float Engine::_getDeltaTime() {
@@ -95,7 +97,6 @@ int Engine::_isCollide(Object * object1, Object * object2) {
 }
 
 void Engine::tick(int tickType) {
-	// TODO
 	
 	if (tickType == START) {
 		mainScript->onStart();
@@ -111,7 +112,6 @@ void Engine::tick(int tickType) {
 }
 
 void Engine::render() {
-	// TODO
 	
 	Object ** list = this->objectHandler->getList();
 	int size = this->objectHandler->getSize();
@@ -119,8 +119,7 @@ void Engine::render() {
 	int i;
 	for (i = 0; i < size; i++) {
 		
-		if (list[i]->getComponent<Mesh>() != nullptr) {
-			//printf("Engine:render:for%d\n", i);
+		if (list[i]->getComponent<Mesh>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
 			frame->addObject(list[i]);
 		}
 	}
@@ -151,7 +150,6 @@ int keyStatus(int key) {
 }
 
 int isCollide(Object * object1, Object * object2) {
-	// TODO
-	return 0;
+	return Engine::getInstance()->_isCollide(object1, object2);
 }
 #endif // ENGINE_CPP
