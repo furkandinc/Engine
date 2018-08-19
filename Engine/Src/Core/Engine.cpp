@@ -92,7 +92,21 @@ int Engine::_keyStatus(int key){
 }
 
 int Engine::_isCollide(Object * object1, Object * object2) {
-	// TODO
+	Transform * t1 = object1->getComponent<Transform>();
+	Transform * t2 = object2->getComponent<Transform>();
+
+	if (t1 != nullptr && t2 != nullptr) {
+		float x1 = t1->getX();
+		float y1 = t1->getY();
+		float w1 = t1->getW();
+		float h1 = t1->getH();
+
+		float x2 = t2->getX();
+		float y2 = t2->getY();
+		float w2 = t2->getW();
+		float h2 = t2->getH();
+	}
+
 	return 0;
 }
 
