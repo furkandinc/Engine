@@ -50,6 +50,8 @@ void ObjectGL::setPoints(PointGL * pts, int size) {
 	for (int i = 0; i < size; i++) {
 		this->points[i] = pts[i];
 	}
+
+	this->dirty = true;
 }
 
 #endif

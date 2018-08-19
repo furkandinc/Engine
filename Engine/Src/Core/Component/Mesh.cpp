@@ -21,6 +21,8 @@ void Mesh::setColor(int r, int g, int b) {
 	this->green = g/255.0;
 	this->blue = b/255.0;
 	this->alpha = 1.0;
+
+	squareMesh();
 }
 
 void Mesh::squareMesh() {
@@ -34,7 +36,6 @@ void Mesh::squareMesh() {
 	pts[5] = { vec4(0, 1, 0, 1), vec4(red, green, blue, alpha) };
 
 	this->objectGL->setPoints(pts, 6);
-
 }
 
 ObjectGL * Mesh::getObjectGL() {
