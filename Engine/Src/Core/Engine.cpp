@@ -78,7 +78,9 @@ void Engine::_removeObject(Object * object) {
 }
 
 void Engine::_setScreenSize(int x, int y) {
-	// TODO
+	if (this->frame != nullptr && x > 0 && y > 0) {
+		this->frame->setSize(x, y);
+	}
 }
 
 float Engine::_getDeltaTime() {
@@ -89,13 +91,43 @@ int Engine::_keyStatus(int key){
 	return keyHandler->getKeyStatus(key);
 }
 
-int Engine::_isCollide(Object * object1, Object * object2) {
-	// TODO
-	return 0;
+bool Engine::_isCollide(Object * object1, Object * object2) {
+	Transform * t1 = object1->getComponent<Transform>();
+	Transform * t2 = object2->getComponent<Transform>();
+
+	// Lazy coding right??
+	if (t1 != nullptr && t2 != nullptr) {
+		float x1 = t1->getX();
+		float y1 = t1->getY();
+		float w1 = t1->getW();
+		float h1 = t1->getH();
+
+		float x2 = t2->getX();
+		float y2 = t2->getY();
+		float w2 = t2->getW();
+		float h2 = t2->getH();
+
+		bool xCollide = false;
+		bool yCollide = false;
+
+		if (x2 >= x1 && x2 <= x1 + w1)
+			xCollide = true;
+		if (x2 + w2 >= x1 && x2 + w2 <= x1 + w1)
+			xCollide = true;
+		if (y2 >= y1 && y2 <= y1 + w1)
+			yCollide = true;
+		if (y2 + w2 >= y1 && y2 + w2 <= y1 + w1)
+			yCollide = true;
+
+		if (xCollide && yCollide) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Engine::tick(int tickType) {
-	// TODO
 	
 	if (tickType == START) {
 		mainScript->onStart();
@@ -111,7 +143,6 @@ void Engine::tick(int tickType) {
 }
 
 void Engine::render() {
-	// TODO
 	
 	Object ** list = this->objectHandler->getList();
 	int size = this->objectHandler->getSize();
@@ -119,8 +150,7 @@ void Engine::render() {
 	int i;
 	for (i = 0; i < size; i++) {
 		
-		if (list[i]->getComponent<Mesh>() != nullptr) {
-			//printf("Engine:render:for%d\n", i);
+		if (list[i]->getComponent<Mesh>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
 			frame->addObject(list[i]);
 		}
 	}
@@ -150,8 +180,7 @@ int keyStatus(int key) {
 	return Engine::getInstance()->_keyStatus(key);
 }
 
-int isCollide(Object * object1, Object * object2) {
-	// TODO
-	return 0;
+bool isCollide(Object * object1, Object * object2) {
+	return Engine::getInstance()->_isCollide(object1, object2);
 }
 #endif // ENGINE_CPP

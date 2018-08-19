@@ -116,7 +116,7 @@ void FrameGL::displayFunc() {
 	/*DEBUG*/
 
 	if (dirty) {
-		printf("displayfunc:dirty\n");
+		//printf("displayfunc:dirty\n");
 		glGenBuffers(1, &Buffer);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * numPoints, points, GL_STATIC_DRAW);
@@ -147,7 +147,7 @@ void FrameGL::idleFunc() {
 }
 
 void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
-	printf("framegl:keydownfunc key:%d\n", key);
+	//printf("framegl:keydownfunc key:%d\n", key);
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyPressed(key);
@@ -155,7 +155,7 @@ void FrameGL::keyboardDownFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
-	printf("framegl:keyupfunc key:%d\n", key);
+	//printf("framegl:keyupfunc key:%d\n", key);
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyReleased(key);
@@ -163,7 +163,7 @@ void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
 }
 
 void FrameGL::reshapeFunc(int w, int h) {
-	printf("framegl:reshapefunc w:%d h%d\n", w, h);
+	//printf("framegl:reshapefunc w:%d h%d\n", w, h);
 	frameInstance->width = w;
 	frameInstance->height = h;
 
@@ -185,5 +185,9 @@ int FrameGL::getHeight() {
 
 void FrameGL::setKeyHandler(KeyHandler * keyHandler) {
 	this->keyHandler = keyHandler;
+}
+
+void FrameGL::setSize(int width, int height) {
+	glutReshapeWindow(width, height);
 }
 #endif

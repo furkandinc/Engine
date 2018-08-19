@@ -21,7 +21,7 @@ public:
 	void _setScreenSize(int x, int y);
 	float _getDeltaTime();
 	int _keyStatus(int key);
-	int _isCollide(Object * object1, Object * object2);
+	bool _isCollide(Object * object1, Object * object2);
 
 private:
 	Engine();
@@ -52,8 +52,6 @@ void removeObject(Object * object);
 void setScreenSize(int x, int y);
 float getDeltaTime();
 int keyStatus(int key);
-int isCollide(Object * object1, Object * object2);
-
-
+bool isCollide(Object * object1, Object * object2);
 
 #endif

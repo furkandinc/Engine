@@ -42,7 +42,7 @@ int ObjectGL::getPointsSize() {
 }
 
 void ObjectGL::setPoints(PointGL * pts, int size) {
-	printf("objectgl:setpoints\n");
+	//printf("objectgl:setpoints\n");
 	free(this->points);
 	this->points = (PointGL * )malloc(sizeof(PointGL) * size);
 	this->size = size;
