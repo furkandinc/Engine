@@ -1,1 +1,2 @@
+core.autocrlf=false
 *.glsl text eol=lf
