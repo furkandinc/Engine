@@ -24,7 +24,7 @@ void Mesh::setColor(int r, int g, int b) {
 }
 
 void Mesh::squareMesh() {
-	printf("Mesh:squaremesh\n");
+	//printf("Mesh:squaremesh\n");
 	PointGL pts[6];
 	pts[0] = { vec4(0, 1, 0, 1), vec4(red, green, blue, alpha) };
 	pts[1] = { vec4(0, 0, 0, 1), vec4(red, green, blue, alpha) };

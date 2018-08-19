@@ -52,7 +52,7 @@ void BufferGL::add(Object * object) {
 	int id = objectGL->getId();
 	int index = indexOfId(id);
 	if (index < 0) {
-		printf("Buffergl:add:index<0 id:%d\n", id);
+		//printf("Buffergl:add:index<0 id:%d\n", id);
 		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
 		/*DEBUG*/
 		PointGL dbPoints[1000];
