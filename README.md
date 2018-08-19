@@ -3,7 +3,7 @@ Game Engine
 ## Build Status
 
 Windows:
-[![Build status](https://ci.appveyor.com/api/projects/status/d5pv1s224dphyhu9?svg=true)](https://ci.appveyor.com/project/furkandinc/engine)
+[![Build status](https://ci.appveyor.com/api/projects/status/8390s6ladpv4mjsa?svg=true)](https://ci.appveyor.com/project/furkandinc52995/engine)
 
 ## Requirements
 Visual Studio 2017
