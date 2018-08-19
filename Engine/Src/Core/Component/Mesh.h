@@ -16,7 +16,7 @@ public:
 private:
 	void squareMesh();
 
-	int red, green, blue;
+	float red, green, blue, alpha;
 
 	ObjectGL * objectGL;
 };

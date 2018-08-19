@@ -48,7 +48,7 @@ void BufferGL::add(Object * object) {
 	if (!objectGL->hasId()) {
 		objectGL->setId(generateID());
 	}
-	//printf("buffergl:add id:%d\n", objectGL->getId());
+
 	int id = objectGL->getId();
 	int index = indexOfId(id);
 	if (index < 0) {

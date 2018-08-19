@@ -22,7 +22,6 @@ public:
 	static void keyboardDownFunc(unsigned char key, int x, int y);
 	static void keyboardUpFunc(unsigned char key, int x, int y);
 	static void reshapeFunc(int w, int h);
-	static void passiveMouseFunc(int x, int y);
 
 private:
 	char * title;

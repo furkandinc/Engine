@@ -8,34 +8,31 @@
 Mesh::Mesh() {
 	this->objectGL = new ObjectGL();
 
-	red = 128;
-	green = 128;
-	blue = 128;
+	red = 0.5;
+	green = 0.5;
+	blue = 0.5;
+	alpha = 1;
 
 	squareMesh();
 }
 
 void Mesh::setColor(int r, int g, int b) {
-	this->red = r;
-	this->green = g;
-	this->blue = b;
+	this->red = r/255.0;
+	this->green = g/255.0;
+	this->blue = b/255.0;
+	this->alpha = 1.0;
 }
 
 void Mesh::squareMesh() {
 	printf("Mesh:squaremesh\n");
 	PointGL pts[6];
-	PointGL nokta1(0, 1, 0, 1, red, green, blue);
-	PointGL nokta2(0, 0, 0, 1, red, green, blue);
-	PointGL nokta3(1, 0, 0, 1, red, green, blue);
-	PointGL nokta4(1, 0, 0, 1, red, green, blue);
-	PointGL nokta5(1, 1, 0, 1, red, green, blue);
-	PointGL nokta6(0, 1, 0, 1, red, green, blue);
-	pts[0] = nokta1;
-	pts[1] = nokta2;
-	pts[2] = nokta3;
-	pts[3] = nokta4;
-	pts[4] = nokta5;
-	pts[5] = nokta6;
+	pts[0] = { vec4(0, 100, 0, 1), vec4(red, green, blue, alpha) };
+	pts[1] = { vec4(0, 0, 0, 1), vec4(red, green, blue, alpha) };
+	pts[2] = { vec4(100, 0, 0, 1), vec4(red, green, blue, alpha) };
+	pts[3] = { vec4(100, 0, 0, 1), vec4(red, green, blue, alpha) };
+	pts[4] = { vec4(100, 100, 0, 1), vec4(red, green, blue, alpha) };
+	pts[5] = { vec4(0, 100, 0, 1), vec4(red, green, blue, alpha) };
+
 	this->objectGL->setPoints(pts, 6);
 
 }

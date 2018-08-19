@@ -14,6 +14,13 @@ FrameGL * FrameGL::frameInstance = NULL;
 
 FrameGL::FrameGL() {}
 
+void debug() {
+	GLenum errCode = glGetError();
+	if (errCode != 0) {
+		printf("Error %d\n", errCode);
+	}
+}
+
 FrameGL * FrameGL::getInstance() {
 	if (frameInstance == nullptr) {
 		frameInstance = new FrameGL();
@@ -33,38 +40,47 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glewExperimental = GL_TRUE;
 	glewInit();
 
+	debug();
+
+	glClearColor(0, 0, 0, 1);
+
 	glutDisplayFunc(displayFunc);
 	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardDownFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
-	glutPassiveMotionFunc(passiveMouseFunc);
 	glutReshapeFunc(reshapeFunc);
-	// TODO glutMouseFunc(clickMouseFunc);
 	initBuffers();
 
 }
 
-void FrameGL::initBuffers() {
-	bufferGL = new BufferGL();
-
-	program = InitShader("vshader1.glsl", "fshader1.glsl");
-	glUseProgram(program);
-
-	GLsizei stride = PointGL::size();
-
-	glGenVertexArrays(1, &Vao);
-	glBindVertexArray(Vao);
-
+void refreshPointers() {
+	GLsizei stride = sizeof(PointGL);
 	vPosition = glGetAttribLocation(program, "vPosition");
 	glEnableVertexAttribArray(vPosition);
 	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(0));
 
 	vColor = glGetAttribLocation(program, "vColor");
 	glEnableVertexAttribArray(vColor);
-	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(4 * sizeof(float)));
+	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(sizeof(vec4)));
 
 	ModelView = glGetUniformLocation(program, "ModelView");
 	Projection = glGetUniformLocation(program, "Projection");
+}
+
+
+void FrameGL::initBuffers() {
+	bufferGL = new BufferGL();
+
+	glEnable(GL_DEPTH_TEST);
+	debug();
+	program = InitShader("vshader1.glsl", "fshader1.glsl");
+	glUseProgram(program);
+	debug();
+	printf("version: %s\n", glGetString(GL_VERSION));
+
+	glGenVertexArrays(1, &Vao);
+	glBindVertexArray(Vao);
+	debug();
 }
 
 void FrameGL::render() {
@@ -76,12 +92,11 @@ void FrameGL::displayFunc() {
 	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	point4 eye = point4(400, 300, 100, 1);
+	point4 eye = point4(400, 300, 600, 1);
 	point4 at = point4(400, 300, 0, 1);
-	vec4 up(0.0, 1.0, 0.0, 0.0);
+	vec4 up(0, 1.0, 0, 0.0);
 	mat4 mv = LookAt(eye, at, up);
-	glUniformMatrix4fv(ModelView, 1, GL_TRUE, mv);
-	
+
 	mat4 mo;
 	BufferGL * buffer = frameInstance->bufferGL;
 
@@ -91,7 +106,7 @@ void FrameGL::displayFunc() {
 	Integer * sizes = buffer->getSizes();
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
-	
+
 	/*DEBUG*/
 	PointGL dbPoints[1000];
 	int db;
@@ -100,14 +115,14 @@ void FrameGL::displayFunc() {
 	}
 	/*DEBUG*/
 
-
 	if (dirty) {
 		printf("displayfunc:dirty\n");
-		GLuint bfId;
-		glGenBuffers(1, &bfId);
-		glBindBuffer(GL_ARRAY_BUFFER, bfId);
-		glBufferData(GL_ARRAY_BUFFER, PointGL::size() * numPoints, points, GL_STATIC_DRAW);
+		glGenBuffers(1, &Buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, Buffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * numPoints, points, GL_STATIC_DRAW);
+		debug();
 		buffer->setDirty(false);
+		refreshPointers();
 	}
 
 	int i, offset = 0;
@@ -116,6 +131,7 @@ void FrameGL::displayFunc() {
 		mo = mv * mos[i];
 		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
 		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
+		debug();
 		offset += sizes[i].get();
 	}
 
@@ -153,16 +169,11 @@ void FrameGL::reshapeFunc(int w, int h) {
 
 	glViewport(0, 0, w, h);
 	GLfloat aspect = GLfloat(w) / h;
-	mat4 projection = Ortho(0, w, 0, h, -1, 1);
+	mat4 projection = Ortho(-w / 2, w / 2, -h / 2, h / 2, 1, 1000000);
+	//3D mat4 projection = Perspective(90.0, aspect, 0.001, 10000.0);
 
 	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
-
-void FrameGL::passiveMouseFunc(int x, int y) {
-	// printf("framegl::passiveMouseFunc x:%d y:%d\n", x, y);
-}
-
-
 
 int FrameGL::getWidth() {
 	return this->width;

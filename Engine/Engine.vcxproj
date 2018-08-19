@@ -152,7 +152,6 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\OpenGL\BufferGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\PointGL.cpp" />
     <ClCompile Include="Src\Core\Engine.cpp" />
     <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
