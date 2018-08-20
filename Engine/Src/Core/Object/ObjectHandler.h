@@ -15,6 +15,7 @@ public:
 	int indexOf(Object * object);
 	int getSize();
 	Object * remove(int index);
+	Object * remove(Object * object);
 	Object ** getList();
 
 private:

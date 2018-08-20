@@ -46,6 +46,10 @@ Object * ObjectHandler::remove(int index) {
 	return answer;
 }
 
+Object * ObjectHandler::remove(Object * object) {
+	return remove(indexOf(object));
+}
+
 void ObjectHandler::checkSize() {
 	if (size == count) {
 		
