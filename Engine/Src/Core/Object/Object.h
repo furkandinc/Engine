@@ -12,10 +12,18 @@ class Object {
 public:
 
 	Object();
-	void addComponent(Component * component);
 
-	template <typename T>
-	T * getComponent();
+	void addComponent(Component * component);
+	template <typename T> T * getComponent();
+	
+	Object * parent();
+	Object ** children();
+	int childCount();
+	void addChild(Object * object);
+	void removeChild(Object * object);
+
+protected:
+	void setParent(Object * parent);
 
 private:
 	Component ** componentList;
