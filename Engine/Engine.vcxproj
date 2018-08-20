@@ -157,6 +157,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
     <ClCompile Include="Src\Core\Engine.cpp" />
+    <ClCompile Include="Src\Core\Scene\Scene.cpp" />
     <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
     <ClCompile Include="Src\Source.cpp" />
@@ -177,6 +178,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
     <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
     <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
+    <ClInclude Include="Src\Core\Scene\Scene.h" />
     <ClInclude Include="Src\Core\Util\ArrayList.h" />
     <ClInclude Include="Src\Core\Util\Integer.h" />
     <ClInclude Include="Src\TestGames\Snek\Snek.h" />
