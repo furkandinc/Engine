@@ -42,6 +42,8 @@ Component * Object::removeComponent(int index) {
 			componentList[i] = componentList[i + 1];
 		}
 	}
+
+	answer->object = nullptr;
 	componentListCount--;
 	return answer;
 }
@@ -79,6 +81,8 @@ Object * Object::removeChild(int index) {
 			childList[i] = childList[i + 1];
 		}
 	}
+
+	answer->parentObject = nullptr;
 	childListCount--;
 	return answer;
 }

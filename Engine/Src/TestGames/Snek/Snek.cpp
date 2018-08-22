@@ -18,7 +18,7 @@ void Snek::onStart(void) {
 	target->getComponent<Mesh>()->setColor(255, 0, 0);
 	target->getComponent<Transform>()->setPosition(600, 300);
 	target->getComponent<Transform>()->setScale(30, 30);
-
+	
 	player = createObject();
 	player->getComponent<Mesh>()->setColor(0, 255, 0);
 	player->getComponent<Transform>()->setPosition(200, 300);
