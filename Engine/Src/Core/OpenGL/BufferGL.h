@@ -4,10 +4,13 @@
 #include <vector>
 
 #include "PointGL.h"
+#include "ObjectGL.h"
 #include "../Object/Object.h"
 #include "../includes/Angel.h"
 #include "../Util/ArrayList.h"
 #include "../Util/Integer.h"
+#include "../Component/Transform.h"
+#include "../Component/Mesh.h"
 
 class BufferGL {
 public:
