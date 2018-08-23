@@ -123,9 +123,13 @@ void BufferGL::addToArray(PointGL * points, int size) {
 }
 
 mat4 BufferGL::generateMatris(Transform * transform) {
-	mat4 t = Translate(vec3(transform->getX(), transform->getY(), 0));
-	mat4 s = Scale(vec3(transform->getW(), transform->getH(), 1));
-	return t * s;
+	vec3 rot = transform->globalRotation();
+
+	mat4 t = Translate(transform->globalPosition());
+	mat4 s = Scale(transform->globalScale());
+	mat4 r = RotateX(rot.x) * RotateY(rot.y) * RotateZ(rot.z);
+
+	return t * r * s;
 }
 
 #endif
