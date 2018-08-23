@@ -101,15 +101,19 @@ bool Engine::_isCollide(Object * object1, Object * object2) {
 
 	// Lazy coding right??
 	if (t1 != nullptr && t2 != nullptr) {
-		float x1 = t1->getX();
-		float y1 = t1->getY();
-		float w1 = t1->getW();
-		float h1 = t1->getH();
+		vec3 pos = t1->globalPosition();
+		vec3 scl = t1->globalScale();
+		float x1 = pos.x;
+		float y1 = pos.y;
+		float w1 = scl.x;
+		float h1 = scl.y;
 
-		float x2 = t2->getX();
-		float y2 = t2->getY();
-		float w2 = t2->getW();
-		float h2 = t2->getH();
+		pos = t2->globalPosition();
+		scl = t2->globalScale();
+		float x2 = pos.x;
+		float y2 = pos.y;
+		float w2 = scl.x;
+		float h2 = scl.y;
 
 		bool xCollide = false;
 		bool yCollide = false;

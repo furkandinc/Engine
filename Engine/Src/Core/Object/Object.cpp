@@ -25,6 +25,7 @@ void Object::addComponent(Component * component) {
 	resizeBuffers();
 	componentList[componentListCount] = component;
 	componentListCount++;
+	component->object = this;
 };
 
 Component * Object::removeComponent(int index) {
@@ -64,6 +65,7 @@ void Object::addChild(Object * object) {
 	resizeBuffers();
 	childList[childListCount] = object;
 	childListCount++;
+	object->parentObject = this;
 }
 
 Object * Object::removeChild(int index) {

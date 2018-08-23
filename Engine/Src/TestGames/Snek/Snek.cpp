@@ -16,30 +16,32 @@ void Snek::onStart(void) {
 
 	target = createObject();
 	target->getComponent<Mesh>()->setColor(255, 0, 0);
-	target->getComponent<Transform>()->setPosition(600, 300);
-	target->getComponent<Transform>()->setScale(30, 30);
+	target->getComponent<Transform>()->setPosition({ 600, 300, 0});
+	target->getComponent<Transform>()->setScale({30, 30, 30});
 	
 	player = createObject();
 	player->getComponent<Mesh>()->setColor(0, 255, 0);
-	player->getComponent<Transform>()->setPosition(200, 300);
-	player->getComponent<Transform>()->setScale(100, 100);
+	player->getComponent<Transform>()->setPosition({ 200, 300 , 0});
+	player->getComponent<Transform>()->setScale({ 100, 100, 100 });
 }
 
 void Snek::onUpdate(void) {
 	Transform * transform = player->getComponent<Transform>();
-	float playerX = transform->getX();
-	float playerY = transform->getY();
+	vec3 position = transform->getPosition();
+	float playerX = position.x;
+	float playerY = position.y;
 	float speed = 100;
 	float dtime = getDeltaTime();
 
 	Transform * targetTransform = target->getComponent<Transform>();
-	float targetX = targetTransform->getX();
-	float targetY = targetTransform->getY();
+	vec3 targetPosition = targetTransform->getPosition();
+	float targetX = targetPosition.x;
+	float targetY = targetPosition.y;
 
 	if (keyStatus(Keys::KEY_UP_ARROW) == Keys::STATUS_PRESS) {
 		float y = playerY + speed * dtime;
-		if (y < boundaryHeight - transform->getH()) {
-			transform->setPosition(playerX, y);
+		if (y < boundaryHeight - transform->getScale().y) {
+			transform->setPosition({ playerX, y, 0});
 			playerY = y;
 		}
 	}
@@ -47,7 +49,7 @@ void Snek::onUpdate(void) {
 	if (keyStatus(Keys::KEY_DOWN_ARROW) == Keys::STATUS_PRESS) {
 		float y = playerY - speed * dtime;
 		if (y > 0) {
-			transform->setPosition(playerX, y);
+			transform->setPosition({playerX, y, 0});
 			playerY = y;
 		}
 	}
@@ -55,15 +57,15 @@ void Snek::onUpdate(void) {
 	if (keyStatus(Keys::KEY_LEFT_ARROW) == Keys::STATUS_PRESS) {
 		float x = playerX - speed * dtime;
 		if (x > 0) {
-			transform->setPosition(x, playerY);
+			transform->setPosition({ x, playerY, 0});
 			playerX = x;
 		}
 	}
 
 	if (keyStatus(Keys::KEY_RIGHT_ARROW) == Keys::STATUS_PRESS) {
 		float x = playerX + speed * dtime;
-		if (x < boundaryWidth - transform->getW()) {
-			transform->setPosition(x, playerY);
+		if (x < boundaryWidth - transform->getScale().x) {
+			transform->setPosition({ x, playerY, 0 });
 			playerX = x;
 		}
 	}
@@ -73,7 +75,7 @@ void Snek::onUpdate(void) {
 		float newY = random(50, 550);
 
 		this->score += 1;
-		target->getComponent<Transform>()->setPosition(newX, newY);
+		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });
 		printf("SCORE: %i \n" , score);
 	}
 
