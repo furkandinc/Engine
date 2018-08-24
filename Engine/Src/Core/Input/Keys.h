@@ -6,6 +6,7 @@
 class Keys {
 public:
 	const static enum keys : int {
+		//Ascii chars
 		KEY_A,
 		KEY_B,
 		KEY_C,
@@ -32,6 +33,34 @@ public:
 		KEY_X,
 		KEY_Y,
 		KEY_Z,
+		KEY_NUM_0,
+		KEY_NUM_1,
+		KEY_NUM_2,
+		KEY_NUM_3,
+		KEY_NUM_4,
+		KEY_NUM_5,
+		KEY_NUM_6,
+		KEY_NUM_7,
+		KEY_NUM_8,
+		KEY_NUM_9,
+		KEY_SPACE,
+		KEY_SINGLE_QUOTE,
+		KEY_DOUBLE_QUOTE,
+		KEY_TAB,
+		KEY_BACKSPACE,
+		KEY_ASTERIKS,
+		KEY_DASH,
+		KEY_PLUS,
+		KEY_ESCAPE,
+		KEY_SLASH,
+		KEY_BACKSLASH,
+		KEY_PERIOD,
+		KEY_COMMA,
+		KEY_COLON,
+		KEY_SEMICOLON,
+		KEY_ENTER,
+
+		//Special
 		KEY_CTRL_L,
 		KEY_CTRL_R,
 		KEY_SHIFT_L,
@@ -93,6 +122,32 @@ public:
 		case 'X': case 'x': return KEY_X;
 		case 'Y': case 'y': return KEY_Y;
 		case 'Z': case 'z': return KEY_Z;
+		case '0': return KEY_NUM_0;
+		case '1': return KEY_NUM_1;
+		case '2': return KEY_NUM_2;
+		case '3': return KEY_NUM_3;
+		case '4': return KEY_NUM_4;
+		case '5': return KEY_NUM_5;
+		case '6': return KEY_NUM_6;
+		case '7': return KEY_NUM_7;
+		case '8': return KEY_NUM_8;
+		case '9': return KEY_NUM_9;
+		case ' ': return KEY_SPACE;
+		case '\'': return KEY_SINGLE_QUOTE;
+		case '\"': return KEY_DOUBLE_QUOTE;
+		case '\t': return KEY_TAB;
+		case 8: return KEY_BACKSPACE;
+		case '*': return KEY_ASTERIKS;
+		case '-': return KEY_DASH; 
+		case '+': return KEY_PLUS;
+		case 27: return KEY_ESCAPE;
+		case '/': return KEY_SLASH;
+		case '\\': return KEY_BACKSLASH;
+		case '.': return KEY_PERIOD;
+		case ',': return KEY_COMMA;
+		case ':': return KEY_COLON;
+		case ';': return KEY_SEMICOLON;
+		case '\n': return KEY_ENTER;
 		}
 
 		return -1;
