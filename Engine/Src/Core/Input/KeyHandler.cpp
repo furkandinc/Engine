@@ -6,7 +6,7 @@ KeyHandler::KeyHandler() {
 	keyList = (int *)malloc(Keys::COUNT * sizeof(int));
 	pushList = (int *)malloc(Keys::COUNT * sizeof(int));
 	for (int i = 0; i < Keys::COUNT; i++) {
-		pushList[i] = 
+		pushList[i] = Push::NOTPUSHED;
 		keyList[i] = Keys::STATUS_IDLE;
 	}
 }
@@ -30,6 +30,24 @@ void KeyHandler::keyPressed(unsigned int keyCode) {
 
 void KeyHandler::keyReleased(unsigned int keyCode) {
 	int key = Keys::toKeys(keyCode);
+	if (key < 0 || key >= Keys::COUNT) {
+		return;
+	}
+
+	pushList[key] = Push::NOTPUSHED;
+}
+
+void KeyHandler::specialPressed(int keyCode) {
+	int key = Keys::specialToKeys(keyCode);
+	if (key < 0 || key >= Keys::COUNT) {
+		return;
+	}
+
+	pushList[key] = Push::PUSHED;
+}
+
+void KeyHandler::specialReleased(int keyCode) {
+	int key = Keys::specialToKeys(keyCode);
 	if (key < 0 || key >= Keys::COUNT) {
 		return;
 	}

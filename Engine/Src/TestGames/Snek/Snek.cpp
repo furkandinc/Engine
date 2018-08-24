@@ -38,7 +38,7 @@ void Snek::onUpdate(void) {
 	float targetX = targetPosition.x;
 	float targetY = targetPosition.y;
 
-	if (keyStatus(Keys::KEY_UP_ARROW) == Keys::STATUS_PRESS) {
+	if (keyStatus(Keys::KEY_UP) == Keys::STATUS_PRESS) {
 		float y = playerY + speed * dtime;
 		if (y < boundaryHeight - transform->getScale().y) {
 			transform->setPosition({ playerX, y, 0});
@@ -46,7 +46,7 @@ void Snek::onUpdate(void) {
 		}
 	}
 
-	if (keyStatus(Keys::KEY_DOWN_ARROW) == Keys::STATUS_PRESS) {
+	if (keyStatus(Keys::KEY_DOWN) == Keys::STATUS_PRESS) {
 		float y = playerY - speed * dtime;
 		if (y > 0) {
 			transform->setPosition({playerX, y, 0});
@@ -54,7 +54,7 @@ void Snek::onUpdate(void) {
 		}
 	}
 
-	if (keyStatus(Keys::KEY_LEFT_ARROW) == Keys::STATUS_PRESS) {
+	if (keyStatus(Keys::KEY_LEFT) == Keys::STATUS_PRESS) {
 		float x = playerX - speed * dtime;
 		if (x > 0) {
 			transform->setPosition({ x, playerY, 0});
@@ -62,7 +62,7 @@ void Snek::onUpdate(void) {
 		}
 	}
 
-	if (keyStatus(Keys::KEY_RIGHT_ARROW) == Keys::STATUS_PRESS) {
+	if (keyStatus(Keys::KEY_RIGHT) == Keys::STATUS_PRESS) {
 		float x = playerX + speed * dtime;
 		if (x < boundaryWidth - transform->getScale().x) {
 			transform->setPosition({ x, playerY, 0 });

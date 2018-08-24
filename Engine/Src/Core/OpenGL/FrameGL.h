@@ -22,6 +22,8 @@ public:
 	static void idleFunc();
 	static void keyboardDownFunc(unsigned char key, int x, int y);
 	static void keyboardUpFunc(unsigned char key, int x, int y);
+	static void specialDownFunc(int key, int x, int y);
+	static void specialUpFunc(int key, int x, int y);
 	static void reshapeFunc(int w, int h);
 
 private:

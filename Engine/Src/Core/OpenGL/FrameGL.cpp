@@ -48,6 +48,8 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardDownFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
+	glutSpecialFunc(specialDownFunc);
+	glutSpecialUpFunc(specialUpFunc);
 	glutReshapeFunc(reshapeFunc);
 	initBuffers();
 
@@ -159,6 +161,20 @@ void FrameGL::keyboardUpFunc(unsigned char key, int x, int y) {
 	FrameGL * frame = getInstance();
 	if (frame->keyHandler != nullptr) {
 		frame->keyHandler->keyReleased(key);
+	}
+}
+
+void FrameGL::specialDownFunc(int key, int x, int y) {
+	FrameGL * frame = getInstance();
+	if (frame->keyHandler != nullptr) {
+		frame->keyHandler->specialPressed(key);
+	}
+}
+
+void FrameGL::specialUpFunc(int key, int x, int y) {
+	FrameGL * frame = getInstance();
+	if (frame->keyHandler != nullptr) {
+		frame->keyHandler->specialReleased(key);
 	}
 }
 
