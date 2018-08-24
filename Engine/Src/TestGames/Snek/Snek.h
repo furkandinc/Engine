@@ -8,7 +8,7 @@
 #include "..\..\Core\Object\Object.h"
 #include "..\..\Core\Engine.h"
 #include "..\..\Core\Component\Transform.h"
-#include "..\..\Core\Component\Mesh.h"
+#include "..\..\Core\Component\Renderer.h"
 #include "..\..\Core\Input\Keys.h"
 #include "..\..\Core\Logic\Script.h"
 

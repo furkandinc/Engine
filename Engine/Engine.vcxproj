@@ -147,7 +147,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Core\Component\Component.cpp" />
-    <ClCompile Include="Src\Core\Component\Mesh.cpp" />
+    <ClCompile Include="Src\Core\Component\Renderer.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
@@ -166,7 +166,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Component\Component.h" />
-    <ClInclude Include="Src\Core\Component\Mesh.h" />
+    <ClInclude Include="Src\Core\Component\Renderer.h" />
     <ClInclude Include="Src\Core\Component\Transform.h" />
     <ClInclude Include="Src\Core\Engine.h" />
     <ClInclude Include="Src\Core\Input\KeyHandler.h" />

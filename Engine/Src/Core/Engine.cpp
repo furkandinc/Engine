@@ -158,7 +158,7 @@ void Engine::render() {
 	int i;
 	for (i = 0; i < size; i++) {
 		
-		if (list[i]->getComponent<Mesh>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
+		if (list[i]->getComponent<Renderer>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
 			frame->addObject(list[i]);
 		}
 	}

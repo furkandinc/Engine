@@ -10,7 +10,7 @@
 #include "../Util/ArrayList.h"
 #include "../Util/Integer.h"
 #include "../Component/Transform.h"
-#include "../Component/Mesh.h"
+#include "../Component/Renderer.h"
 
 class BufferGL {
 public:
