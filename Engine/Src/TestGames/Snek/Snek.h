@@ -10,7 +10,7 @@
 #include "..\..\Core\Component\Transform.h"
 #include "..\..\Core\Component\Renderer.h"
 #include "..\..\Core\Input\Keys.h"
-#include "..\..\Core\Logic\Script.h"
+#include "..\..\Core\Asset\Script.h"
 
 
 float random(int a, int b);

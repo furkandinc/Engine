@@ -43,7 +43,7 @@ void BufferGL::setDirty(bool dirty) {
 }
 
 void BufferGL::add(Object * object) {
-	ObjectGL * objectGL = object->getComponent<Renderer>()->getObjectGL();
+	ObjectGL * objectGL = object->getComponent<Renderer>()->getMesh()->getObjectGL();
 	Transform * transform = object->getComponent<Transform>();
 	
 	if (!objectGL->hasId()) {

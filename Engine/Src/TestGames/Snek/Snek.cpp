@@ -2,6 +2,7 @@
 #define SNEK_CPP
 
 #include "Snek.h"
+#include "../../Core/Asset/CubeMesh.h"
 
 float random(int a, int b) {
 	return a + rand() % (b - a);
@@ -15,12 +16,12 @@ void Snek::onStart(void) {
 	setScreenSize(boundaryWidth, boundaryHeight);
 
 	target = createObject();
-	target->getComponent<Renderer>()->setColor(255, 0, 0);
+	target->getComponent<Renderer>()->getMesh()->setColor(255, 0, 0);
 	target->getComponent<Transform>()->setPosition({ 600, 300, 0});
 	target->getComponent<Transform>()->setScale({30, 30, 30});
 	
 	player = createObject();
-	player->getComponent<Renderer>()->setColor(0, 255, 0);
+	player->getComponent<Renderer>()->getMesh()->setColor(0, 255, 0);
 	player->getComponent<Transform>()->setPosition({ 200, 300 , 0});
 	player->getComponent<Transform>()->setScale({ 100, 100, 100 });
 }

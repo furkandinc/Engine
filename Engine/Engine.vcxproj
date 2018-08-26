@@ -146,6 +146,8 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Core\Asset\Mesh.cpp" />
+    <ClCompile Include="Src\Core\Asset\CubeMesh.cpp" />
     <ClCompile Include="Src\Core\Component\Component.cpp" />
     <ClCompile Include="Src\Core\Component\Renderer.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
@@ -165,13 +167,15 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Core\Asset\Mesh.h" />
+    <ClInclude Include="Src\Core\Asset\CubeMesh.h" />
     <ClInclude Include="Src\Core\Component\Component.h" />
     <ClInclude Include="Src\Core\Component\Renderer.h" />
     <ClInclude Include="Src\Core\Component\Transform.h" />
     <ClInclude Include="Src\Core\Engine.h" />
     <ClInclude Include="Src\Core\Input\KeyHandler.h" />
     <ClInclude Include="Src\Core\Input\Keys.h" />
-    <ClInclude Include="Src\Core\Logic\Script.h" />
+    <ClInclude Include="Src\Core\Asset\Script.h" />
     <ClInclude Include="Src\Core\Object\Object.h" />
     <ClInclude Include="Src\Core\Object\ObjectHandler.h" />
     <ClInclude Include="Src\Core\OpenGL\BufferGL.h" />

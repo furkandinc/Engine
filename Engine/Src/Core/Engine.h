@@ -6,7 +6,7 @@
 #include "Object\Object.h"
 #include "Object\ObjectHandler.h"
 #include "OpenGL\FrameGL.h"
-#include "Logic\Script.h"
+#include "Asset\Script.h"
 #include "Input\KeyHandler.h"
 
 class Engine {
