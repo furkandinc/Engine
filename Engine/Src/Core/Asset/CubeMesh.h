@@ -8,6 +8,7 @@ public:
 	CubeMesh();
 	void setColor(int r, int g, int b);
 	ObjectGL * getObjectGL();
+	Boundary * getBoundary();
 
 private :
 	void cubeMesh();

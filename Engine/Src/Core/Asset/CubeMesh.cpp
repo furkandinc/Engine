@@ -58,4 +58,7 @@ ObjectGL * CubeMesh::getObjectGL() {
 	return this->objectGL;
 };
 
+Boundary * CubeMesh::getBoundary() {
+	return nullptr;
+}
 #endif

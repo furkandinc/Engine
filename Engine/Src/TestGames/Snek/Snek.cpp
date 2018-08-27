@@ -71,16 +71,19 @@ void Snek::onUpdate(void) {
 		}
 	}
 
-	if (isCollide(player, target)) {
+	/*if (isCollide(player, target)) {
 		float newX = random(50, 750);
 		float newY = random(50, 550);
 
 		this->score += 1;
 		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });
 		printf("SCORE: %i \n" , score);
-	}
+	}*/
 
 	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", dtime, playerX, playerY, targetX, targetY);
 }
 
+void Snek::onCollide(Object * object) {
+	printf("Collision xd\n");
+}
 #endif

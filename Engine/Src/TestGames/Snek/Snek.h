@@ -11,13 +11,14 @@
 #include "..\..\Core\Component\Renderer.h"
 #include "..\..\Core\Input\Keys.h"
 #include "..\..\Core\Asset\Script.h"
-
+#include "..\..\Core\Physics\CollisionListener.h"
 
 float random(int a, int b);
-class Snek: public Script {
+class Snek: public Script, public CollisionListener {
 public:
 	void onStart(void);
 	void onUpdate(void);
+	void onCollide(Object * object);
 private:
 	Object * player;
 	Object * target;
