@@ -95,7 +95,7 @@ int Engine::_keyStatus(int key){
 	return keyHandler->getKeyStatus(key);
 }
 
-bool Engine::_isCollide(Object * object1, Object * object2) {
+/*bool Engine::_isCollide(Object * object1, Object * object2) {
 	Transform * t1 = object1->getComponent<Transform>();
 	Transform * t2 = object2->getComponent<Transform>();
 
@@ -134,7 +134,7 @@ bool Engine::_isCollide(Object * object1, Object * object2) {
 
 	return false;
 }
-
+*/
 void Engine::tick(int tickType) {
 	
 	if (tickType == START) {
@@ -186,9 +186,5 @@ float getDeltaTime() {
 
 int keyStatus(int key) {
 	return Engine::getInstance()->_keyStatus(key);
-}
-
-bool isCollide(Object * object1, Object * object2) {
-	return Engine::getInstance()->_isCollide(object1, object2);
 }
 #endif // ENGINE_CPP

@@ -2,7 +2,7 @@
 #define MESH_H
 
 #include "../OpenGL/ObjectGL.h"
-#include "../Util/Boundary.h"
+#include "../Physics/Boundary.h"
 
 class Mesh {
 public:

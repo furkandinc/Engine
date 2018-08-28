@@ -15,6 +15,7 @@ private :
 	void quad(PointGL * pointBuffer, int indexStart, PointGL p1, PointGL p2, PointGL p3, PointGL p4);
 	ObjectGL * objectGL;
 	float red, green, blue, alpha;
+	Boundary * boundary;
 };
 
 #endif

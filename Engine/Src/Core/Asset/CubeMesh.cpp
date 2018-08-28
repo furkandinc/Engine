@@ -4,7 +4,8 @@
 #include "CubeMesh.h"
 
 CubeMesh::CubeMesh() {
-	this->objectGL = new ObjectGL();
+	objectGL = new ObjectGL();
+	boundary = new Boundary();
 
 	red = 0.5;
 	green = 0.5;
@@ -59,6 +60,6 @@ ObjectGL * CubeMesh::getObjectGL() {
 };
 
 Boundary * CubeMesh::getBoundary() {
-	return nullptr;
+	return boundary;
 }
 #endif

@@ -4,6 +4,8 @@
 #include "Boundary.h"
 
 Boundary::Boundary() {
+	objectGL = new ObjectGL();
+
 	red = 1;
 	green = 1;
 	blue = 1;
