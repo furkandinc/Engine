@@ -12,6 +12,7 @@ public:
 	bool getCollidable();
 	void addListener(CollisionListener * listener);
 	CollisionListener ** getListener();
+	int getListenerCount();
 	void setMesh(Mesh * mesh);
 	Mesh * getMesh();
 

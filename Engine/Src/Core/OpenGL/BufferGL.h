@@ -37,7 +37,6 @@ private:
 	int lastGeneratedID;
 
 	int generateID();
-	mat4 generateMatris(Transform * transform);
 
 	int indexOfId(int id);
 	void addToArray(PointGL * points, int size);

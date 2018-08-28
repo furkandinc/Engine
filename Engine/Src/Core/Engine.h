@@ -8,6 +8,7 @@
 #include "OpenGL\FrameGL.h"
 #include "Asset\Script.h"
 #include "Input\KeyHandler.h"
+#include "Physics\PhysicsEngine.h"
 
 class Engine {
 public:
@@ -33,6 +34,7 @@ private:
 	static Engine * engineInstance;
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
+	PhysicsEngine * physicsEngine;
 
 	int tickMax;
 	int tickCount;

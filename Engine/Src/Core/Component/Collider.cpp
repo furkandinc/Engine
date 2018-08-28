@@ -29,6 +29,10 @@ CollisionListener ** Collider::getListener() {
 	return listenerList;
 }
 
+int Collider::getListenerCount() {
+	return listenerCount;
+}
+
 void Collider::setMesh(Mesh * mesh) {
 	this->mesh = mesh;
 }

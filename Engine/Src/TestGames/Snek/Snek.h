@@ -12,6 +12,8 @@
 #include "..\..\Core\Input\Keys.h"
 #include "..\..\Core\Asset\Script.h"
 #include "..\..\Core\Physics\CollisionListener.h"
+#include "../../Core/Asset/CubeMesh.h"
+#include "../../Core/Component/Collider.h"
 
 float random(int a, int b);
 class Snek: public Script, public CollisionListener {
