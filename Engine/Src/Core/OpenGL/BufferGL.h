@@ -10,7 +10,7 @@
 #include "../Util/ArrayList.h"
 #include "../Util/Integer.h"
 #include "../Component/Transform.h"
-#include "../Component/Mesh.h"
+#include "../Component/Renderer.h"
 
 class BufferGL {
 public:
@@ -37,7 +37,6 @@ private:
 	int lastGeneratedID;
 
 	int generateID();
-	mat4 generateMatris(Transform * transform);
 
 	int indexOfId(int id);
 	void addToArray(PointGL * points, int size);

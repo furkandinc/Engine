@@ -11,7 +11,8 @@ Engine::Engine() {
 
 	this->objectHandler = new ObjectHandler();
 	this->keyHandler = new KeyHandler();
-
+	this->physicsEngine = new PhysicsEngine();
+	physicsEngine->setObjectHandler(objectHandler);
 	printf("Engine Initialized! \n");
 }
 
@@ -95,46 +96,6 @@ int Engine::_keyStatus(int key){
 	return keyHandler->getKeyStatus(key);
 }
 
-bool Engine::_isCollide(Object * object1, Object * object2) {
-	Transform * t1 = object1->getComponent<Transform>();
-	Transform * t2 = object2->getComponent<Transform>();
-
-	// Lazy coding right??
-	if (t1 != nullptr && t2 != nullptr) {
-		vec3 pos = t1->globalPosition();
-		vec3 scl = t1->globalScale();
-		float x1 = pos.x;
-		float y1 = pos.y;
-		float w1 = scl.x;
-		float h1 = scl.y;
-
-		pos = t2->globalPosition();
-		scl = t2->globalScale();
-		float x2 = pos.x;
-		float y2 = pos.y;
-		float w2 = scl.x;
-		float h2 = scl.y;
-
-		bool xCollide = false;
-		bool yCollide = false;
-
-		if (x2 >= x1 && x2 <= x1 + w1)
-			xCollide = true;
-		if (x2 + w2 >= x1 && x2 + w2 <= x1 + w1)
-			xCollide = true;
-		if (y2 >= y1 && y2 <= y1 + w1)
-			yCollide = true;
-		if (y2 + w2 >= y1 && y2 + w2 <= y1 + w1)
-			yCollide = true;
-
-		if (xCollide && yCollide) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 void Engine::tick(int tickType) {
 	
 	if (tickType == START) {
@@ -145,6 +106,7 @@ void Engine::tick(int tickType) {
 			this->keyHandler->tick();
 		}
 		mainScript->onUpdate();
+		physicsEngine->tick();
 	}
 
 	tickCount++;
@@ -158,7 +120,7 @@ void Engine::render() {
 	int i;
 	for (i = 0; i < size; i++) {
 		
-		if (list[i]->getComponent<Mesh>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
+		if (list[i]->getComponent<Renderer>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
 			frame->addObject(list[i]);
 		}
 	}
@@ -186,9 +148,5 @@ float getDeltaTime() {
 
 int keyStatus(int key) {
 	return Engine::getInstance()->_keyStatus(key);
-}
-
-bool isCollide(Object * object1, Object * object2) {
-	return Engine::getInstance()->_isCollide(object1, object2);
 }
 #endif // ENGINE_CPP

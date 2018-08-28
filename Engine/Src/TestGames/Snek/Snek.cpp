@@ -15,14 +15,26 @@ void Snek::onStart(void) {
 	setScreenSize(boundaryWidth, boundaryHeight);
 
 	target = createObject();
-	target->getComponent<Mesh>()->setColor(255, 0, 0);
+	target->getComponent<Renderer>()->getMesh()->setColor(255, 0, 0);
 	target->getComponent<Transform>()->setPosition({ 600, 300, 0});
 	target->getComponent<Transform>()->setScale({30, 30, 30});
+
+	Collider * tCol = new Collider();
+	tCol->setMesh(new CubeMesh());
+	tCol->setCollidable(true);
+	target->addComponent(tCol);
 	
 	player = createObject();
-	player->getComponent<Mesh>()->setColor(0, 255, 0);
+	player->getComponent<Renderer>()->getMesh()->setColor(0, 255, 0);
 	player->getComponent<Transform>()->setPosition({ 200, 300 , 0});
 	player->getComponent<Transform>()->setScale({ 100, 100, 100 });
+	
+	Collider * pCol = new Collider();
+	pCol->setMesh(new CubeMesh());
+	pCol->setCollidable(true);
+	player->addComponent(pCol);
+
+	pCol->addListener(this);
 }
 
 void Snek::onUpdate(void) {
@@ -70,16 +82,17 @@ void Snek::onUpdate(void) {
 		}
 	}
 
-	if (isCollide(player, target)) {
+	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", dtime, playerX, playerY, targetX, targetY);
+}
+
+void Snek::onCollide(Object * object) {
+	if (object == target) {
 		float newX = random(50, 750);
 		float newY = random(50, 550);
 
 		this->score += 1;
 		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });
-		printf("SCORE: %i \n" , score);
+		printf("SCORE: %i \n", score);
 	}
-
-	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", dtime, playerX, playerY, targetX, targetY);
 }
-
 #endif

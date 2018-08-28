@@ -1,33 +1,30 @@
-#ifndef MESH_CPP
-#define MESH_CPP
+#ifndef CUBEMESH_CPP
+#define CUBEMESH_CPP
 
-#include <stdlib.h>
-#include <stdio.h>
-#include "Mesh.h"
+#include "CubeMesh.h"
 
-Mesh::Mesh() {
-	this->objectGL = new ObjectGL();
+CubeMesh::CubeMesh() {
+	objectGL = new ObjectGL();
+	boundary = new Boundary();
 
 	red = 0.5;
 	green = 0.5;
 	blue = 0.5;
 	alpha = 1;
 
-	squareMesh();
+	cubeMesh();
 }
 
-void Mesh::setColor(int r, int g, int b) {
-	this->red = r/255.0;
-	this->green = g/255.0;
-	this->blue = b/255.0;
+void CubeMesh::setColor(int r, int g, int b) {
+	this->red = r / 255.0;
+	this->green = g / 255.0;
+	this->blue = b / 255.0;
 	this->alpha = 1.0;
 
-	squareMesh();
+	cubeMesh();
 }
 
-void Mesh::squareMesh() {
-	//printf("Mesh:squaremesh\n");
-	
+void CubeMesh::cubeMesh() {
 	PointGL pts[8];
 	pts[0] = { vec4(0, 0, 0, 1), vec4(red, green, blue, alpha) };
 	pts[1] = { vec4(0, 1, 0, 1), vec4(red, green, blue, alpha) };
@@ -49,7 +46,7 @@ void Mesh::squareMesh() {
 	this->objectGL->setPoints(buffer, 36);
 }
 
-void Mesh::quad(PointGL * pointBuffer, int index, PointGL p1, PointGL p2, PointGL p3, PointGL p4) {
+void CubeMesh::quad(PointGL * pointBuffer, int index, PointGL p1, PointGL p2, PointGL p3, PointGL p4) {
 	pointBuffer[index] = p1;
 	pointBuffer[index + 1] = p2;
 	pointBuffer[index + 2] = p3;
@@ -58,7 +55,11 @@ void Mesh::quad(PointGL * pointBuffer, int index, PointGL p1, PointGL p2, PointG
 	pointBuffer[index + 5] = p4;
 }
 
-ObjectGL * Mesh::getObjectGL() {
+ObjectGL * CubeMesh::getObjectGL() {
 	return this->objectGL;
 };
+
+Boundary * CubeMesh::getBoundary() {
+	return boundary;
+}
 #endif

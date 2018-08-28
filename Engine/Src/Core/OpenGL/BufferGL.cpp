@@ -43,7 +43,7 @@ void BufferGL::setDirty(bool dirty) {
 }
 
 void BufferGL::add(Object * object) {
-	ObjectGL * objectGL = object->getComponent<Mesh>()->getObjectGL();
+	ObjectGL * objectGL = object->getComponent<Renderer>()->getMesh()->getObjectGL();
 	Transform * transform = object->getComponent<Transform>();
 	
 	if (!objectGL->hasId()) {
@@ -62,7 +62,7 @@ void BufferGL::add(Object * object) {
 			dbPoints[db] = objectGL->getPoints()[db];
 		}
 		/*DEBUG*/
-		matrices->add(generateMatris(transform));
+		matrices->add(transform->generateMatrix());
 		sizes->add(objectGL->getPointsSize());
 		ids->add(id);
 		count++;
@@ -70,7 +70,7 @@ void BufferGL::add(Object * object) {
 		dirty = true;
 	}
 	else {
-		matrices->set(index, generateMatris(transform));
+		matrices->set(index,transform->generateMatrix());
 
 		if (objectGL->isDirty()) {
 			ArrayList<PointGL> * temp = new ArrayList<PointGL>();
@@ -120,16 +120,6 @@ void BufferGL::addToArray(PointGL * points, int size) {
 	for (i = 0; i < size; i++) {
 		this->points->add(points[i]);
 	}
-}
-
-mat4 BufferGL::generateMatris(Transform * transform) {
-	vec3 rot = transform->globalRotation();
-
-	mat4 t = Translate(transform->globalPosition());
-	mat4 s = Scale(transform->globalScale());
-	mat4 r = RotateX(rot.x) * RotateY(rot.y) * RotateZ(rot.z);
-
-	return t * r * s;
 }
 
 #endif

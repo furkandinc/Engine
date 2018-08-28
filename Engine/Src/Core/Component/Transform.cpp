@@ -67,6 +67,16 @@ vec3 Transform::globalRotation() {
 	return answer;
 }
 
+mat4 Transform::generateMatrix() {
+	vec3 rot = globalRotation();
+
+	mat4 t = Translate(globalPosition());
+	mat4 s = Scale(globalScale());
+	mat4 r = RotateX(rot.x) * RotateY(rot.y) * RotateZ(rot.z);
+
+	return t * r * s;
+}
+
 Transform * Transform::findParentTransform() {
 	if (this->object != nullptr) {
 		Object * parent = this->object->parent();

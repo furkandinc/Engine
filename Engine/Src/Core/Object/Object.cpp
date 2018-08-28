@@ -2,9 +2,10 @@
 #define OBJECT_CPP
 
 #include "Object.h"
+#include "../Asset/CubeMesh.h"
 #include "../Component/Component.h"
 #include "../Component/Transform.h"
-#include "../Component/Mesh.h"
+#include "../Component/Renderer.h"
 
 Object::Object() {
 	childListSize = 5;
@@ -18,7 +19,9 @@ Object::Object() {
 	parentObject = nullptr;
 
 	addComponent(new Transform());
-	addComponent(new Mesh());
+	Renderer * renderer = new Renderer();
+	renderer->setMesh(new CubeMesh());
+	addComponent(renderer);
 };
 
 void Object::addComponent(Component * component) {

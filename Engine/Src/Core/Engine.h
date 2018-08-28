@@ -6,8 +6,9 @@
 #include "Object\Object.h"
 #include "Object\ObjectHandler.h"
 #include "OpenGL\FrameGL.h"
-#include "Logic\Script.h"
+#include "Asset\Script.h"
 #include "Input\KeyHandler.h"
+#include "Physics\PhysicsEngine.h"
 
 class Engine {
 public:
@@ -21,7 +22,6 @@ public:
 	void _setScreenSize(int x, int y);
 	float _getDeltaTime();
 	int _keyStatus(int key);
-	bool _isCollide(Object * object1, Object * object2);
 
 private:
 	Engine();
@@ -34,6 +34,7 @@ private:
 	static Engine * engineInstance;
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
+	PhysicsEngine * physicsEngine;
 
 	int tickMax;
 	int tickCount;
@@ -52,6 +53,5 @@ void removeObject(Object * object);
 void setScreenSize(int x, int y);
 float getDeltaTime();
 int keyStatus(int key);
-bool isCollide(Object * object1, Object * object2);
 
 #endif

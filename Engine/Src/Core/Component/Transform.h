@@ -18,6 +18,7 @@ public:
 	vec3 globalScale();
 	vec3 globalRotation();
 
+	mat4 generateMatrix();
 private:
 	vec3 position;
 	vec3 scale;
