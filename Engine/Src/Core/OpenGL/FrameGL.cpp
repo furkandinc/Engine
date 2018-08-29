@@ -93,11 +93,17 @@ void FrameGL::render() {
 void FrameGL::displayFunc() {
 	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	point4 eye = point4(400, 300, 600, 1);
-	point4 at = point4(400, 300, 0, 1);
-	vec4 up(0, 1.0, 0, 0.0);
-	mat4 mv = LookAt(eye, at, up);
+
+	Camera * camera = frameInstance->cam;
+	if (camera == nullptr) {
+		glutSwapBuffers();
+		return;
+	}
+
+	point4 eye = camera->getComponent<Transform>()->getPosition();
+	vec4 rotation = camera->getComponent<Transform>()->getRotation();
+	vec4 up = camera->getUpVector();
+	mat4 mv = Look(eye, rotation, up);
 
 	mat4 mo;
 	BufferGL * buffer = frameInstance->bufferGL;
@@ -184,11 +190,12 @@ void FrameGL::reshapeFunc(int w, int h) {
 	frameInstance->height = h;
 
 	glViewport(0, 0, w, h);
-	GLfloat aspect = GLfloat(w) / h;
-	mat4 projection = Ortho(-w / 2, w / 2, -h / 2, h / 2, 1, 1000000);
-	//3D mat4 projection = Perspective(90.0, aspect, 0.001, 10000.0);
+	if (frameInstance->cam != nullptr) {
+		mat4 projection = frameInstance->cam->getProjection();
+		//3D mat4 projection = Perspective(90.0, aspect, 0.001, 10000.0);
 
-	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
+		glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
+	}
 }
 
 int FrameGL::getWidth() {
@@ -205,5 +212,13 @@ void FrameGL::setKeyHandler(KeyHandler * keyHandler) {
 
 void FrameGL::setSize(int width, int height) {
 	glutReshapeWindow(width, height);
+}
+
+void FrameGL::setCamera(Camera * camera) {
+	cam = camera;
+	mat4 projection = camera->getProjection();
+	//3D mat4 projection = Perspective(90.0, aspect, 0.001, 10000.0);
+
+	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
 #endif

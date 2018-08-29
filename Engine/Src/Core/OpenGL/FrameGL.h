@@ -4,6 +4,7 @@
 #include "BufferGL.h"
 #include "..\Object\Object.h"
 #include "..\Input\KeyHandler.h"
+#include "../Object/Camera/Camera.h"
 
 class FrameGL {
 public:
@@ -15,6 +16,7 @@ public:
 	int getHeight();
 	void render();
 	void setSize(int width, int height);
+	void setCamera(Camera * camera);
 
 	static FrameGL * getInstance();
 
@@ -32,8 +34,9 @@ private:
 	int height;
 	KeyHandler * keyHandler;
 	BufferGL * bufferGL;
+	Camera * cam;
 	static FrameGL * frameInstance;
-
+	
 	FrameGL();
 	void initBuffers();
 };

@@ -114,4 +114,7 @@ void Object::resizeBuffers() {
 	}
 }
 
+void Object::abstraction() {
+
+}
 #endif
