@@ -5,15 +5,17 @@
 
 #include "Engine.h"
 #include <stdio.h>
+#include "Object\Camera\OrthographicCamera.h"
 
 Engine::Engine() {
-	tickMax = 50;
+	tickMax = 100;
 
 	this->objectHandler = new ObjectHandler();
 	this->keyHandler = new KeyHandler();
 	this->physicsEngine = new PhysicsEngine();
 	physicsEngine->setObjectHandler(objectHandler);
 	printf("Engine Initialized! \n");
+	objectHandler->add(new OrthographicCamera()); //Temporary
 }
 
 Engine *Engine::engineInstance = NULL;
@@ -119,12 +121,17 @@ void Engine::render() {
 
 	int i;
 	for (i = 0; i < size; i++) {
-		
-		if (list[i]->getComponent<Renderer>() != nullptr && list[i]->getComponent<Transform>() != nullptr) {
-			frame->addObject(list[i]);
+		Object * object = list[i];
+		if (Camera * cam = dynamic_cast<Camera *>(object)) {
+			frame->setCamera(cam);
+		}
+		Renderer * renderer = list[i]->getComponent<Renderer>();
+		Transform * transform = list[i]->getComponent<Transform>();
+		if (renderer != nullptr && transform != nullptr) {
+			if(renderer->getMesh() != nullptr)
+				frame->addObject(list[i]);
 		}
 	}
-
 	frame->render();
 	frameCount++;
 }

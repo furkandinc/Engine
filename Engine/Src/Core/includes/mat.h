@@ -863,6 +863,18 @@ namespace Angel {
 		// return c * Translate( -eye );
 	}
 
+	inline mat4 Look(const vec4& eye, const vec4& rotation, const vec4& up) {
+
+		vec4 n = -(RotateZ(rotation.z) * RotateY(rotation.y) * RotateX(rotation.x) * vec4(1, 0, 0, 1));
+		vec4 u = normalize(vec4(cross(up, n), 0.0));
+		vec4 v = normalize(vec4(cross(n, u), 0.0));
+		vec4 t = vec4(0.0, 0.0, 0.0, 1.0);
+		mat4 c = mat4(u, v, n, t);
+		mat4 d = Translate(-eye);
+		mat4 r = c * d;
+		return r;
+	}
+
 }  // namespace Angel
 
 #endif // __ANGEL_MAT_H__

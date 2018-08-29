@@ -22,6 +22,9 @@ public:
 	void addChild(Object * object);
 	Object * removeChild(int index);
 
+protected:
+	virtual void abstraction();
+
 private:
 	Component ** componentList;
 	int componentListCount;
