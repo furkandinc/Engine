@@ -155,6 +155,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\Camera.cpp" />
+    <ClCompile Include="Src\Core\Object\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="Src\Core\Object\Object.cpp" />
     <ClCompile Include="Src\Core\Object\ObjectHandler.cpp" />
     <ClCompile Include="Src\Core\OpenGL\BufferGL.cpp" />
@@ -174,6 +175,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
     <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
+    <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
     <ClInclude Include="Src\Core\Physics\Boundary.h" />
     <ClInclude Include="Src\Core\Asset\Mesh.h" />
     <ClInclude Include="Src\Core\Asset\CubeMesh.h" />
