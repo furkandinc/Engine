@@ -25,4 +25,38 @@ mat4 OrthographicCamera::getProjection() {
 	return Ortho(-w, w, -h, h, dMin, dMax);
 }
 
+void OrthographicCamera::setWidth(float width) {
+	this->width = width;
+}
+
+void OrthographicCamera::setHeight(float height) {
+	this->height = height;
+}
+
+void OrthographicCamera::setDepth(float min, float max) {
+	dMin = min;
+	dMax = max;
+}
+
+float OrthographicCamera::getWidth()
+{
+	return width;
+}
+
+float OrthographicCamera::getHeight()
+{
+	return height;
+}
+
+float OrthographicCamera::getDepthMin()
+{
+	return dMin;
+}
+
+float OrthographicCamera::getDepthMax()
+{
+	return dMax;
+}
+
+
 #endif
