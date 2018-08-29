@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include <stdio.h>
 #include "Object\Camera\OrthographicCamera.h"
+#include "Object\Camera\PerpectiveCamera.h"
 
 Engine::Engine() {
 	tickMax = 100;
@@ -15,7 +16,8 @@ Engine::Engine() {
 	this->physicsEngine = new PhysicsEngine();
 	physicsEngine->setObjectHandler(objectHandler);
 	printf("Engine Initialized! \n");
-	objectHandler->add(new OrthographicCamera()); //Temporary
+	//objectHandler->add(new OrthographicCamera()); //Temporary
+	objectHandler->add(new PerspectiveCamera());
 }
 
 Engine *Engine::engineInstance = NULL;
