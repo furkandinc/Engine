@@ -147,6 +147,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Core\Asset\CubeMesh.cpp" />
+    <ClCompile Include="Src\Core\Asset\Material.cpp" />
     <ClCompile Include="Src\Core\Component\Collider.cpp" />
     <ClCompile Include="Src\Core\Component\Component.cpp" />
     <ClCompile Include="Src\Core\Component\Renderer.cpp" />
@@ -162,6 +163,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
     <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
     <ClCompile Include="Src\Core\Engine.cpp" />
+    <ClCompile Include="Src\Core\OpenGL\TextureGL.cpp" />
     <ClCompile Include="Src\Core\Physics\CollisionPhysics.cpp" />
     <ClCompile Include="Src\Core\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="Src\Core\Scene\Scene.cpp" />
@@ -173,9 +175,11 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Core\Asset\Material.h" />
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
     <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
     <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
+    <ClInclude Include="Src\Core\OpenGL\TextureGL.h" />
     <ClInclude Include="Src\Core\Physics\Boundary.h" />
     <ClInclude Include="Src\Core\Asset\Mesh.h" />
     <ClInclude Include="Src\Core\Asset\CubeMesh.h" />

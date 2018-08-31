@@ -6,15 +6,13 @@
 class CubeMesh : public Mesh {
 public:
 	CubeMesh();
-	void setColor(int r, int g, int b);
 	ObjectGL * getObjectGL();
 	Boundary * getBoundary();
 
 private :
 	void cubeMesh();
-	void quad(PointGL * pointBuffer, int indexStart, PointGL p1, PointGL p2, PointGL p3, PointGL p4);
+	void quad(PointGL * pointBuffer, int indexStart, vec4 p1, vec4 p2, vec4 p3, vec4 p4, vec3 normal);
 	ObjectGL * objectGL;
-	float red, green, blue, alpha;
 	Boundary * boundary;
 };
 

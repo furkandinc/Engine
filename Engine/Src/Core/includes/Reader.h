@@ -1,10 +1,10 @@
-#ifndef TOLOS_H
-#define TOLOS_H
+#ifndef READER_H
+#define READER_H
 #include <stdio.h>
 #include <vector>
 #include "Angel.h"
-typedef Angel::vec4 point4;
-typedef Angel::vec4 color4;
+#include "../OpenGL/PointGL.h"
+
 bool readBMP(const char* filename, int * w, int * h, GLubyte ** image)
 {
 	int i;
@@ -67,12 +67,13 @@ GLubyte *  readPPM(const char * filename, int * w, int * h)
 	return data;
 }
 
-bool readOBJ(const char * filename, point4 ** points, vec2 ** uvs, vec3 ** normals, int * numVertex) {
+
+bool readOBJ(const char * filename, PointGL ** pointGL, int * numVertex) {
 	std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
-	std::vector< point4 > temp_vertices;
+	std::vector< vec4 > temp_vertices;
 	std::vector< vec2 > temp_uvs;
 	std::vector< vec3 > temp_normals;
-	int fCount=0;
+	int fCount = 0;
 	FILE *file = fopen(filename, "r");
 	if (file == NULL) {
 		printf("File %s cant open\n", filename);
@@ -90,7 +91,7 @@ bool readOBJ(const char * filename, point4 ** points, vec2 ** uvs, vec3 ** norma
 			float x, y, z;
 			fscanf(file, "%f %f %f\n", &x, &y, &z);
 			//printf(" %f %f %f ", x, y, z);
-			point4 vertex(x, y, z, 1);
+			vec4 vertex(x, y, z, 1);
 			temp_vertices.push_back(vertex);
 		}
 
@@ -127,34 +128,43 @@ bool readOBJ(const char * filename, point4 ** points, vec2 ** uvs, vec3 ** norma
 		//printf("\n");
 	}
 	int a = vertexIndices.size();
-	point4 * outVertex = (point4 *)malloc(sizeof(point4) * a);
-	vec2 * outUv = (vec2 *)malloc(sizeof(vec2) * a);
-	vec3 * outNormal = (vec3 *)malloc(sizeof(vec3) * a);
+	PointGL * outPoints = (PointGL *)malloc(sizeof(PointGL)* a);
+
 	for (unsigned int i = 0; i < vertexIndices.size(); i++) {
-		unsigned int index = vertexIndices[i];
-		outVertex[i] = temp_vertices[index - 1];
-		//printf("%d %f,%f,%f\n", index, outVertex[i].x, outVertex[i].y, outVertex[i].z);
+		unsigned int verticeIndex = vertexIndices[i];
+		vec4 outVertex = temp_vertices[verticeIndex - 1];
+		unsigned int uvIndex = uvIndices[i];
+		vec2 outUv = temp_uvs[uvIndex - 1];
+		unsigned int normalIndex = normalIndices[i];
+		vec3 outNormal = temp_normals[normalIndex - 1];
+
+		outPoints[i] = PointGL({ outVertex, outNormal, outUv });
 	}
 
-	for (unsigned int i = 0; i < uvIndices.size(); i++) {
-		unsigned int index = uvIndices[i];
-		outUv[i] = temp_uvs[index - 1];
-	}
-
-	for (unsigned int i = 0; i < normalIndices.size(); i++) {
-		unsigned int index = normalIndices[i];
-		outNormal[i] = temp_normals[index - 1];
-	}
-
-	*points = outVertex;
-	*uvs = outUv;
-	*normals = outNormal;
-	*numVertex = fCount;
+	*pointGL = outPoints;
+	*numVertex = fCount*3;
 	return true;
 }
 
-bool readOBJTEX(const char * objFileName, point4 ** points, vec2 ** uvs, vec3 ** normals, int * numVertex, const char* bmpFileName, int * w, int * h, GLubyte ** image) {
-
-	return true;
+bool readMesh(const char * filename, ObjectGL * mesh) {
+	PointGL * points;
+	int numVertex;
+	bool result = readOBJ(filename, &points, &numVertex);
+	if (result) {
+		mesh->setPoints(points, numVertex);
+	}
+	return result;
 }
-#endif //TOLOS_H
+
+bool readBMP(const char * filename, TextureGL * texture) {
+	int w;
+	int h;
+	GLubyte * data;
+	bool result = readBMP(filename, &w, &h, &data);
+	if (result) {
+		texture->setData(data, w, h);
+	}
+	return result;
+}
+
+#endif

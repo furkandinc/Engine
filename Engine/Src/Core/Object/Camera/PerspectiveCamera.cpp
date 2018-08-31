@@ -5,17 +5,19 @@
 #include "../../Component/Renderer.h"
 #include "../../Component/Transform.h"
 
+
+
 PerspectiveCamera::PerspectiveCamera(){
+	Renderer * renderer = getComponent<Renderer>();
+	renderer->setMesh(nullptr); //don't render
+	Transform * transform = getComponent<Transform>();
+
 	//default initializations
 	fov = 90;
 	aspect = 800.0 / 600.0;
 	dMin = 1;
 	dMax = 1000000;
 	roll = 0;
-
-	Renderer * renderer = getComponent<Renderer>();
-	renderer->setMesh(nullptr);
-	Transform * transform = getComponent<Transform>();
 	transform->setPosition(vec3(400, 300, 400));
 	transform->setRotation(vec3(-90, 90, 0));
 }

@@ -56,14 +56,15 @@ ObjectGL * Boundary::getObjectGL() {
 
 void Boundary::cubeMesh() {
 	PointGL pts[8];
-	pts[0] = { vec4(left, bottom, farZ, 1), vec4(red, green, blue, alpha) };
-	pts[1] = { vec4(left, top, farZ, 1), vec4(red, green, blue, alpha) };
-	pts[2] = { vec4(right, top, farZ, 1), vec4(red, green, blue, alpha) };
-	pts[3] = { vec4(right, bottom, farZ, 1), vec4(red, green, blue, alpha) };
-	pts[4] = { vec4(left, bottom, nearZ, 1), vec4(red, green, blue, alpha) };
-	pts[5] = { vec4(left, top, nearZ, 1), vec4(red, green, blue, alpha) };
-	pts[6] = { vec4(right, top, nearZ, 1), vec4(red, green, blue, alpha) };
-	pts[7] = { vec4(right, bottom, nearZ, 1), vec4(red, green, blue, alpha) };
+	//fun the normals
+	pts[0] = { vec4(left, bottom, farZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[1] = { vec4(left, top, farZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[2] = { vec4(right, top, farZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[3] = { vec4(right, bottom, farZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[4] = { vec4(left, bottom, nearZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[5] = { vec4(left, top, nearZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[6] = { vec4(right, top, nearZ, 1), vec3(0, 0, 0), vec2(0,0) };
+	pts[7] = { vec4(right, bottom, nearZ, 1), vec3(0, 0, 0), vec2(0,0) };
 
 	PointGL buffer[36];
 	quad(buffer, 0, pts[0], pts[1], pts[2], pts[3]);

@@ -2,6 +2,7 @@
 #define SNEK_CPP
 
 #include "Snek.h"
+#include "../../Core/includes/Reader.h"
 
 float random(int a, int b) {
 	return a + rand() % (b - a);
@@ -15,7 +16,7 @@ void Snek::onStart(void) {
 	setScreenSize(boundaryWidth, boundaryHeight);
 
 	target = createObject();
-	target->getComponent<Renderer>()->getMesh()->setColor(255, 0, 0);
+	target->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0, 1 });
 	target->getComponent<Transform>()->setPosition({ 600, 300, 0});
 	target->getComponent<Transform>()->setScale({30, 30, 30});
 
@@ -25,7 +26,7 @@ void Snek::onStart(void) {
 	target->addComponent(tCol);
 	
 	player = createObject();
-	player->getComponent<Renderer>()->getMesh()->setColor(0, 255, 0);
+	player->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0, 1 });
 	player->getComponent<Transform>()->setPosition({ 200, 300 , 0});
 	player->getComponent<Transform>()->setScale({ 100, 100, 100 });
 	
@@ -42,7 +43,7 @@ void Snek::onUpdate(void) {
 	vec3 position = transform->getPosition();
 	float playerX = position.x;
 	float playerY = position.y;
-	float speed = 100;
+	float speed = 400 ;
 	float dtime = getDeltaTime();
 
 	Transform * targetTransform = target->getComponent<Transform>();
@@ -52,7 +53,7 @@ void Snek::onUpdate(void) {
 
 	if (keyStatus(Keys::KEY_UP) == Keys::STATUS_PRESS) {
 		float y = playerY + speed * dtime;
-		if (y < boundaryHeight - transform->getScale().y) {
+		if (y < boundaryHeight - transform->getScale().y/2) {
 			transform->setPosition({ playerX, y, 0});
 			playerY = y;
 		}
@@ -60,7 +61,7 @@ void Snek::onUpdate(void) {
 
 	if (keyStatus(Keys::KEY_DOWN) == Keys::STATUS_PRESS) {
 		float y = playerY - speed * dtime;
-		if (y > 0) {
+		if (y > transform->getScale().y / 2) {
 			transform->setPosition({playerX, y, 0});
 			playerY = y;
 		}
@@ -68,7 +69,7 @@ void Snek::onUpdate(void) {
 
 	if (keyStatus(Keys::KEY_LEFT) == Keys::STATUS_PRESS) {
 		float x = playerX - speed * dtime;
-		if (x > 0) {
+		if (x > transform->getScale().x / 2) {
 			transform->setPosition({ x, playerY, 0});
 			playerX = x;
 		}
@@ -76,12 +77,11 @@ void Snek::onUpdate(void) {
 
 	if (keyStatus(Keys::KEY_RIGHT) == Keys::STATUS_PRESS) {
 		float x = playerX + speed * dtime;
-		if (x < boundaryWidth - transform->getScale().x) {
+		if (x < boundaryWidth - transform->getScale().x/2) {
 			transform->setPosition({ x, playerY, 0 });
 			playerX = x;
 		}
 	}
-
 	//	printf("DeltaTime: %f, oX %f, oY %f, hX %f, hY %f \n", dtime, playerX, playerY, targetX, targetY);
 }
 
