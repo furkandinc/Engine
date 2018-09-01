@@ -22,7 +22,7 @@ void SnekScript::onUpdate(void) {
 	vec3 position = transform->getPosition();
 	float playerX = position.x;
 	float playerY = position.y;
-	float speed = 400 ;
+	float speed = 600;
 	float dtime = getDeltaTime();
 
 	Transform * targetTransform = target->getComponent<Transform>();
@@ -66,8 +66,8 @@ void SnekScript::onUpdate(void) {
 
 void SnekScript::onCollide(Object * object) {
 	if (object == target) {
-		float newX = random(50, 750);
-		float newY = random(50, 550);
+		float newX = random(50, boundaryWidth -50);
+		float newY = random(50, boundaryHeight - 50);
 
 		this->score += 1;
 		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });

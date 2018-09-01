@@ -19,6 +19,6 @@ public:
 
 private:
 	int score;
-	int boundaryWidth = 800;
-	int boundaryHeight = 600;
+	int boundaryWidth = 1280;
+	int boundaryHeight = 720;
 };

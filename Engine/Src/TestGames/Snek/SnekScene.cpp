@@ -30,11 +30,11 @@ void SnekScene::initScene() {
 	Control * snekControl = new Control();
 	snekControl->setScript(snekScript);
 	
-	camera->getComponent<Transform>()->setPosition({ 400, 300, 400 });
+	camera->getComponent<Transform>()->setPosition({ 640, 360, 400 });
 	camera->getComponent<Transform>()->setRotation({ -90, 90, 0 });
-	camera->setAspect(800.0 / 600);
+	camera->setAspect(1280.0 / 720);
 
-	snek->getComponent<Transform>()->setPosition({ 200, 300, 0 });
+	snek->getComponent<Transform>()->setPosition({ 320, 360, 0 });
 	snek->getComponent<Transform>()->setScale({ 100, 100, 100 });
 	snek->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0, 1 });
 	snek->addComponent(new Collider());
@@ -42,7 +42,7 @@ void SnekScene::initScene() {
 	snek->getComponent<Collider>()->setMesh(new CubeMesh());
 	snek->addComponent(snekControl);
 
-	target->getComponent<Transform>()->setPosition({ 600, 300, 0 });
+	target->getComponent<Transform>()->setPosition({ 960, 360, 0 });
 	target->getComponent<Transform>()->setScale({ 30, 30, 30 });
 	target->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0, 1 });
 	target->addComponent(new Collider());
