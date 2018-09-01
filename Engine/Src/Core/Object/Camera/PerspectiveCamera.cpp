@@ -14,12 +14,12 @@ PerspectiveCamera::PerspectiveCamera(){
 
 	//default initializations
 	fov = 90;
-	aspect = 800.0 / 600.0;
+	aspect = 1280/720.0;
 	dMin = 1;
 	dMax = 1000000;
 	roll = 0;
-	transform->setPosition(vec3(400, 300, 400));
-	transform->setRotation(vec3(-90, 90, 0));
+	transform->setPosition(vec3(0, 00, 00));
+	transform->setRotation(vec3(0, 0, 0));
 }
 
 mat4 PerspectiveCamera::getProjection() {

@@ -3,21 +3,18 @@
 
 #define _ENGINE_DEBUG
 
-#include "Engine.h"
+#include <Engine.h>
 #include <stdio.h>
-#include "Object\Camera\OrthographicCamera.h"
-#include "Object\Camera\PerpectiveCamera.h"
+#include <Object\Camera\Camera.h>
+#include <Component\Control.h>
 
 Engine::Engine() {
 	tickMax = 100;
 
-	this->objectHandler = new ObjectHandler();
 	this->keyHandler = new KeyHandler();
 	this->physicsEngine = new PhysicsEngine();
-	physicsEngine->setObjectHandler(objectHandler);
+
 	printf("Engine Initialized! \n");
-	//objectHandler->add(new OrthographicCamera()); //Temporary
-	objectHandler->add(new PerspectiveCamera());
 }
 
 Engine *Engine::engineInstance = NULL;
@@ -35,12 +32,17 @@ void Engine::setFrame(FrameGL  * frame) {
 	this->frame->setKeyHandler(this->keyHandler);
 };
 
-void Engine::setGame(Script * mainScript) {
-	this->mainScript = mainScript;
+void Engine::setScene(Scene * scene) {
+	this->scene = scene;
+	this->objectHandler = scene->getObjectHandler();
+	this->physicsEngine->setObjectHandler(objectHandler);
+	//frame->setTitle(scene->getName());
 }
 
 void Engine::startGame() {
 	printf("Engine Started! \n");
+
+	scene->initScene();
 
 	initTime = clock();
 	lastTime = initTime;
@@ -48,16 +50,16 @@ void Engine::startGame() {
 	tickGap = (1.0 / tickMax) * CLOCKS_PER_SEC;
 	tickNext = initTime + tickGap;
 	frameCount = 0;
-
+	
 	clock_t debugNext = initTime + CLOCKS_PER_SEC;
 
 	this->tick(START);
 
 	while (true) {
 		clock_t currentTime = clock();
-
+		
 		if (tickNext < currentTime) {
-			this->tick(UPDATE);
+			tick(UPDATE);
 			tickNext = tickNext + tickGap;
 			lastDeltaTime = float(currentTime - lastTime) / CLOCKS_PER_SEC;
 			lastTime = currentTime;
@@ -100,16 +102,32 @@ int Engine::_keyStatus(int key){
 	return keyHandler->getKeyStatus(key);
 }
 
+Scene * Engine::_getScene(const char * sceneName) {
+	return scene;
+}
+
 void Engine::tick(int tickType) {
-	
-	if (tickType == START) {
-		mainScript->onStart();
+	Object ** list = objectHandler->getList();
+	for (int i = 0; i < objectHandler->getSize(); i++) {
+		Object * object = list[i];
+		Control * control = object->getComponent<Control>();
+		if (control != nullptr) {
+			Script * script = control->getScript();
+			if (script != nullptr) {
+				if (tickType == START) {
+					script->onStart();
+				}
+				else if (tickType == UPDATE) {
+					script->onUpdate();
+				}
+			}
+		}
 	}
-	else if(tickType == UPDATE){
+
+	if (tickType == UPDATE) {
 		if (this->keyHandler != nullptr) {
 			this->keyHandler->tick();
 		}
-		mainScript->onUpdate();
 		physicsEngine->tick();
 	}
 
@@ -157,5 +175,9 @@ float getDeltaTime() {
 
 int keyStatus(int key) {
 	return Engine::getInstance()->_keyStatus(key);
+}
+
+Scene * getScene(const char * sceneName) {
+	return Engine::getInstance()->_getScene(sceneName);
 }
 #endif // ENGINE_CPP

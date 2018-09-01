@@ -3,9 +3,12 @@
 
 #include "Scene.h"
 
-Scene::Scene(const char * name) {
-	this->sceneName = name;
+Scene::Scene() {
 	this->objectHandler = new ObjectHandler();
+}
+
+void Scene::setName(const char * name){
+	this->sceneName = name;
 }
 
 const char * Scene::getName() {

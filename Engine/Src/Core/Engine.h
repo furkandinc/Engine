@@ -9,12 +9,13 @@
 #include "Asset\Script.h"
 #include "Input\KeyHandler.h"
 #include "Physics\PhysicsEngine.h"
+#include "Scene\Scene.h"
 
 class Engine {
 public:
 	static Engine * getInstance();
 	void setFrame(FrameGL * frame);
-	void setGame(Script * mainScript);
+	void setScene(Scene * scene);
 	void startGame();
 
 	Object * _createObject();
@@ -22,6 +23,7 @@ public:
 	void _setScreenSize(int x, int y);
 	float _getDeltaTime();
 	int _keyStatus(int key);
+	Scene * _getScene(const char * sceneName);
 
 private:
 	Engine();
@@ -29,13 +31,13 @@ private:
 	void render();
 	static enum tickType : int {START, UPDATE};
 
-	Script * mainScript;
+	Scene * scene;
 	FrameGL * frame;
 	static Engine * engineInstance;
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
 	PhysicsEngine * physicsEngine;
-
+	
 	int tickMax;
 	int tickCount;
 	clock_t tickNext;
@@ -53,5 +55,6 @@ void removeObject(Object * object);
 void setScreenSize(int x, int y);
 float getDeltaTime();
 int keyStatus(int key);
+Scene * getScene(const char * sceneName);
 
 #endif

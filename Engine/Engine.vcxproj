@@ -72,11 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)\Src\Core;$(ProjectDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\include;$(IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)\Src\Core;$(ProjectDir)\include;$(IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath);</LibraryPath>
     <SourcePath>$(SourcePath);</SourcePath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
@@ -150,6 +150,7 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\Asset\Material.cpp" />
     <ClCompile Include="Src\Core\Component\Collider.cpp" />
     <ClCompile Include="Src\Core\Component\Component.cpp" />
+    <ClCompile Include="Src\Core\Component\Control.cpp" />
     <ClCompile Include="Src\Core\Component\Renderer.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
@@ -170,11 +171,13 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
     <ClCompile Include="Src\Core\Physics\Boundary.cpp" />
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
-    <ClCompile Include="Src\TestGames\Snek\Snek.cpp" />
+    <ClCompile Include="Src\TestGames\Snek\SnekScript.cpp" />
     <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\TestGames\Snek\SnekScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Asset\Material.h" />
+    <ClInclude Include="Src\Core\Component\Control.h" />
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
     <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
     <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
@@ -202,7 +205,8 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClInclude Include="Src\Core\Scene\Scene.h" />
     <ClInclude Include="Src\Core\Util\ArrayList.h" />
     <ClInclude Include="Src\Core\Util\Integer.h" />
-    <ClInclude Include="Src\TestGames\Snek\Snek.h" />
+    <ClInclude Include="Src\TestGames\Snek\SnekScene.h" />
+    <ClInclude Include="Src\TestGames\Snek\SnekScript.h" />
     <ClInclude Include="Src\Main.h" />
   </ItemGroup>
   <ItemGroup>
