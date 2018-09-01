@@ -5,7 +5,9 @@
 
 class Scene {
 public:
-	Scene(const char * name);
+	Scene();
+	virtual void initScene() = 0;
+	void setName(const char * name);
 	const char * getName();
 	ObjectHandler * getObjectHandler();
 
