@@ -12,6 +12,7 @@ BufferGL::BufferGL() {
 	matrices = new ArrayList<mat4>();
 	sizes = new ArrayList<Integer>();
 	ids = new ArrayList<Integer>();
+	materials = new ArrayList<Material>();
 }
 
 PointGL * BufferGL::getPoints() {
@@ -30,6 +31,10 @@ Integer * BufferGL::getSizes() {
 	return this->sizes->toArray();
 }
 
+Material * BufferGL::getMaterials() {
+	return this->materials->toArray();
+}
+
 int BufferGL::getCount() {
 	return this->count;
 }
@@ -44,6 +49,7 @@ void BufferGL::setDirty(bool dirty) {
 
 void BufferGL::add(Object * object) {
 	ObjectGL * objectGL = object->getComponent<Renderer>()->getMesh()->getObjectGL();
+	Material * material = object->getComponent<Renderer>()->getMaterial();
 	Transform * transform = object->getComponent<Transform>();
 	
 	if (!objectGL->hasId()) {
@@ -65,13 +71,14 @@ void BufferGL::add(Object * object) {
 		matrices->add(transform->generateMatrix());
 		sizes->add(objectGL->getPointsSize());
 		ids->add(id);
+		materials->add(*material);
 		count++;
 		objectGL->setDirty(false);
 		dirty = true;
 	}
 	else {
 		matrices->set(index,transform->generateMatrix());
-
+		materials->set(index, *material);
 		if (objectGL->isDirty()) {
 			ArrayList<PointGL> * temp = new ArrayList<PointGL>();
 			int newSize = objectGL->getPointsSize();

@@ -16,4 +16,12 @@ void Renderer::setMesh(Mesh * mesh) {
 Mesh * Renderer::getMesh() {
 	return this->mesh;
 }
+
+void Renderer::setMaterial(Material * material){
+	this->material = material;
+}
+
+Material * Renderer::getMaterial() {
+	return material;
+}
 #endif

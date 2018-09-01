@@ -21,6 +21,7 @@ Object::Object() {
 	addComponent(new Transform());
 	Renderer * renderer = new Renderer();
 	renderer->setMesh(new CubeMesh());
+	renderer->setMaterial(new Material());
 	addComponent(renderer);
 };
 

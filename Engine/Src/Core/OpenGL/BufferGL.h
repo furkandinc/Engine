@@ -19,6 +19,7 @@ public:
 	int getNumPoints();
 	mat4 * getMatrices();
 	Integer * getSizes();
+	Material * getMaterials();
 	int getCount();
 	bool getDirty();
 	void setDirty(bool dirty);
@@ -30,7 +31,7 @@ private:
 	ArrayList<mat4> * matrices;
 	ArrayList<Integer> * sizes;
 	ArrayList<Integer> * ids;
-
+	ArrayList<Material> * materials;
 	int count;
 
 	bool dirty;
