@@ -170,7 +170,6 @@ xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
     <ClCompile Include="Src\Core\Physics\Boundary.cpp" />
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
-    <ClCompile Include="Src\Source.cpp" />
     <ClCompile Include="Src\TestGames\Snek\Snek.cpp" />
     <ClCompile Include="Src\Main.cpp" />
   </ItemGroup>
