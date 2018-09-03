@@ -11,6 +11,7 @@ public:
 	
 	void init(int argc, char ** argv, const char * title, int width, int height);
 	void addObject(Object * object);
+	void removeObject(Object * object);
 	void setKeyHandler(KeyHandler * keyHandler);
 	int getWidth();
 	int getHeight();

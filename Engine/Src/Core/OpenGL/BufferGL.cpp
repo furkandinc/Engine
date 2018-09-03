@@ -31,6 +31,10 @@ Integer * BufferGL::getSizes() {
 	return this->sizes->toArray();
 }
 
+Integer * BufferGL::getIDs() {
+	return this->ids->toArray();
+}
+
 Material * BufferGL::getMaterials() {
 	return this->materials->toArray();
 }
@@ -105,6 +109,15 @@ void BufferGL::add(Object * object) {
 			dirty = true;
 		}
 	}
+}
+
+void BufferGL::remove(Object * object) {
+	Renderer * renderer = object->getComponent<Renderer>();
+	Mesh * mesh = renderer->getMesh();
+	ObjectGL * objectGL = mesh->getObjectGL();
+	int id = objectGL->getId();
+	int index = indexOfId(id);
+	ids->set(index, Integer(-1));
 }
 
 int BufferGL::generateID() {

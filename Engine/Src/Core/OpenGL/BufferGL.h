@@ -19,11 +19,13 @@ public:
 	int getNumPoints();
 	mat4 * getMatrices();
 	Integer * getSizes();
+	Integer * getIDs();
 	Material * getMaterials();
 	int getCount();
 	bool getDirty();
 	void setDirty(bool dirty);
 	void add(Object * object);
+	void remove(Object * object);
 
 private:
 

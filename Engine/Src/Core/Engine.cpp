@@ -85,7 +85,8 @@ Object * Engine::_createObject() {
 }
 
 void Engine::_removeObject(Object * object) {
-	objectHandler->remove(objectHandler->indexOf(object));
+	objectHandler->remove(object);
+	frame->removeObject(object);
 }
 
 void Engine::_setScreenSize(int x, int y) {
