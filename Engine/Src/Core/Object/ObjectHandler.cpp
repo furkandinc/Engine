@@ -43,11 +43,14 @@ Object * ObjectHandler::remove(int index) {
 			list[i] = nullptr;
 	}
 
+	count--;
+
 	return answer;
 }
 
 Object * ObjectHandler::remove(Object * object) {
-	return remove(indexOf(object));
+	int result = indexOf(object);
+	return remove(result);
 }
 
 void ObjectHandler::checkSize() {

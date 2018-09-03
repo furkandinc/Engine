@@ -140,6 +140,7 @@ void FrameGL::displayFunc() {
 	int numPoints = buffer->getNumPoints();
 	mat4 * mos = buffer->getMatrices();
 	Integer * sizes = buffer->getSizes();
+	Integer * ids = buffer->getIDs();
 	int count = buffer->getCount();
 	bool dirty = buffer->getDirty();
 	Material * materials = buffer->getMaterials();
@@ -165,50 +166,52 @@ void FrameGL::displayFunc() {
 	int i, offset = 0;
 	for (i = 0; i < count; i++) {
 		//printf("displayfunc:for%d\n", i);
-		mo = mv * mos[i];
-		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
-		Material material = materials[i];
+		if (ids[i].get() != -1) {
+			mo = mv * mos[i];
+			glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
+			Material material = materials[i];
 
-		vec4 ambient_product = light_ambient * material.getAmbientColor();
-		vec4 diffuse_product = light_diffuse * material.getDiffuseColor();
-		vec4 specular_product = light_specular * material.getSpecularColor();
+			vec4 ambient_product = light_ambient * material.getAmbientColor();
+			vec4 diffuse_product = light_diffuse * material.getDiffuseColor();
+			vec4 specular_product = light_specular * material.getSpecularColor();
 
-		float material_shininess = material.getShininess();
+			float material_shininess = material.getShininess();
 
-		glUniform4fv(AmbientProduct, 1, ambient_product);
-		glUniform4fv(DiffuseProduct, 1, diffuse_product);
-		glUniform4fv(SpecularProduct, 1, specular_product);
-		glUniform1f(Shininess, material_shininess);
+			glUniform4fv(AmbientProduct, 1, ambient_product);
+			glUniform4fv(DiffuseProduct, 1, diffuse_product);
+			glUniform4fv(SpecularProduct, 1, specular_product);
+			glUniform1f(Shininess, material_shininess);
 
-		TextureGL * texture = material.getColorTexture();
-		if (texture != nullptr && texture->getData() != nullptr) {
-			if (texture->getDirty()) {
-				// Initialize texture objects
-				GLuint textures;
-				glGenTextures(1, &textures);
+			TextureGL * texture = material.getColorTexture();
+			if (texture != nullptr && texture->getData() != nullptr) {
+				if (texture->getDirty()) {
+					// Initialize texture objects
+					GLuint textures;
+					glGenTextures(1, &textures);
 
-				glBindTexture(GL_TEXTURE_2D, textures);
+					glBindTexture(GL_TEXTURE_2D, textures);
 
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texture->getData());
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texture->getData());
 
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glActiveTexture(GL_TEXTURE0);
-				glUniform1i(TextureID, 0);
-				texture->setDirty(false);
-				texture->setId(textures);
+					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+					glActiveTexture(GL_TEXTURE0);
+					glUniform1i(TextureID, 0);
+					texture->setDirty(false);
+					texture->setId(textures);
+				}
+				glUniform1i(TextureMode, HASTEXTURE);
+				glBindTexture(GL_TEXTURE_2D, texture->getId());
 			}
-			glUniform1i(TextureMode, HASTEXTURE);
-			glBindTexture(GL_TEXTURE_2D, texture->getId());
+			else {
+				glUniform1i(TextureMode, NOTEXTURE);
+			}
+
+			glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
+			debug();
 		}
-		else {
-			glUniform1i(TextureMode, NOTEXTURE);
-		}
-		
-		glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
-		debug();
 		offset += sizes[i].get();
 	}
 
@@ -217,6 +220,10 @@ void FrameGL::displayFunc() {
 
 void FrameGL::addObject(Object * object) {
 	bufferGL->add(object);
+}
+
+void FrameGL::removeObject(Object * object) {
+	bufferGL->remove(object);
 }
 
 void FrameGL::idleFunc() {

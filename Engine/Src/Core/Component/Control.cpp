@@ -6,6 +6,7 @@ Control::Control() {
 
 void Control::setScript(Script * script) {
 	this->script = script;
+	this->script->object = this->object;
 }
 
 Script * Control::getScript() {
