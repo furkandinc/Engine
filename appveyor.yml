@@ -1,3 +1,5 @@
+before_build:
+  - nuget restore
 install:
   - cmd: msbuild "Engine/Engine.vcxproj"
   
