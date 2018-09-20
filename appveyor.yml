@@ -1,5 +1,5 @@
 before_build:
-  - nuget restore Engine/Engine.sln
+  - cmd: nuget restore Engine/Engine.sln
 install:
   - cmd: msbuild "Engine/Engine.vcxproj"
   
