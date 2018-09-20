@@ -16,7 +16,6 @@ public:
 
 	Object * player;
 	Object * target;
-
 private:
 	int score;
 	int boundaryWidth = 1280;
