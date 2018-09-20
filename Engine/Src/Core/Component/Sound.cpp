@@ -12,8 +12,6 @@ void Sound::play() {
 	if (!isValid())
 		return;
 
-
-	printf("Hitt\n");
 	wave->getData()->play();
 }
 
