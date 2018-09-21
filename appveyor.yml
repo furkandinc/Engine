@@ -1,4 +1,5 @@
 install:
+  - cmd: nuget restore Engine/Engine.sln
   - cmd: msbuild "Engine/Engine.vcxproj"
   
 configuration: Release

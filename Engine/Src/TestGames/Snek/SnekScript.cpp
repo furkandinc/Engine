@@ -1,6 +1,7 @@
 #include "SnekScript.h"
 #include <Component\Collider.h>
 #include <Asset\CubeMesh.h>
+#include <Component\Sound.h>
 
 float random(int a, int b) {
 	return a + rand() % (b - a);
@@ -18,6 +19,7 @@ void SnekScript::onStart(void) {
 }
 
 void SnekScript::onUpdate(void) {
+	
 	Transform * transform = player->getComponent<Transform>();
 	vec3 position = transform->getPosition();
 	float playerX = position.x;
@@ -73,4 +75,7 @@ void SnekScript::onCollide(Object * object) {
 		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });
 		printf("SCORE: %i \n", score);
 	}
+	
+	Sound * sound = player->getComponent<Sound>();
+	sound->play();
 }
