@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine.vcxproj", "{86D5D22A-0E9F-478B-A728-E523F84584E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{86D5D22A-0E9F-478B-A728-E523F84584E4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame1", "..\TestGame1\TestGame1.vcxproj", "{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame1", "TestGame1\TestGame1.vcxproj", "{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
