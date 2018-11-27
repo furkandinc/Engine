@@ -1,8 +1,8 @@
-#ifndef KEYHANDLER_H
-#define KEYHANDLER_H
+#pragma once
 
 #include "Keys.h"
 #include <stdlib.h>
+#include "../dllexp.h"
 
 class KeyHandler {
 
@@ -19,4 +19,3 @@ private:
 	int * pushList;
 	int * keyList;
 };
-#endif

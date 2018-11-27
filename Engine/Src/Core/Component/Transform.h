@@ -1,9 +1,8 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#pragma once
 
 #include "Component.h"
 #include "../includes/Angel.h"
-class Transform : public Component {
+class DLLDIR Transform : public Component {
 public:
 	Transform();
 	void setPosition(vec3 position);
@@ -26,5 +25,3 @@ private:
 
 	Transform * findParentTransform();
 };
-
-#endif

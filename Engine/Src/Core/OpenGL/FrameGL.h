@@ -1,12 +1,12 @@
-#ifndef FRAMEGL_H
-#define FRAMEGL_H
+#pragma once
 
 #include "BufferGL.h"
-#include "..\Object\Object.h"
-#include "..\Input\KeyHandler.h"
+#include "../dllexp.h"
+#include "../Object/Object.h"
+#include "../Input/KeyHandler.h"
 #include "../Object/Camera/Camera.h"
 
-class FrameGL {
+class DLLDIR FrameGL {
 public:
 	
 	void init(int argc, char ** argv, const char * title, int width, int height);
@@ -41,4 +41,3 @@ private:
 	FrameGL();
 	void initBuffers();
 };
-#endif

@@ -1,11 +1,10 @@
-#ifndef COLLIDER_H
-#define COLLIDER_H
+#pragma once
 
 #include "Component.h"
 #include "../Asset/Mesh.h"
 #include "../Physics/CollisionListener.h"
 
-class Collider : public Component {
+class DLLDIR Collider : public Component {
 public:
 	Collider();
 	void setCollidable(bool collidable);
@@ -25,5 +24,3 @@ private:
 
 	void checkSize();
 };
-
-#endif

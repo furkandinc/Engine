@@ -27,7 +27,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -100,6 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
@@ -182,15 +183,13 @@
     <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
     <ClCompile Include="Src\Core\Physics\Boundary.cpp" />
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
-    <ClCompile Include="Src\TestGames\Snek\SnekScript.cpp" />
-    <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\TestGames\Snek\SnekScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Asset\Material.h" />
     <ClInclude Include="Src\Core\Asset\Wave.h" />
     <ClInclude Include="Src\Core\Component\Control.h" />
     <ClInclude Include="Src\Core\Component\Sound.h" />
+    <ClInclude Include="Src\Core\dllexp.h" />
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
     <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
     <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
@@ -218,9 +217,6 @@
     <ClInclude Include="Src\Core\Scene\Scene.h" />
     <ClInclude Include="Src\Core\Util\ArrayList.h" />
     <ClInclude Include="Src\Core\Util\Integer.h" />
-    <ClInclude Include="Src\TestGames\Snek\SnekScene.h" />
-    <ClInclude Include="Src\TestGames\Snek\SnekScript.h" />
-    <ClInclude Include="Src\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

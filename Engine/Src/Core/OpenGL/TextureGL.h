@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../dllexp.h"
 #include "../includes/Angel.h"
 
-class TextureGL {
+class DLLDIR TextureGL {
 public:
 	TextureGL();
 	void setDirty(bool dirty);

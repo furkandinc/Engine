@@ -1,10 +1,10 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include "../Object.h"
+#include "../../dllexp.h"
 #include "../../includes/Angel.h"
 
-class Camera: public Object {
+class DLLDIR Camera: public Object {
 public:
 	virtual mat4 getProjection() = 0;
 	void setRoll(float roll);
@@ -12,5 +12,3 @@ public:
 protected:
 	float roll;
 };
-
-#endif

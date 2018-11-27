@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Asset\Wave.h>
-#include <Component\Component.h>
+#include "Component.h"
+#include "..\Asset\Wave.h"
 
-class Sound : public Component {
+class DLLDIR Sound : public Component {
 public:
 	Sound();
 	

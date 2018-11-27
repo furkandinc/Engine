@@ -1,9 +1,9 @@
-#ifndef PERSPECTIVE_CAMERA_H
-#define PERSPECTIVE_CAMERA_H
+#pragma once
 
 #include "Camera.h"
+#include "../../dllexp.h"
 
-class PerspectiveCamera : public Camera {
+class DLLDIR PerspectiveCamera : public Camera {
 public:
 	PerspectiveCamera();
 	mat4 getProjection();
@@ -22,5 +22,3 @@ private:
 	float dMin;
 	float dMax;
 };
-
-#endif

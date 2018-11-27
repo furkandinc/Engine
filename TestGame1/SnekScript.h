@@ -5,10 +5,9 @@
 #include <stdlib.h>
 
 #include <Engine.h>
-#include <Physics\CollisionListener.h>
 
 float random(int a, int b);
-class SnekScript: public Script, public CollisionListener {
+class SnekScript : public Script, public CollisionListener {
 public:
 	void onStart(void);
 	void onUpdate(void);

@@ -1,10 +1,10 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#pragma once
 
+#include "../dllexp.h"
 #include "../OpenGL/TextureGL.h"
 #include "../includes/Angel.h"
 
-class Material {
+class DLLDIR Material {
 public:
 	Material();
 	void setAmbientColor(vec4 color);
@@ -24,5 +24,3 @@ private:
 	float shininess;
 	TextureGL * textureGL;
 };
-
-#endif

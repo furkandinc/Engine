@@ -1,11 +1,10 @@
-#ifndef COLLISION_LISTENER_H
-#define COLLISION_LISTENER_H
+#pragma once
+
+#include "../dllexp.h"
 
 class Object;
 
-class CollisionListener {
+class DLLDIR CollisionListener {
 public:
 	virtual void onCollide(Object * object) = 0;
 };
-
-#endif

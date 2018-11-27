@@ -1,12 +1,11 @@
-#ifndef OBJECT_HANDLER_H
-#define OBJECT_HANDLER_H
-
+#pragma once
 
 #include <stdlib.h>
 
 #include "Object.h"
+#include "../dllexp.h"
 
-class ObjectHandler {
+class DLLDIR ObjectHandler {
 public:
 
 	ObjectHandler();
@@ -26,5 +25,3 @@ private:
 
 	void checkSize();
 };
-
-#endif

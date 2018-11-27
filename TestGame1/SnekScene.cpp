@@ -1,22 +1,13 @@
 #include "SnekScene.h"
 #include "SnekScript.h"
-
-#include <Object\Camera\PerpectiveCamera.h>
-#include <Component\Transform.h>
-#include <Component\Renderer.h>
-#include <Component\Collider.h>
-#include <Component\Control.h>
-#include <Component\Sound.h>
-#include <Asset\CubeMesh.h>
-#include <Asset\Wave.h>
-
+#include <Engine.h>
 
 SnekScene::SnekScene() {
 	setName("Snek");
 }
 
 void SnekScene::initScene() {
-	
+
 	PerspectiveCamera * camera = new PerspectiveCamera();
 	objectHandler->add(camera);
 
@@ -32,7 +23,7 @@ void SnekScene::initScene() {
 
 	Control * snekControl = new Control();
 	snekControl->setScript(snekScript);
-	
+
 	Wave * hitWave = new Wave();
 	hitWave->readData("Assets\\HitHollow.wav");
 

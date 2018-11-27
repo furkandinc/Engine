@@ -1,9 +1,9 @@
-#ifndef CUBEMESH_H
-#define CUBEMESH_H
+#pragma once
 
 #include "Mesh.h"
+#include "../dllexp.h"
 
-class CubeMesh : public Mesh {
+class DLLDIR CubeMesh : public Mesh {
 public:
 	CubeMesh();
 	ObjectGL * getObjectGL();
@@ -15,5 +15,3 @@ private :
 	ObjectGL * objectGL;
 	Boundary * boundary;
 };
-
-#endif

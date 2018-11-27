@@ -1,8 +1,8 @@
 #pragma once
-#include <Component\Component.h>
-#include <Asset\Script.h>
+#include "Component.h"
+#include "..\Asset\Script.h"
 
-class Control : public Component {
+class DLLDIR Control : public Component {
 public:
 	Control();
 	void setScript(Script * script);

@@ -1,13 +1,13 @@
-#ifndef OBJECT_H
-#define OBJECT_H
+#pragma once
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <utility>
+#include "../dllexp.h"
 
 class Component;
 
-class Object {
+class DLLDIR Object {
 public:
 
 	Object();
@@ -52,4 +52,3 @@ T * Object::getComponent() {
 	}
 	return nullptr;
 };
-#endif

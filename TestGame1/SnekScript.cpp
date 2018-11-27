@@ -1,7 +1,5 @@
 #include "SnekScript.h"
-#include <Component\Collider.h>
-#include <Asset\CubeMesh.h>
-#include <Component\Sound.h>
+#include <includes\Angel.h>
 
 float random(int a, int b) {
 	return a + rand() % (b - a);
@@ -19,7 +17,7 @@ void SnekScript::onStart(void) {
 }
 
 void SnekScript::onUpdate(void) {
-	
+
 	Transform * transform = player->getComponent<Transform>();
 	vec3 position = transform->getPosition();
 	float playerX = position.x;
@@ -34,8 +32,8 @@ void SnekScript::onUpdate(void) {
 
 	if (keyStatus(Keys::KEY_UP) == Keys::STATUS_PRESS) {
 		float y = playerY + speed * dtime;
-		if (y < boundaryHeight - transform->getScale().y/2) {
-			transform->setPosition({ playerX, y, 0});
+		if (y < boundaryHeight - transform->getScale().y / 2) {
+			transform->setPosition({ playerX, y, 0 });
 			playerY = y;
 		}
 	}
@@ -43,7 +41,7 @@ void SnekScript::onUpdate(void) {
 	if (keyStatus(Keys::KEY_DOWN) == Keys::STATUS_PRESS) {
 		float y = playerY - speed * dtime;
 		if (y > transform->getScale().y / 2) {
-			transform->setPosition({playerX, y, 0});
+			transform->setPosition({ playerX, y, 0 });
 			playerY = y;
 		}
 	}
@@ -51,14 +49,14 @@ void SnekScript::onUpdate(void) {
 	if (keyStatus(Keys::KEY_LEFT) == Keys::STATUS_PRESS) {
 		float x = playerX - speed * dtime;
 		if (x > transform->getScale().x / 2) {
-			transform->setPosition({ x, playerY, 0});
+			transform->setPosition({ x, playerY, 0 });
 			playerX = x;
 		}
 	}
 
 	if (keyStatus(Keys::KEY_RIGHT) == Keys::STATUS_PRESS) {
 		float x = playerX + speed * dtime;
-		if (x < boundaryWidth - transform->getScale().x/2) {
+		if (x < boundaryWidth - transform->getScale().x / 2) {
 			transform->setPosition({ x, playerY, 0 });
 			playerX = x;
 		}
@@ -68,14 +66,14 @@ void SnekScript::onUpdate(void) {
 
 void SnekScript::onCollide(Object * object) {
 	if (object == target) {
-		float newX = random(50, boundaryWidth -50);
+		float newX = random(50, boundaryWidth - 50);
 		float newY = random(50, boundaryHeight - 50);
 
 		this->score += 1;
 		target->getComponent<Transform>()->setPosition({ newX, newY, 0 });
 		printf("SCORE: %i \n", score);
 	}
-	
+
 	Sound * sound = player->getComponent<Sound>();
 	sound->play();
 }

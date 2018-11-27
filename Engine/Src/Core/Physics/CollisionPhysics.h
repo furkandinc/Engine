@@ -1,7 +1,7 @@
-#ifndef COLLISION_PHYSICS_H
-#define COLLISION_PHYSICS_H
+#pragma once
 
 #include "Boundary.h"
+#include "../dllexp.h"
 #include "../OpenGL/ObjectGL.h"
 #include "../Object/Object.h"
 #include "../Component/Transform.h"
@@ -17,5 +17,3 @@ bool isCollide(ObjectGL * b1, Transform * t1, ObjectGL * b2, Transform * t2);
 bool isCollide(Mesh * mesh1, Transform * t1, Mesh * mesh2, Transform * t2);
 
 bool isCollide(Object * object1, Object * object2);
-
-#endif
