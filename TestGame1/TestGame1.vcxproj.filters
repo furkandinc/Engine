@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Demo.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="SnekScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThiefScript.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="PoliceScript.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtScript.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SnekScene.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThiefScript.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="PoliceScript.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtScript.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{d06e32cc-a8e7-4ac4-8752-7650a668244d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

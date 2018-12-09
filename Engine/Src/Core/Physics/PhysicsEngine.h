@@ -1,9 +1,9 @@
-#ifndef PHYSICS_ENGINE_H
-#define PHYSICS_ENGINE_H
+#pragma once
 
+#include "../dllexp.h"
 #include "../Object/ObjectHandler.h"
 
-class PhysicsEngine {
+class DLLDIR PhysicsEngine {
 public:
 	PhysicsEngine();
 	void tick();
@@ -11,4 +11,3 @@ public:
 private:
 	ObjectHandler * objectHandler;
 };
-#endif

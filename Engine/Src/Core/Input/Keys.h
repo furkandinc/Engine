@@ -1,9 +1,9 @@
-#ifndef KEYS_H
-#define KEYS_H
+#pragma once
 
+#include "../dllexp.h"
 #include "../includes/Angel.h"
 
-class Keys {
+class DLLDIR Keys {
 public:
 	const static enum keys : int {
 		//Ascii chars
@@ -189,4 +189,3 @@ public:
 		return -1;
 	}
 };
-#endif

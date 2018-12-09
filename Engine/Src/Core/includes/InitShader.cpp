@@ -7,7 +7,10 @@ namespace Angel {
 	{
 		FILE* fp = fopen(shaderFile, "r");
 
-		if (fp == NULL) { return NULL; }
+		if (fp == NULL) {
+			printf("Cannot open file:%s \n", shaderFile);
+			return NULL;
+		}
 
 		fseek(fp, 0L, SEEK_END);
 		long size = ftell(fp);

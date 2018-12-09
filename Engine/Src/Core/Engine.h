@@ -1,17 +1,46 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include <time.h>
 
+#include "dllexp.h"
+
+#include "Asset\CubeMesh.h"
+#include "Asset\Material.h"
+#include "Asset\Mesh.h"
+#include "Asset\Wave.h"
+#include "Asset\Script.h"
+
+#include "Component\Collider.h"
+#include "Component\Component.h"
+#include "Component\Control.h"
+#include "Component\Renderer.h"
+#include "Component\Sound.h"
+#include "Component\Transform.h"
+
+#include "Input\KeyHandler.h"
+#include "Input\Keys.h"
+
 #include "Object\Object.h"
 #include "Object\ObjectHandler.h"
-#include "OpenGL\FrameGL.h"
-#include "Asset\Script.h"
-#include "Input\KeyHandler.h"
-#include "Physics\PhysicsEngine.h"
-#include "Scene\Scene.h"
+#include "Object\Camera\Camera.h"
+#include "Object\Camera\OrthographicCamera.h"
+#include "Object\Camera\PerpectiveCamera.h"
 
-class Engine {
+#include "OpenGL\BufferGL.h"
+#include "OpenGL\FrameGL.h"
+#include "OpenGL\ObjectGL.h"
+#include "OpenGL\PointGL.h"
+#include "OpenGL\TextureGL.h"
+
+#include "Physics\Boundary.h"
+#include "Physics\CollisionListener.h"
+#include "Physics\CollisionPhysics.h"
+#include "Physics\PhysicsEngine.h"
+
+#include "Scene\Scene.h"
+#include "Util\ArrayList.h"
+
+class DLLDIR Engine {
 public:
 	static Engine * getInstance();
 	void setFrame(FrameGL * frame);
@@ -50,11 +79,9 @@ private:
 };
 
 // Engine makros
-Object * createObject();
-void removeObject(Object * object);
-void setScreenSize(int x, int y);
-float getDeltaTime();
-int keyStatus(int key);
-Scene * getScene(const char * sceneName);
-
-#endif
+DLLDIR Object * createObject();
+DLLDIR void removeObject(Object * object);
+DLLDIR void setScreenSize(int x, int y);
+DLLDIR float getDeltaTime();
+DLLDIR int keyStatus(int key);
+DLLDIR Scene * getScene(const char * sceneName);

@@ -1,5 +1,4 @@
-#ifndef ARRAYLIST_H
-#define ARRAYLIST_H
+#pragma once
 
 template <class T>
 class ArrayList {
@@ -21,5 +20,3 @@ public:
 	int getCount();
 	int size();
 };
-
-#endif

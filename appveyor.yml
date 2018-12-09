@@ -1,8 +1,8 @@
 install:
-  - cmd: nuget restore Engine/Engine.sln
+  - cmd: nuget restore Engine.sln
   - cmd: msbuild "Engine/Engine.vcxproj"
   
-configuration: Release
+configuration: Debug
 
 environment:
   GENERATOR: Visual Studio 15 2017

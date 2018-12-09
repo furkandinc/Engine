@@ -1,12 +1,11 @@
-#ifndef SCRIPT_H
-#define SCRIPT_H
+#pragma once
+#include "../dllexp.h"
+#include "../Object/Object.h"
 
-class Script {
+class DLLDIR Script {
 public:
 	virtual void onStart(void) = 0;
 	virtual void onUpdate(void) = 0;
 
 	Object * object;
 };
-
-#endif

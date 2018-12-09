@@ -1,9 +1,9 @@
-#ifndef BOUNDARY_H
-#define BOUNDARY_H
+#pragma once
 
+#include "../dllexp.h"
 #include "../OpenGL/ObjectGL.h"
 
-class Boundary {
+class DLLDIR Boundary {
 public:
 	Boundary();
 	void setLeft(float left);
@@ -23,5 +23,3 @@ private:
 	void quad(PointGL * pointBuffer, int indexStart, PointGL p1, PointGL p2, PointGL p3, PointGL p4);
 	ObjectGL * objectGL;
 };
-
-#endif

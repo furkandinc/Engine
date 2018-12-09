@@ -1,9 +1,9 @@
-#ifndef ORTHOGRAPHIC_CAMERA_H
-#define ORTHOGRAPHIC_CAMERA_H
+#pragma once
 
 #include "Camera.h"
+#include "../../dllexp.h"
 
-class OrthographicCamera : public Camera {
+class DLLDIR OrthographicCamera : public Camera {
 public:
 	OrthographicCamera();
 	mat4 getProjection();
@@ -19,5 +19,3 @@ public:
 private:
 	float width, height, dMin, dMax;
 };
-
-#endif

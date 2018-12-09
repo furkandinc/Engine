@@ -1,9 +1,9 @@
-#ifndef OBJECTGL_H
-#define OBJECTGL_H
+#pragma once
 
 #include "PointGL.h"
+#include "../dllexp.h"
 
-class ObjectGL {
+class DLLDIR ObjectGL {
 public:
 	ObjectGL();
 
@@ -28,5 +28,3 @@ private:
 	PointGL * points;
 	int size;
 };
-
-#endif

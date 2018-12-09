@@ -1,9 +1,9 @@
-#ifndef SCENE_H
-#define SCENE_H
+#pragma once
 
+#include "..\dllexp.h"
 #include "..\Object\ObjectHandler.h"
 
-class Scene {
+class DLLDIR Scene {
 public:
 	Scene();
 	virtual void initScene() = 0;
@@ -15,5 +15,3 @@ protected:
 	const char * sceneName;
 	ObjectHandler * objectHandler;
 };
-
-#endif

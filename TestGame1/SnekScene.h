@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Scene\Scene.h>
+#include <Engine.h>
 
 class SnekScene : public Scene {
 public:

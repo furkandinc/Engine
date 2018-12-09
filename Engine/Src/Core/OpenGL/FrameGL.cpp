@@ -47,6 +47,7 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
+	glutInitWindowPosition(0, 0);
 	glutCreateWindow(title);
 	glewExperimental = GL_TRUE;
 	glewInit();

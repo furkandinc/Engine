@@ -1,5 +1,4 @@
-#ifndef INTEGER_H
-#define INTEGER_H
+#pragma once
 
 class Integer {
 public:
@@ -10,5 +9,3 @@ public:
 private:
 	int value;
 };
-
-#endif

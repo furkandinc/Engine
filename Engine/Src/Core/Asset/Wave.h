@@ -1,8 +1,9 @@
 #pragma once
 
 #include <SFML\Audio.hpp>
+#include "../dllexp.h"
 
-class Wave {
+class DLLDIR Wave {
 public:
 	Wave();
 	void readData(const char * filepath);

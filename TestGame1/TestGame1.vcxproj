@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,14 +20,14 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{86D5D22A-0E9F-478B-A728-E523F84584E4}</ProjectGuid>
-    <RootNamespace>Engine</RootNamespace>
-    <ProjectName>Engine</ProjectName>
+    <ProjectGuid>{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}</ProjectGuid>
+    <RootNamespace>TestGame1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>TestGame1</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -70,28 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)\Src\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)\Src\Core;$(IncludePath);</IncludePath>
-    <LibraryPath>$(LibraryPath);</LibraryPath>
-    <SourcePath>$(SourcePath);</SourcePath>
-    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
-    <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
-    <LinkIncremental>true</LinkIncremental>
-    <Linkage-sfml-audio>
-    </Linkage-sfml-audio>
-    <Linkage-sfml-system>
-    </Linkage-sfml-system>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)\Src\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\Src\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Src\Core;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,16 +81,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DLLDIR_EX;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Engine.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,7 +94,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,19 +104,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Console</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,67 +125,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Core\Asset\CubeMesh.cpp" />
-    <ClCompile Include="Src\Core\Asset\Material.cpp" />
-    <ClCompile Include="Src\Core\Asset\Wave.cpp" />
-    <ClCompile Include="Src\Core\Component\Collider.cpp" />
-    <ClCompile Include="Src\Core\Component\Component.cpp" />
-    <ClCompile Include="Src\Core\Component\Control.cpp" />
-    <ClCompile Include="Src\Core\Component\Renderer.cpp" />
-    <ClCompile Include="Src\Core\Component\Sound.cpp" />
-    <ClCompile Include="Src\Core\Component\Transform.cpp" />
-    <ClCompile Include="Src\Core\includes\InitShader.cpp" />
-    <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
-    <ClCompile Include="Src\Core\Object\Camera\OrthographicCamera.cpp" />
-    <ClCompile Include="Src\Core\Object\Camera\Camera.cpp" />
-    <ClCompile Include="Src\Core\Object\Camera\PerspectiveCamera.cpp" />
-    <ClCompile Include="Src\Core\Object\Object.cpp" />
-    <ClCompile Include="Src\Core\Object\ObjectHandler.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\BufferGL.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\FrameGL.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\ObjectGL.cpp" />
-    <ClCompile Include="Src\Core\Engine.cpp" />
-    <ClCompile Include="Src\Core\OpenGL\TextureGL.cpp" />
-    <ClCompile Include="Src\Core\Physics\CollisionPhysics.cpp" />
-    <ClCompile Include="Src\Core\Physics\PhysicsEngine.cpp" />
-    <ClCompile Include="Src\Core\Scene\Scene.cpp" />
-    <ClCompile Include="Src\Core\Util\ArrayList.cpp" />
-    <ClCompile Include="Src\Core\Physics\Boundary.cpp" />
-    <ClCompile Include="Src\Core\Util\Integer.cpp" />
+    <ClCompile Include="ArtScript.cpp" />
+    <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="ThiefScript.cpp" />
+    <ClCompile Include="SnekScene.cpp" />
+    <ClCompile Include="PoliceScript.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Core\Asset\Material.h" />
-    <ClInclude Include="Src\Core\Asset\Wave.h" />
-    <ClInclude Include="Src\Core\Component\Control.h" />
-    <ClInclude Include="Src\Core\Component\Sound.h" />
-    <ClInclude Include="Src\Core\dllexp.h" />
-    <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
-    <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
-    <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
-    <ClInclude Include="Src\Core\OpenGL\TextureGL.h" />
-    <ClInclude Include="Src\Core\Physics\Boundary.h" />
-    <ClInclude Include="Src\Core\Asset\Mesh.h" />
-    <ClInclude Include="Src\Core\Asset\CubeMesh.h" />
-    <ClInclude Include="Src\Core\Component\Collider.h" />
-    <ClInclude Include="Src\Core\Component\Component.h" />
-    <ClInclude Include="Src\Core\Component\Renderer.h" />
-    <ClInclude Include="Src\Core\Component\Transform.h" />
-    <ClInclude Include="Src\Core\Engine.h" />
-    <ClInclude Include="Src\Core\Input\KeyHandler.h" />
-    <ClInclude Include="Src\Core\Input\Keys.h" />
-    <ClInclude Include="Src\Core\Asset\Script.h" />
-    <ClInclude Include="Src\Core\Object\Object.h" />
-    <ClInclude Include="Src\Core\Object\ObjectHandler.h" />
-    <ClInclude Include="Src\Core\OpenGL\BufferGL.h" />
-    <ClInclude Include="Src\Core\OpenGL\FrameGL.h" />
-    <ClInclude Include="Src\Core\OpenGL\ObjectGL.h" />
-    <ClInclude Include="Src\Core\OpenGL\PointGL.h" />
-    <ClInclude Include="Src\Core\Physics\CollisionListener.h" />
-    <ClInclude Include="Src\Core\Physics\CollisionPhysics.h" />
-    <ClInclude Include="Src\Core\Physics\PhysicsEngine.h" />
-    <ClInclude Include="Src\Core\Scene\Scene.h" />
-    <ClInclude Include="Src\Core\Util\ArrayList.h" />
-    <ClInclude Include="Src\Core\Util\Integer.h" />
+    <ClInclude Include="ArtScript.h" />
+    <ClInclude Include="ThiefScript.h" />
+    <ClInclude Include="SnekScene.h" />
+    <ClInclude Include="PoliceScript.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{86d5d22a-0e9f-478b-a728-e523f84584e4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
