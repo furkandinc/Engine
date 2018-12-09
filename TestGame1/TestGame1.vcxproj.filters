@@ -7,7 +7,13 @@
     <ClCompile Include="SnekScene.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="SnekScript.cpp">
+    <ClCompile Include="ThiefScript.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="PoliceScript.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="ArtScript.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -15,7 +21,13 @@
     <ClInclude Include="SnekScene.h">
       <Filter>Src</Filter>
     </ClInclude>
-    <ClInclude Include="SnekScript.h">
+    <ClInclude Include="ThiefScript.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="PoliceScript.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtScript.h">
       <Filter>Src</Filter>
     </ClInclude>
   </ItemGroup>

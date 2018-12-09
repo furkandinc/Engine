@@ -1,5 +1,7 @@
 #include "SnekScene.h"
-#include "SnekScript.h"
+#include "PoliceScript.h"
+#include "ThiefScript.h"
+#include "ArtScript.h"
 #include <Engine.h>
 
 SnekScene::SnekScene() {
@@ -11,18 +13,41 @@ void SnekScene::initScene() {
 	PerspectiveCamera * camera = new PerspectiveCamera();
 	objectHandler->add(camera);
 
-	Object * snek = new Object();
-	objectHandler->add(snek);
+	Object * police = new Object();
+	objectHandler->add(police);
 
-	Object * target = new Object();
-	objectHandler->add(target);
+	Object * thief = new Object();
+	objectHandler->add(thief);
 
-	SnekScript * snekScript = new SnekScript();
-	snekScript->target = target;
-	snekScript->player = snek;
+	Object * art = new Object();
+	objectHandler->add(art);
 
-	Control * snekControl = new Control();
-	snekControl->setScript(snekScript);
+	PoliceScript * policeScript = new PoliceScript();
+	policeScript->thief = thief;
+	policeScript->police = police;
+	policeScript->art = art;
+	policeScript->boundaryWidth = 1280;
+	policeScript->boundaryHeight = 720;
+
+	ThiefScript * thiefScript = new ThiefScript();
+	thiefScript->thief = thief;
+	thiefScript->art = art;
+	thiefScript->boundaryWidth = 1280;
+	thiefScript->boundaryHeight = 720;
+
+	ArtScript * artScript = new ArtScript();
+	artScript->art = art;
+	artScript->boundaryWidth = 1280;
+	artScript->boundaryHeight = 720;
+
+	Control * policeControl = new Control();
+	policeControl->setScript(policeScript);
+
+	Control * thiefControl = new Control();
+	thiefControl->setScript(thiefScript);
+
+	Control * artControl = new Control();
+	artControl->setScript(artScript);
 
 	Wave * hitWave = new Wave();
 	hitWave->readData("Assets\\HitHollow.wav");
@@ -35,19 +60,28 @@ void SnekScene::initScene() {
 	camera->getComponent<Transform>()->setRotation({ -90, 90, 0 });
 	camera->setAspect(1280.0 / 720);
 
-	snek->getComponent<Transform>()->setPosition({ 320, 360, 0 });
-	snek->getComponent<Transform>()->setScale({ 100, 100, 100 });
-	snek->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0, 1 });
-	snek->addComponent(new Collider());
-	snek->getComponent<Collider>()->setCollidable(true);
-	snek->getComponent<Collider>()->setMesh(new CubeMesh());
-	snek->addComponent(snekControl);
-	snek->addComponent(hitSound);
+	police->getComponent<Transform>()->setPosition({ 320, 360, 0 });
+	police->getComponent<Transform>()->setScale({ 100, 100, 100 });
+	police->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0, 1 });
+	police->addComponent(new Collider());
+	police->getComponent<Collider>()->setCollidable(true);
+	police->getComponent<Collider>()->setMesh(new CubeMesh());
+	police->addComponent(policeControl);
+	police->addComponent(hitSound);
 
-	target->getComponent<Transform>()->setPosition({ 960, 360, 0 });
-	target->getComponent<Transform>()->setScale({ 30, 30, 30 });
-	target->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0, 1 });
-	target->addComponent(new Collider());
-	target->getComponent<Collider>()->setCollidable(true);
-	target->getComponent<Collider>()->setMesh(new CubeMesh());
+	thief->getComponent<Transform>()->setPosition({ 960, 360, 0 });
+	thief->getComponent<Transform>()->setScale({ 30, 30, 30 });
+	thief->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0, 1 });
+	thief->addComponent(new Collider());
+	thief->getComponent<Collider>()->setCollidable(true);
+	thief->getComponent<Collider>()->setMesh(new CubeMesh());
+	thief->addComponent(thiefControl);
+
+	art->getComponent<Transform>()->setPosition({ 720, 360, 0 });
+	art->getComponent<Transform>()->setScale({ 50, 50, 50 });
+	art->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 1, 1 });
+	art->addComponent(new Collider());
+	art->getComponent<Collider>()->setCollidable(true);
+	art->getComponent<Collider>()->setMesh(new CubeMesh());
+	art->addComponent(artControl);
 }

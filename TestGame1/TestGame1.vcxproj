@@ -125,13 +125,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArtScript.cpp" />
     <ClCompile Include="Demo.cpp" />
+    <ClCompile Include="ThiefScript.cpp" />
     <ClCompile Include="SnekScene.cpp" />
-    <ClCompile Include="SnekScript.cpp" />
+    <ClCompile Include="PoliceScript.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArtScript.h" />
+    <ClInclude Include="ThiefScript.h" />
     <ClInclude Include="SnekScene.h" />
-    <ClInclude Include="SnekScript.h" />
+    <ClInclude Include="PoliceScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

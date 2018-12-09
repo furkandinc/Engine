@@ -6,17 +6,17 @@
 
 #include <Engine.h>
 
-float random(int a, int b);
-class SnekScript : public Script, public CollisionListener {
+class ThiefScript : public Script, CollisionListener {
 public:
 	void onStart(void);
 	void onUpdate(void);
 	void onCollide(Object * object);
 
-	Object * player;
-	Object * target;
+	Object * thief;
+	Object * art;
+
+	int boundaryWidth;
+	int boundaryHeight;
 private:
 	int score;
-	int boundaryWidth = 1280;
-	int boundaryHeight = 720;
 };

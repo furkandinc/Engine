@@ -5,7 +5,7 @@
 int main(int argc, char ** argv) {
 	Engine * engine = Engine::getInstance();
 	FrameGL * frame = FrameGL::getInstance();
-	frame->init(argc, argv, "Try Sumtink", 800, 600);
+	frame->init(argc, argv, "Try Sumtink", 1280, 720);
 	engine->setFrame(frame);
 	engine->setScene(new SnekScene());
 	engine->startGame();
