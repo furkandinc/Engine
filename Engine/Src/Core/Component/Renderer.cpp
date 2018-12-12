@@ -1,6 +1,3 @@
-#ifndef RENDERER_CPP
-#define RENDERER_CPP
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "Renderer.h"
@@ -24,4 +21,24 @@ void Renderer::setMaterial(Material * material){
 Material * Renderer::getMaterial() {
 	return material;
 }
-#endif
+
+void * Renderer::generate() {
+	Renderer * r = new Renderer();
+	if(mesh != nullptr)
+		r->mesh = (Mesh *)mesh->generate();
+	if(material != nullptr)
+		r->material = (Material *)material->generate();
+
+	return r;
+}
+
+int Renderer::dispose() {
+	if (mesh != nullptr)
+		mesh->dispose();
+	if (material != nullptr)
+		material->dispose();
+	free(mesh);
+	free(material);
+
+	return 0;
+}

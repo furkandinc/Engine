@@ -21,6 +21,10 @@ public:
 	void set3D(bool is3D);
 	bool get3D();
 
+	//Generable
+	void * generate();
+	int dispose();
+
 protected:
 	Wave * wave;
 	int volume;

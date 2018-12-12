@@ -40,15 +40,6 @@ void SnekScene::initScene() {
 	artScript->boundaryWidth = 1280;
 	artScript->boundaryHeight = 720;
 
-	Control * policeControl = new Control();
-	policeControl->setScript(policeScript);
-
-	Control * thiefControl = new Control();
-	thiefControl->setScript(thiefScript);
-
-	Control * artControl = new Control();
-	artControl->setScript(artScript);
-
 	Wave * hitWave = new Wave();
 	hitWave->readData("Assets\\HitHollow.wav");
 
@@ -66,7 +57,7 @@ void SnekScene::initScene() {
 	police->addComponent(new Collider());
 	police->getComponent<Collider>()->setCollidable(true);
 	police->getComponent<Collider>()->setMesh(new CubeMesh());
-	police->addComponent(policeControl);
+	police->addComponent(policeScript);
 	police->addComponent(hitSound);
 
 	thief->getComponent<Transform>()->setPosition({ 960, 360, 0 });
@@ -75,7 +66,7 @@ void SnekScene::initScene() {
 	thief->addComponent(new Collider());
 	thief->getComponent<Collider>()->setCollidable(true);
 	thief->getComponent<Collider>()->setMesh(new CubeMesh());
-	thief->addComponent(thiefControl);
+	thief->addComponent(thiefScript);
 
 	art->getComponent<Transform>()->setPosition({ 720, 360, 0 });
 	art->getComponent<Transform>()->setScale({ 50, 50, 50 });
@@ -83,5 +74,5 @@ void SnekScene::initScene() {
 	art->addComponent(new Collider());
 	art->getComponent<Collider>()->setCollidable(true);
 	art->getComponent<Collider>()->setMesh(new CubeMesh());
-	art->addComponent(artControl);
+	art->addComponent(artScript);
 }

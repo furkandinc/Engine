@@ -53,6 +53,8 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glewInit();
 	debug();
 
+	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
+
 	glClearColor(0, 0, 0, 1);
 	glutDisplayFunc(displayFunc);
 	glutIdleFunc(idleFunc);
@@ -107,7 +109,6 @@ void FrameGL::initBuffers() {
 	program = InitShader("vshader2.glsl", "fshader2.glsl");
 	glUseProgram(program);
 	debug();
-	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
 
 	glGenVertexArrays(1, &Vao);
 	glBindVertexArray(Vao);
@@ -201,7 +202,9 @@ void FrameGL::displayFunc() {
 					glActiveTexture(GL_TEXTURE0);
 					glUniform1i(TextureID, 0);
 					texture->setDirty(false);
+					printf("setid\n");
 					texture->setId(textures);
+					printf("setidend\n");
 				}
 				glUniform1i(TextureMode, HASTEXTURE);
 				glBindTexture(GL_TEXTURE_2D, texture->getId());
@@ -215,7 +218,6 @@ void FrameGL::displayFunc() {
 		}
 		offset += sizes[i].get();
 	}
-
 	glutSwapBuffers();
 }
 

@@ -1,6 +1,3 @@
-#ifndef BOUNDARY_CPP
-#define BOUNDARY_CPP
-
 #include "Boundary.h"
 
 Boundary::Boundary() {
@@ -86,4 +83,21 @@ void Boundary::quad(PointGL * pointBuffer, int index, PointGL p1, PointGL p2, Po
 	pointBuffer[index + 5] = p4;
 }
 
-#endif
+void * Boundary::generate() {
+	Boundary * bd = new Boundary();
+	bd->left = left;
+	bd->right = right;
+	bd->top = top;
+	bd->bottom = bottom;
+	bd->nearZ = nearZ;
+	bd->farZ = farZ;
+
+	return bd;
+}
+
+int Boundary::dispose() {
+	objectGL->dispose();
+	free(objectGL);
+
+	return 0;
+}

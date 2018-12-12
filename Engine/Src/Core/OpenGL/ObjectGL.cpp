@@ -1,6 +1,3 @@
-#ifndef OBJECTGL_CPP
-#define OBJECTGL_CPP
-
 #include "ObjectGL.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -54,5 +51,15 @@ void ObjectGL::setPoints(PointGL * pts, int size) {
 	this->dirty = true;
 }
 
-#endif
+void * ObjectGL::generate() {
+	ObjectGL * objectgl = new ObjectGL();
+	objectgl->setPoints(points, size);
 
+	return objectgl;
+}
+
+int ObjectGL::dispose() {
+	free(points);
+
+	return 0;
+}

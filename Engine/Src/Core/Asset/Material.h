@@ -3,8 +3,8 @@
 #include "../dllexp.h"
 #include "../OpenGL/TextureGL.h"
 #include "../includes/Angel.h"
-
-class DLLDIR Material {
+#include "../Generable.h"
+class DLLDIR Material: public Generable {
 public:
 	Material();
 	void setAmbientColor(vec4 color);
@@ -17,6 +17,10 @@ public:
 	float getShininess();
 	void setColorTexture(TextureGL * textureGL);
 	TextureGL * getColorTexture();
+
+	//Generable
+	void * generate();
+	int dispose();
 private:
 	vec4 ambientColor;
 	vec4 diffuseColor;

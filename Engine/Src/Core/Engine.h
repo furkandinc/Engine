@@ -8,11 +8,10 @@
 #include "Asset\Material.h"
 #include "Asset\Mesh.h"
 #include "Asset\Wave.h"
-#include "Asset\Script.h"
 
+#include "Component\Script.h"
 #include "Component\Collider.h"
 #include "Component\Component.h"
-#include "Component\Control.h"
 #include "Component\Renderer.h"
 #include "Component\Sound.h"
 #include "Component\Transform.h"
@@ -48,6 +47,7 @@ public:
 	void startGame();
 
 	Object * _createObject();
+	Object * _instantiate(Object * object);
 	void _removeObject(Object * object);
 	void _setScreenSize(int x, int y);
 	float _getDeltaTime();
@@ -66,6 +66,7 @@ private:
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
 	PhysicsEngine * physicsEngine;
+	ObjectHandler * deleteList;
 	
 	int tickMax;
 	int tickCount;
@@ -80,6 +81,7 @@ private:
 
 // Engine makros
 DLLDIR Object * createObject();
+DLLDIR Object * instantiate(Object * object);
 DLLDIR void removeObject(Object * object);
 DLLDIR void setScreenSize(int x, int y);
 DLLDIR float getDeltaTime();

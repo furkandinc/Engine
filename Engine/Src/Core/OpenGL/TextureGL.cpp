@@ -24,7 +24,9 @@ GLubyte * TextureGL::getData() {
 }
 
 void TextureGL::setId(GLuint id){
+	printf("TextureGL:setid\n");
 	this->id = id;
+	printf("TextureGL:setid end\n");
 }
 
 GLuint TextureGL::getId() {
@@ -37,4 +39,21 @@ int TextureGL::getWidth() {
 
 int TextureGL::getHeight() {
 	return height;
+}
+
+void * TextureGL::generate() {
+	TextureGL * t = new TextureGL();
+	int size = 3 * width * height;
+	GLubyte * temp = (GLubyte *)malloc(sizeof(GLubyte) * size);
+	for (int i = 0; i < size; i++) {
+		temp[i] = data[i];
+	}
+	t->setData(temp, width, height);
+
+	return t;
+}
+
+int TextureGL::dispose() {
+	free(data);
+	return 0;
 }

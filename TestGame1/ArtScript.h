@@ -11,6 +11,10 @@ public:
 	void onStart(void);
 	void onUpdate(void);
 
+	//Generable
+	void * generate();
+	int dispose();
+
 	Object * art;
 
 	int boundaryWidth;

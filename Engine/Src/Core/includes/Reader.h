@@ -1,5 +1,5 @@
-#ifndef READER_H
-#define READER_H
+#pragma once
+
 #include <stdio.h>
 #include <vector>
 #include "Angel.h"
@@ -166,5 +166,3 @@ bool readBMP(const char * filename, TextureGL * texture) {
 	}
 	return result;
 }
-
-#endif

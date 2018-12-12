@@ -87,3 +87,15 @@ void PoliceScript::onCollide(Object * object) {
 	Sound * sound = police->getComponent<Sound>();
 	sound->play();
 }
+
+void * PoliceScript::generate() {
+	PoliceScript * ts = new PoliceScript();
+	ts->art = art;
+	ts->thief = thief;
+	ts->police = police;
+	return ts;
+}
+
+int PoliceScript::dispose() {
+	return 0;
+}

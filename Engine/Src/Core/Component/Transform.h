@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "../includes/Angel.h"
+
 class DLLDIR Transform : public Component {
 public:
 	Transform();
@@ -18,6 +19,10 @@ public:
 	vec3 globalRotation();
 
 	mat4 generateMatrix();
+
+	//Generable
+	void * generate();
+	int dispose();
 private:
 	vec3 position;
 	vec3 scale;

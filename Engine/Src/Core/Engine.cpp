@@ -5,14 +5,13 @@
 
 #include <Engine.h>
 #include <stdio.h>
-#include <Object\Camera\Camera.h>
-#include <Component\Control.h>
 
 Engine::Engine() {
 	tickMax = 100;
 
 	this->keyHandler = new KeyHandler();
 	this->physicsEngine = new PhysicsEngine();
+	this->deleteList = new ObjectHandler();
 
 	printf("Engine Initialized! \n");
 }
@@ -40,7 +39,7 @@ void Engine::setScene(Scene * scene) {
 }
 
 void Engine::startGame() {
-	printf("Engine Started! \n");
+	printf("Engine Started!\n");
 
 	scene->initScene();
 
@@ -81,12 +80,18 @@ void Engine::startGame() {
 Object * Engine::_createObject() {
 	Object * object = new Object();
 	objectHandler->add(object);
+
 	return object;
 }
 
+Object * Engine::_instantiate(Object * object) {
+	Object * obj = (Object *)(object->generate());
+	objectHandler->add(obj);
+	return obj;
+}
+
 void Engine::_removeObject(Object * object) {
-	objectHandler->remove(object);
-	frame->removeObject(object);
+	deleteList->add(object);
 }
 
 void Engine::_setScreenSize(int x, int y) {
@@ -111,25 +116,31 @@ void Engine::tick(int tickType) {
 	Object ** list = objectHandler->getList();
 	for (int i = 0; i < objectHandler->getSize(); i++) {
 		Object * object = list[i];
-		Control * control = object->getComponent<Control>();
-		if (control != nullptr) {
-			Script * script = control->getScript();
-			if (script != nullptr) {
-				if (tickType == START) {
-					script->onStart();
-				}
-				else if (tickType == UPDATE) {
-					script->onUpdate();
-				}
+		Script * script = object->getComponent<Script>();
+		if (script != nullptr) {
+			if (tickType == START) {
+				script->onStart();
+			}
+			else if (tickType == UPDATE) {
+				script->onUpdate();
 			}
 		}
 	}
-
 	if (tickType == UPDATE) {
 		if (this->keyHandler != nullptr) {
 			this->keyHandler->tick();
 		}
 		physicsEngine->tick();
+		Object ** objDestroy = deleteList->getList();
+		for (int i = 0; i < deleteList->getSize(); i++) {
+			Object * object = objDestroy[deleteList->getSize() - 1];
+			objectHandler->remove(object);
+			frame->removeObject(object);
+			object->dispose();
+			free(object);
+			deleteList->remove(object);
+		}
+		
 	}
 
 	tickCount++;
@@ -140,19 +151,24 @@ void Engine::render() {
 	Object ** list = this->objectHandler->getList();
 	int size = this->objectHandler->getSize();
 
+
 	int i;
 	for (i = 0; i < size; i++) {
 		Object * object = list[i];
 		if (Camera * cam = dynamic_cast<Camera *>(object)) {
 			frame->setCamera(cam);
 		}
+
 		Renderer * renderer = list[i]->getComponent<Renderer>();
 		Transform * transform = list[i]->getComponent<Transform>();
 		if (renderer != nullptr && transform != nullptr) {
-			if(renderer->getMesh() != nullptr)
+			if (renderer->getMesh() != nullptr) {
 				frame->addObject(list[i]);
+				
+			}
 		}
 	}
+	
 	frame->render();
 	frameCount++;
 }
@@ -160,6 +176,10 @@ void Engine::render() {
 
 Object * createObject() {
 	return Engine::getInstance()->_createObject();
+}
+
+Object * instantiate(Object * object) {
+	return Engine::getInstance()->_instantiate(object);
 }
 
 void removeObject(Object * object) {

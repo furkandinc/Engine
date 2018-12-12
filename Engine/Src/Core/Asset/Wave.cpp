@@ -22,3 +22,23 @@ sf::Sound * Wave::getData() {
 bool Wave::isValid() {
 	return valid;
 }
+
+void * Wave::generate() {
+	Wave * wave = new Wave();
+	//wave->buffer.loadFromSamples(buffer.getSamples(), buffer.getSampleCount(), buffer.getChannelCount(), buffer.getSampleRate());
+	wave->valid = valid;
+	if (valid) {
+		wave->buffer = this->buffer;
+		wave->sound.setBuffer(wave->buffer);
+	}
+	
+	return (void *)wave;
+}
+
+int Wave::dispose() {
+	/*/
+	delete &buffer;
+	delete &sound;
+	*/
+	return 0;
+}

@@ -35,3 +35,13 @@ void ArtScript::onUpdate(void) {
 		velX = - velX;
 	}
 }
+
+void * ArtScript::generate() {
+	ArtScript * ts = new ArtScript();
+	ts->art = art;
+	return ts;
+}
+
+int ArtScript::dispose() {
+	return 0;
+}

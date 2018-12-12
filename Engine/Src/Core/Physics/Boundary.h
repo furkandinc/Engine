@@ -2,8 +2,9 @@
 
 #include "../dllexp.h"
 #include "../OpenGL/ObjectGL.h"
+#include "../Generable.h"
 
-class DLLDIR Boundary {
+class DLLDIR Boundary: public Generable {
 public:
 	Boundary();
 	void setLeft(float left);
@@ -14,6 +15,9 @@ public:
 	void setFar(float f);
 	ObjectGL * getObjectGL();
 
+	//Generable
+	void * generate();
+	int dispose();
 private:
 	float red, green, blue, alpha;
 	float left, right; //X

@@ -72,3 +72,14 @@ void ThiefScript::onCollide(Object * object) {
 		printf("Thief: %i \n", score);
 	}
 }
+
+void * ThiefScript::generate() {
+	ThiefScript * ts = new ThiefScript();
+	ts->art = art;
+	ts->thief = thief;
+	return ts;
+}
+
+int ThiefScript::dispose() {
+	return 0;
+}

@@ -1,6 +1,3 @@
-#ifndef CUBEMESH_CPP
-#define CUBEMESH_CPP
-
 #include "CubeMesh.h"
 
 CubeMesh::CubeMesh() {
@@ -64,4 +61,19 @@ ObjectGL * CubeMesh::getObjectGL() {
 Boundary * CubeMesh::getBoundary() {
 	return boundary;
 }
-#endif
+
+void * CubeMesh::generate() {
+	CubeMesh * mesh = new CubeMesh();
+	mesh->objectGL =(ObjectGL *) objectGL->generate();
+	mesh->boundary = (Boundary *)boundary->generate();
+	return (void *)mesh;
+}
+
+int CubeMesh::dispose() {
+	objectGL->dispose();
+	free(objectGL);
+	boundary->dispose();
+	free(boundary);
+
+	return 0;
+}

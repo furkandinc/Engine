@@ -1,17 +1,14 @@
-#ifndef OBJECTHANDLER_CPP
-#define OBJECTHANDLER_CPP
-
 #include "ObjectHandler.h"
 
 ObjectHandler::ObjectHandler() {
-	this->list = (Object **)malloc(sizeof(Object *) * 10);
 	this->count = 0;
-	this->size = 10;
+	this->size = 128;
+	this->list = (Object **)malloc(sizeof(Object *) * this->size);
 }
 
 void ObjectHandler::add(Object * object) {
+	checkSize();
 	if (indexOf(object) == -1) {
-		checkSize();
 		this->list[count++] = object;
 	}
 }
@@ -55,19 +52,20 @@ Object * ObjectHandler::remove(Object * object) {
 
 void ObjectHandler::checkSize() {
 	if (size == count) {
-		
 		size *= 2;
-		Object ** old = list;
 		
-		list = (Object **)malloc(sizeof(Object *) * size);
-
-		for (int i = 0; i < count; i++) {
-			list[i] = old[i];
+		Object ** tempData = (Object **)malloc(sizeof(Object *) * size);
+		
+		int i;
+		for (i = 0; i < count; i++) {
+			tempData[i] = list[i];
 		}
+
+		free(list);
+		list = tempData;
 	}
 }
 
 Object ** ObjectHandler::getList() {
 	return list;
 }
-#endif

@@ -2,8 +2,9 @@
 
 #include "PointGL.h"
 #include "../dllexp.h"
+#include "../Generable.h"
 
-class DLLDIR ObjectGL {
+class DLLDIR ObjectGL: public Generable {
 public:
 	ObjectGL();
 
@@ -22,6 +23,9 @@ public:
 	int getPointsSize();
 
 	void setPoints(PointGL * points, int size);
+
+	void * generate();
+	int dispose();
 private:
 	int id;
 	bool dirty, idStat;

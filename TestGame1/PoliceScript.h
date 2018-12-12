@@ -8,6 +8,10 @@ public:
 	void onUpdate(void);
 	void onCollide(Object * object);
 
+	//Generable
+	void * generate();
+	int dispose();
+
 	Object * police;
 	Object * thief;
 	Object * art;

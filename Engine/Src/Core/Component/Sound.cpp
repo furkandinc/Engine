@@ -79,3 +79,19 @@ bool inline Sound::isValid() {
 		return false;
 	return true;
 }
+
+void * Sound::generate() {
+	Sound * sound = new Sound();
+
+	sound->wave = (Wave *)this->wave->generate();
+	sound->volume = this->volume;
+
+	return sound;
+}
+
+int Sound::dispose() {
+	wave->dispose();
+	free(wave);
+
+	return 0;
+}

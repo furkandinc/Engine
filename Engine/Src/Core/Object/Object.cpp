@@ -1,6 +1,3 @@
-#ifndef OBJECT_CPP
-#define OBJECT_CPP
-
 #include "Object.h"
 #include "../Asset/CubeMesh.h"
 #include "../Component/Component.h"
@@ -32,25 +29,20 @@ void Object::addComponent(Component * component) {
 	component->object = this;
 };
 
-Component * Object::removeComponent(int index) {
+bool Object::removeComponent(int index) {
 	if (index < 0 || index >= componentListCount) {
-		return nullptr;
+		return false;
 	}
 
-	Component * answer = nullptr;
-	for (int i = 0; i < componentListCount; i++) {
-		if (i == componentListCount) {
-			answer = componentList[i];
-			componentList[i] = (Component *) nullptr;
-		}
-		else if (i >= index) {
+	for (int i = index; i < componentListCount; i++) {
+		if (i != componentListSize - 1)
 			componentList[i] = componentList[i + 1];
-		}
+		else
+			componentList[i] = nullptr;
 	}
 
-	answer->object = nullptr;
 	componentListCount--;
-	return answer;
+	return true;
 }
 
 Object * Object::parent() {
@@ -118,4 +110,34 @@ void Object::resizeBuffers() {
 void Object::abstraction() {
 
 }
-#endif
+
+void * Object::generate() {
+	Object * obj = new Object();
+	printf("component %d\n", componentListCount);
+	obj->removeComponent(0);
+	obj->removeComponent(0);
+	for (int i = 0; i < componentListCount; i++) {
+		printf("object:components %d\n", i);
+		obj->addComponent((Component *)componentList[i]->generate());
+		printf("object:components %d end\n", i);
+	}
+	for (int i = 0; i < childListCount; i++) {
+		obj->addChild((Object *)childList[i]->generate());
+	}
+	return obj;
+}
+
+int Object::dispose() {
+	for (int i = 0; i < componentListCount; i++) {
+		componentList[i]->dispose();
+		free(componentList[i]);
+	}
+	for (int i = 0; i < childListCount; i++) {
+		childList[i]->dispose();
+		free(childList[i]);
+	}
+	free(componentList);
+	free(childList);
+
+	return 0;
+}
