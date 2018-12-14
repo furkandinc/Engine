@@ -1,11 +1,8 @@
-#ifndef FRAMEGL_CPP
-#define FRAMEGL_CPP
+#include "FrameGL.h"
+#include "..\includes\Angel.h"
 
 #define HASTEXTURE 1
 #define NOTEXTURE -1
-
-#include "FrameGL.h"
-#include "..\includes\Angel.h"
 
 typedef Angel::vec4 point4;
 
@@ -24,12 +21,14 @@ vec4 light_specular(1.0, 1.0, 1.0, 1.0);
 
 FrameGL * FrameGL::frameInstance = NULL;
 
-FrameGL::FrameGL() {}
+FrameGL::FrameGL() {
+	objectHandler = new ObjectHandler();
+}
 
 void debug() {
 	GLenum errCode = glGetError();
 	if (errCode != 0) {
-		printf("Error %d\n", errCode);
+		printf("Error %d %s\n", errCode, gluErrorString(errCode));
 	}
 }
 
@@ -100,10 +99,39 @@ void refreshPointers() {
 
 }
 
+GLuint LoadTexture(TextureGL * textureGL) {
+	GLuint textures;
+	glGenTextures(1, &textures);
+
+	glBindTexture(GL_TEXTURE_2D, textures);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureGL->getWidth(), textureGL->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, textureGL->getData());
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(TextureID, 0);
+	textureGL->setDirty(false);
+	textureGL->setId(textures);
+
+	return textures;
+}
+
+GLuint LoadObject(ObjectGL * objectGL) {
+	GLuint bufferid;
+	glGenBuffers(1, &bufferid);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * objectGL->getSize(), (PointGL *) objectGL->getData(), GL_STATIC_DRAW);
+	debug();
+	objectGL->setDirty(false);
+	objectGL->setId(bufferid);
+	refreshPointers();
+	return bufferid;
+}
 
 void FrameGL::initBuffers() {
-	bufferGL = new BufferGL();
-
 	glEnable(GL_DEPTH_TEST);
 	debug();
 	program = InitShader("vshader2.glsl", "fshader2.glsl");
@@ -136,97 +164,64 @@ void FrameGL::displayFunc() {
 	mat4 mv = Look(eye, rotation, up);
 
 	mat4 mo;
-	BufferGL * buffer = frameInstance->bufferGL;
-
-	PointGL * points = buffer->getPoints();
-	int numPoints = buffer->getNumPoints();
-	mat4 * mos = buffer->getMatrices();
-	Integer * sizes = buffer->getSizes();
-	Integer * ids = buffer->getIDs();
-	int count = buffer->getCount();
-	bool dirty = buffer->getDirty();
-	Material * materials = buffer->getMaterials();
-
-	/*DEBUG*/
-	PointGL dbPoints[1000];
-	int db;
-	for (db = 0; db < numPoints && db < 1000; db++) {
-		dbPoints[db] = points[db];
-	}
-	/*DEBUG*/
-
-	if (dirty) {
-		//printf("displayfunc:dirty\n");
-		glGenBuffers(1, &Buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * numPoints, points, GL_STATIC_DRAW);
-		debug();
-		buffer->setDirty(false);
-		refreshPointers();
-	}
-
-	int i, offset = 0;
-	for (i = 0; i < count; i++) {
+	
+	Object ** objectList = frameInstance->objectHandler->getList();
+	int count = frameInstance->objectHandler->getSize();
+	for (int i = 0; i < count; i++) {
 		//printf("displayfunc:for%d\n", i);
-		if (ids[i].get() != -1) {
-			mo = mv * mos[i];
-			glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
-			Material material = materials[i];
+		Object * object = objectList[i];
 
-			vec4 ambient_product = light_ambient * material.getAmbientColor();
-			vec4 diffuse_product = light_diffuse * material.getDiffuseColor();
-			vec4 specular_product = light_specular * material.getSpecularColor();
+		Renderer * renderer = object->getComponent<Renderer>();
+		Transform * transform = object->getComponent<Transform>();
+		Mesh * mesh = renderer->getMesh();
+		Material * material = renderer->getMaterial();
+		ObjectGL * objectGL = mesh->getObjectGL();
+		TextureGL * textureGL = material->getColorTexture();
 
-			float material_shininess = material.getShininess();
-
-			glUniform4fv(AmbientProduct, 1, ambient_product);
-			glUniform4fv(DiffuseProduct, 1, diffuse_product);
-			glUniform4fv(SpecularProduct, 1, specular_product);
-			glUniform1f(Shininess, material_shininess);
-
-			TextureGL * texture = material.getColorTexture();
-			if (texture != nullptr && texture->getData() != nullptr) {
-				if (texture->getDirty()) {
-					// Initialize texture objects
-					GLuint textures;
-					glGenTextures(1, &textures);
-
-					glBindTexture(GL_TEXTURE_2D, textures);
-
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texture->getData());
-
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glActiveTexture(GL_TEXTURE0);
-					glUniform1i(TextureID, 0);
-					texture->setDirty(false);
-					printf("setid\n");
-					texture->setId(textures);
-					printf("setidend\n");
-				}
-				glUniform1i(TextureMode, HASTEXTURE);
-				glBindTexture(GL_TEXTURE_2D, texture->getId());
-			}
-			else {
-				glUniform1i(TextureMode, NOTEXTURE);
-			}
-
-			glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
-			debug();
+		if (objectGL->getDirty()) {
+			LoadObject(objectGL);
 		}
-		offset += sizes[i].get();
+
+		glBindBuffer(GL_ARRAY_BUFFER, objectGL->getId());
+		refreshPointers();
+
+		mo = mv * transform->generateMatrix();
+		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
+
+		vec4 ambient_product = light_ambient * material->getAmbientColor();
+		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
+		vec4 specular_product = light_specular * material->getSpecularColor();
+
+		float material_shininess = material->getShininess();
+
+		glUniform4fv(AmbientProduct, 1, ambient_product);
+		glUniform4fv(DiffuseProduct, 1, diffuse_product);
+		glUniform4fv(SpecularProduct, 1, specular_product);
+		glUniform1f(Shininess, material_shininess);
+
+		if (textureGL != nullptr) {
+			if (textureGL->getDirty()) {
+				LoadTexture(textureGL);
+			}
+			glUniform1i(TextureMode, HASTEXTURE);
+			glBindTexture(GL_TEXTURE_2D, textureGL->getId());
+		}
+		else {
+			glUniform1i(TextureMode, NOTEXTURE);
+		}
+
+		glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
+		debug();
 	}
 	glutSwapBuffers();
 }
 
 void FrameGL::addObject(Object * object) {
-	bufferGL->add(object);
+	objectHandler->add(object);
 }
 
 void FrameGL::removeObject(Object * object) {
-	bufferGL->remove(object);
+	objectHandler->remove(object);
 }
 
 void FrameGL::idleFunc() {
@@ -299,4 +294,3 @@ void FrameGL::setCamera(Camera * camera) {
 
 	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
-#endif

@@ -100,8 +100,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Core\Asset\CubeMesh.cpp" />
     <ClCompile Include="Src\Core\Asset\Material.cpp" />
+    <ClCompile Include="Src\Core\Asset\Mesh.cpp" />
     <ClCompile Include="Src\Core\Asset\Wave.cpp" />
     <ClCompile Include="Src\Core\Component\Collider.cpp" />
     <ClCompile Include="Src\Core\Component\Component.cpp" />
@@ -109,6 +109,7 @@
     <ClCompile Include="Src\Core\Component\Sound.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
+    <ClCompile Include="Src\Core\includes\Reader.cpp" />
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\Camera.cpp" />
@@ -129,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Core\Asset\Material.h" />
+    <ClInclude Include="Src\Core\Asset\Resource.h" />
     <ClInclude Include="Src\Core\Asset\Wave.h" />
     <ClInclude Include="Src\Core\Component\Sound.h" />
     <ClInclude Include="Src\Core\dllexp.h" />
@@ -139,7 +141,6 @@
     <ClInclude Include="Src\Core\OpenGL\TextureGL.h" />
     <ClInclude Include="Src\Core\Physics\Boundary.h" />
     <ClInclude Include="Src\Core\Asset\Mesh.h" />
-    <ClInclude Include="Src\Core\Asset\CubeMesh.h" />
     <ClInclude Include="Src\Core\Component\Collider.h" />
     <ClInclude Include="Src\Core\Component\Component.h" />
     <ClInclude Include="Src\Core\Component\Renderer.h" />

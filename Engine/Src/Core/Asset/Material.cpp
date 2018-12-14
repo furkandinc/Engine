@@ -1,6 +1,7 @@
 #include "Material.h"
 
 Material::Material() {
+	textureGL = nullptr;
 	setAmbientColor(vec4( 0.1, 0.1, 0.1, 1 ));
 	setDiffuseColor(vec4( 0.6, 0.6, 0.6, 1 ));
 	setSpecularColor(vec4(0.5, 0.5, 0.5, 1));
@@ -55,7 +56,6 @@ void * Material::generate() {
 	m->shininess = shininess;
 	if (textureGL != nullptr)
 		m->textureGL = (TextureGL *)textureGL->generate();
-	printf("diffuse %f %f %f %f\n", m->diffuseColor.x, m->diffuseColor.y, m->diffuseColor.z, m->diffuseColor.w);
 	return (void *) m;
 }
 

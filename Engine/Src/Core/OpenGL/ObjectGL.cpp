@@ -2,64 +2,43 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-ObjectGL::ObjectGL() {
-	this->idStat = false;
-	this->points = nullptr;
-	this->dirty = false;
-	this->id = 0;
-}
-
-void ObjectGL::setId(int id) {
-	this->id = id;
-	this->idStat = true;
-}
-
-bool ObjectGL::hasId() {
-	return idStat;
-}
-
-int ObjectGL::getId() {
-	return this->id;
-}
-
-PointGL * ObjectGL::getPoints() {
-	return points;
+ObjectGL::ObjectGL(Resource resource) {
+	this->resource = resource;
+	dirty = true;
 }
 
 void ObjectGL::setDirty(bool dirty) {
 	this->dirty = dirty;
 }
 
-bool ObjectGL::isDirty() {
-	return this->dirty;
+bool ObjectGL::getDirty() {
+	return dirty;
 }
 
-int ObjectGL::getPointsSize() {
-	return this->size;
+PointGL * ObjectGL::getData() {
+	return (PointGL *)resource.data;
 }
 
-void ObjectGL::setPoints(PointGL * pts, int size) {
-	//printf("objectgl:setpoints\n");
-	free(this->points);
-	this->points = (PointGL * )malloc(sizeof(PointGL) * size);
-	this->size = size;
+void ObjectGL::setId(GLuint id) {
+	this->id = id;
+}
 
-	for (int i = 0; i < size; i++) {
-		this->points[i] = pts[i];
-	}
+GLuint ObjectGL::getId() {
+	return id;
+}
 
-	this->dirty = true;
+int ObjectGL::getSize() {
+	return resource.size;
 }
 
 void * ObjectGL::generate() {
-	ObjectGL * objectgl = new ObjectGL();
-	objectgl->setPoints(points, size);
+	ObjectGL * o = new ObjectGL(resource);
+	o->dirty = dirty;
+	o->id = id;
 
-	return objectgl;
+	return o;
 }
 
 int ObjectGL::dispose() {
-	free(points);
-
 	return 0;
 }

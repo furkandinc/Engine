@@ -1,10 +1,11 @@
 #include "Object.h"
-#include "../Asset/CubeMesh.h"
 #include "../Component/Component.h"
 #include "../Component/Transform.h"
 #include "../Component/Renderer.h"
 
 Object::Object() {
+	tag = "Tag";
+
 	childListSize = 5;
 	childList = (Object **)malloc(sizeof(Object *) * childListSize);
 	childListCount = 0;
@@ -16,10 +17,6 @@ Object::Object() {
 	parentObject = nullptr;
 
 	addComponent(new Transform());
-	Renderer * renderer = new Renderer();
-	renderer->setMesh(new CubeMesh());
-	renderer->setMaterial(new Material());
-	addComponent(renderer);
 };
 
 void Object::addComponent(Component * component) {
@@ -113,17 +110,14 @@ void Object::abstraction() {
 
 void * Object::generate() {
 	Object * obj = new Object();
-	printf("component %d\n", componentListCount);
-	obj->removeComponent(0);
-	obj->removeComponent(0);
+	obj->removeComponent(0); //initialized Transform
 	for (int i = 0; i < componentListCount; i++) {
-		printf("object:components %d\n", i);
 		obj->addComponent((Component *)componentList[i]->generate());
-		printf("object:components %d end\n", i);
 	}
 	for (int i = 0; i < childListCount; i++) {
 		obj->addChild((Object *)childList[i]->generate());
 	}
+	obj->tag = tag;
 	return obj;
 }
 
@@ -140,4 +134,12 @@ int Object::dispose() {
 	free(childList);
 
 	return 0;
+}
+
+void Object::setTag(const char * tag) {
+	this->tag = tag;
+}
+
+const char * Object::getTag() {
+	return tag;
 }

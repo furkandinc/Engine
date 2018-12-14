@@ -12,6 +12,7 @@ Engine::Engine() {
 	this->keyHandler = new KeyHandler();
 	this->physicsEngine = new PhysicsEngine();
 	this->deleteList = new ObjectHandler();
+	this->resourceList = new ArrayList<Resource>();
 
 	printf("Engine Initialized! \n");
 }
@@ -75,6 +76,50 @@ void Engine::startGame() {
 			debugNext = currentTime + CLOCKS_PER_SEC;
 		}
 	}
+}
+
+Resource Engine::loadResource(ResourceType type, const char * filepath) {
+	Resource rsc;
+	if (type == OBJTYPE) {
+		PointGL * points;
+		int numVertex;
+		bool result = readOBJ(filepath, &points, &numVertex);
+		rsc.data = (void *)points;
+		rsc.size = numVertex;
+		rsc.unitsize = sizeof(PointGL);
+		rsc.argc = 0;
+		rsc.argv = nullptr;
+	}
+	else if (type == BMPTYPE) {
+		int w;
+		int h;
+		GLubyte * data;
+		bool result = readBMP(filepath, &w, &h, &data);
+		int * argv = (int *)malloc(sizeof(int) * 2);
+		argv[0] = w;
+		argv[1] = h;
+		rsc.data = (void *)data;
+		rsc.size = w * h * 3;
+		rsc.unitsize = sizeof(GLubyte);
+		rsc.argc = 2;
+		rsc.argv = (void *)argv;
+	}
+
+	rsc.resourceid = ++lastResourceID;
+	rsc.resourcetype = type;
+	resourceList->add(rsc);
+	return rsc;
+}
+
+Resource Engine::getResource(int id) {
+	Resource ans;
+	for (int i = 0; i < resourceList->getCount(); i++) {
+		Resource temp = resourceList->get(i);
+		if (temp.resourceid == id) {
+			return temp;
+		}
+	}
+	return ans;
 }
 
 Object * Engine::_createObject() {
@@ -147,10 +192,8 @@ void Engine::tick(int tickType) {
 }
 
 void Engine::render() {
-	
 	Object ** list = this->objectHandler->getList();
 	int size = this->objectHandler->getSize();
-
 
 	int i;
 	for (i = 0; i < size; i++) {
@@ -164,7 +207,6 @@ void Engine::render() {
 		if (renderer != nullptr && transform != nullptr) {
 			if (renderer->getMesh() != nullptr) {
 				frame->addObject(list[i]);
-				
 			}
 		}
 	}

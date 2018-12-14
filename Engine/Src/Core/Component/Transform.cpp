@@ -92,7 +92,6 @@ void * Transform::generate() {
 	transform->position = this->position;
 	transform->rotation = this->rotation;
 	transform->scale = this->scale;
-
 	return transform;
 }
 

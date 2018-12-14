@@ -4,12 +4,20 @@
 #include "../OpenGL/ObjectGL.h"
 #include "../Physics/Boundary.h"
 #include "../Generable.h"
+#include "../Asset/Resource.h"
 
 class DLLDIR  Mesh: public Generable {
 public:
-	virtual ObjectGL * getObjectGL() = 0;
-	virtual Boundary * getBoundary() = 0;
+	Mesh();
+	void setObjectGL(ObjectGL * objectGL);
 
-	virtual void * generate() = 0;
-	virtual int dispose() = 0;
+	ObjectGL * getObjectGL();
+	Boundary * getBoundary();
+
+	void * generate();
+	int dispose();
+private:
+	ObjectGL * objectGL;
+	Boundary * boundary;
+
 };

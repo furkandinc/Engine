@@ -16,6 +16,8 @@ public:
 	void addComponent(Component * component);
 	template <typename T> T * getComponent();
 	bool removeComponent(int index);
+	void setTag(const char * tag);
+	const char * getTag();
 
 	Object * parent();
 	Object ** children();
@@ -28,6 +30,7 @@ public:
 	int dispose();
 protected:
 	virtual void abstraction();
+	const char * tag;
 
 private:
 	Component ** componentList;

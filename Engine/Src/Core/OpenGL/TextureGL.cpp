@@ -1,7 +1,8 @@
 #include "TextureGL.h"
 
-TextureGL::TextureGL() {
-	dirty = false;
+TextureGL::TextureGL(Resource resource) {
+	this->resource = resource;
+	dirty = true;
 }
 
 void TextureGL::setDirty(bool dirty){
@@ -12,21 +13,19 @@ bool TextureGL::getDirty(){
 	return dirty;
 }
 
-void TextureGL::setData(GLubyte * bytes, int w, int h){
+/*void TextureGL::setData(GLubyte * bytes, int w, int h){
 	this->data = bytes;
 	width = w;
 	height = h;
 	setDirty(true);
-}
+}*/
 
 GLubyte * TextureGL::getData() {
-	return data;
+	return (GLubyte *) resource.data;
 }
 
 void TextureGL::setId(GLuint id){
-	printf("TextureGL:setid\n");
 	this->id = id;
-	printf("TextureGL:setid end\n");
 }
 
 GLuint TextureGL::getId() {
@@ -34,26 +33,22 @@ GLuint TextureGL::getId() {
 }
 
 int TextureGL::getWidth() {
-	return width;
+	return ((int* )resource.argv)[0];
 }
 
 int TextureGL::getHeight() {
-	return height;
+	return ((int *)resource.argv)[1];
 }
 
 void * TextureGL::generate() {
-	TextureGL * t = new TextureGL();
-	int size = 3 * width * height;
-	GLubyte * temp = (GLubyte *)malloc(sizeof(GLubyte) * size);
-	for (int i = 0; i < size; i++) {
-		temp[i] = data[i];
-	}
-	t->setData(temp, width, height);
-
+	TextureGL * t = new TextureGL(resource);
+	//t->setData(data, width, height);
+	t->id = id;
+	t->dirty = dirty;
 	return t;
 }
 
 int TextureGL::dispose() {
-	free(data);
+	//free(data);
 	return 0;
 }

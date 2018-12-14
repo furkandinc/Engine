@@ -4,10 +4,10 @@
 
 #include "dllexp.h"
 
-#include "Asset\CubeMesh.h"
 #include "Asset\Material.h"
 #include "Asset\Mesh.h"
 #include "Asset\Wave.h"
+#include "Asset\Resource.h"
 
 #include "Component\Script.h"
 #include "Component\Collider.h"
@@ -38,6 +38,7 @@
 
 #include "Scene\Scene.h"
 #include "Util\ArrayList.h"
+#include "includes\Reader.h"
 
 class DLLDIR Engine {
 public:
@@ -45,6 +46,8 @@ public:
 	void setFrame(FrameGL * frame);
 	void setScene(Scene * scene);
 	void startGame();
+	Resource loadResource(ResourceType type, const char * filepath);
+	Resource getResource(int resourceID);
 
 	Object * _createObject();
 	Object * _instantiate(Object * object);
@@ -53,7 +56,6 @@ public:
 	float _getDeltaTime();
 	int _keyStatus(int key);
 	Scene * _getScene(const char * sceneName);
-
 private:
 	Engine();
 	void tick(int tickType);
@@ -67,6 +69,7 @@ private:
 	KeyHandler * keyHandler;
 	PhysicsEngine * physicsEngine;
 	ObjectHandler * deleteList;
+	ArrayList<Resource> * resourceList;
 	
 	int tickMax;
 	int tickCount;
@@ -77,6 +80,7 @@ private:
 	float lastDeltaTime;
 	int lastFrameCount;
 	int frameCount;
+	int lastResourceID = 0;
 };
 
 // Engine makros

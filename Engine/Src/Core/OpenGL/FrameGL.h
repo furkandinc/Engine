@@ -5,6 +5,7 @@
 #include "../Object/Object.h"
 #include "../Input/KeyHandler.h"
 #include "../Object/Camera/Camera.h"
+#include "../Object/ObjectHandler.h"
 
 class DLLDIR FrameGL {
 public:
@@ -13,6 +14,7 @@ public:
 	void addObject(Object * object);
 	void removeObject(Object * object);
 	void setKeyHandler(KeyHandler * keyHandler);
+	//void setObjectHandler(ObjectHandler * objectHandler);
 	int getWidth();
 	int getHeight();
 	void render();
@@ -34,8 +36,9 @@ private:
 	int width;
 	int height;
 	KeyHandler * keyHandler;
-	BufferGL * bufferGL;
+	//BufferGL * bufferGL;
 	Camera * cam;
+	ObjectHandler * objectHandler;
 	static FrameGL * frameInstance;
 	
 	FrameGL();
