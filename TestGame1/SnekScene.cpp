@@ -22,7 +22,7 @@ void SnekScene::initScene() {
 	objectHandler->add(art);
 
 	Resource cubeObjectResource = Engine::getInstance()->loadResource(OBJTYPE, "Assets\\cube.obj");
-
+	
 	ObjectGL * cubeObjectGL = new ObjectGL(cubeObjectResource);
 
 	Mesh * cubeMesh = new Mesh();
@@ -65,7 +65,7 @@ void SnekScene::initScene() {
 	police->addComponent((Renderer *)cubeRenderer->generate());
 	police->getComponent<Transform>()->setPosition({ 320, 360, 0 });
 	police->getComponent<Transform>()->setScale({ 100, 100, 100 });
-	police->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0, 1 });
+	police->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 0, 1, 0});
 	police->addComponent(new Collider());
 	police->getComponent<Collider>()->setCollidable(true);
 	police->getComponent<Collider>()->setMesh((Mesh *)cubeMesh->generate());
@@ -74,8 +74,8 @@ void SnekScene::initScene() {
 
 	thief->addComponent((Renderer *)cubeRenderer->generate());
 	thief->getComponent<Transform>()->setPosition({ 960, 360, 0 });
-	thief->getComponent<Transform>()->setScale({ 30, 30, 30 });
-	thief->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0, 1 });
+	thief->getComponent<Transform>()->setScale({ 30, 30, 30});
+	thief->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 0});
 	thief->addComponent(new Collider());
 	thief->getComponent<Collider>()->setCollidable(true);
 	thief->getComponent<Collider>()->setMesh((Mesh *)cubeMesh->generate());
@@ -84,7 +84,7 @@ void SnekScene::initScene() {
 	art->addComponent((Renderer *)cubeRenderer->generate());
 	art->getComponent<Transform>()->setPosition({ 720, 360, 0 });
 	art->getComponent<Transform>()->setScale({ 50, 50, 50 });
-	art->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 1, 1 });
+	art->getComponent<Renderer>()->getMaterial()->setDiffuseColor({ 1, 0, 1 });
 	art->addComponent(new Collider());
 	art->getComponent<Collider>()->setCollidable(true);
 	art->getComponent<Collider>()->setMesh((Mesh *)cubeMesh->generate());

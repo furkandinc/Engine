@@ -5,6 +5,7 @@
 #define NULLTYPE -1
 #define BMPTYPE 100
 #define OBJTYPE 101
+#define PNGTYPE 102
 
 typedef struct RESOURCE {
 	int resourceid = -1;

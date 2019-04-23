@@ -22,16 +22,25 @@ bool readBMP(const char* filename, int * w, int * h, GLubyte ** image) {
 	//fread(data, sizeof(unsigned char), size, f); // read the rest of the data at once
 	fclose(f);
 
+	GLubyte * rgbaData = (GLubyte *)malloc(4 * sizeof(GLubyte) * width * height);
+	int j = 0;
 	for (i = 0; i < size; i += 3)
 	{
 		GLubyte tmp = data[i];
 		data[i] = data[i + 2];
 		data[i + 2] = tmp;
+
+		rgbaData[j++] = data[i];
+		rgbaData[j++] = data[i + 1];
+		rgbaData[j++] = data[i + 2];
+		rgbaData[j++] = (GLubyte)255;
 	}
+
+	free(data);
 
 	*w = width;
 	*h = height;
-	*image = data;
+	*image = rgbaData;
 	return true;
 }
 
@@ -139,24 +148,3 @@ bool readOBJ(const char * filename, PointGL ** pointGL, int * numVertex) {
 	*numVertex = fCount * 3;
 	return true;
 }
-
-/*bool readMesh(const char * filename, ObjectGL * mesh) {
-	PointGL * points;
-	int numVertex;
-	bool result = readOBJ(filename, &points, &numVertex);
-	if (result) {
-		mesh->setPoints(points, numVertex);
-	}
-	return result;
-}
-
-bool readBMP(const char * filename, TextureGL * texture) {
-	int w;
-	int h;
-	GLubyte * data;
-	bool result = readBMP(filename, &w, &h, &data);
-	if (result) {
-		texture->setData(data, w, h);
-	}
-	return result;
-}*/

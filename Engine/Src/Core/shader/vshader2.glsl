@@ -21,6 +21,6 @@ void main()
     fL = normalize(vec3(LightPosition-ModelView*vPosition)); //light in camera coords
 	
 	fUv = vUv;
-    
+
     gl_Position = Projection*ModelView*vPosition;
 }

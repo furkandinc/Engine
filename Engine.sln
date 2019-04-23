@@ -7,6 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame1", "TestGame1\TestGame1.vcxproj", "{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame2", "TestGame2\TestGame2.vcxproj", "{D81634AA-56CA-467F-A523-D9F16113B50E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86D5D22A-0E9F-478B-A728-E523F84584E4} = {86D5D22A-0E9F-478B-A728-E523F84584E4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +32,12 @@ Global
 		{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}.Release|x64.ActiveCfg = Release|Win32
 		{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}.Release|x86.ActiveCfg = Release|Win32
 		{E56AE336-D9C9-49E7-91A0-BD28BA9323CD}.Release|x86.Build.0 = Release|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Debug|x64.ActiveCfg = Debug|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Debug|x86.ActiveCfg = Debug|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Debug|x86.Build.0 = Debug|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Release|x64.ActiveCfg = Release|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Release|x86.ActiveCfg = Release|Win32
+		{D81634AA-56CA-467F-A523-D9F16113B50E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

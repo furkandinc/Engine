@@ -10,7 +10,6 @@ PerspectiveCamera::PerspectiveCamera(){
 	aspect = 1280/720.0;
 	dMin = 1;
 	dMax = 1000000;
-	roll = 0;
 	transform->setPosition(vec3(0, 00, 00));
 	transform->setRotation(vec3(0, 0, 0));
 }

@@ -20,6 +20,7 @@ public:
 
 	mat4 generateMatrix();
 
+	vec4 getUpVector();
 	//Generable
 	void * generate();
 	int dispose();

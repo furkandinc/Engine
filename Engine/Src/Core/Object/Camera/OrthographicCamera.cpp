@@ -7,7 +7,6 @@ OrthographicCamera::OrthographicCamera() {
 	height = 600;
 	dMin = 1;
 	dMax = 1000000;
-	roll = 0;
 	
 	Transform * transform = getComponent<Transform>();
 	transform->setPosition(vec3(400, 300, 1000));

@@ -83,8 +83,9 @@ bool inline Sound::isValid() {
 void * Sound::generate() {
 	Sound * sound = new Sound();
 
-	sound->wave = (Wave *)this->wave->generate();
-	sound->volume = this->volume;
+	sound->setWave((Wave *)this->wave->generate());
+	sound->setVolume(this->volume);
+	sound->setLoop(this->getLoop());
 
 	return sound;
 }

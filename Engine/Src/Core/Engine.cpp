@@ -5,6 +5,7 @@
 
 #include <Engine.h>
 #include <stdio.h>
+#include "lodepng.h"
 
 Engine::Engine() {
 	tickMax = 100;
@@ -99,10 +100,36 @@ Resource Engine::loadResource(ResourceType type, const char * filepath) {
 		argv[0] = w;
 		argv[1] = h;
 		rsc.data = (void *)data;
-		rsc.size = w * h * 3;
+		rsc.size = w * h * 4;
 		rsc.unitsize = sizeof(GLubyte);
 		rsc.argc = 2;
 		rsc.argv = (void *)argv;
+	}
+	else if (type == PNGTYPE) {
+		std::vector<GLubyte> * image = new std::vector<GLubyte>();
+		unsigned width, height;
+		unsigned error = lodepng::decode((*image), width, height, filepath);
+		if (error)
+			std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+		
+		// upside down the rows
+		int width_size = width * 4;
+		for (int i = 0; i < height / 2; i++) {
+			for (int j = 0; j < width_size ; j++) {
+				unsigned temp = (*image)[i * width_size + j];
+				(*image)[i * width_size + j] = (*image)[(height - i - 1) * width_size + j];
+				(*image)[(height - i - 1) * width_size + j] = temp;
+			}
+		}
+
+		int * argv = (int *)malloc(sizeof(int) * 2);
+		argv[0] = width;
+		argv[1] = height;
+		rsc.data = &(* image)[0];
+		rsc.size = width * height * 4;
+		rsc.unitsize = sizeof(GLubyte);
+		rsc.argc = 2;
+		rsc.argv = argv;
 	}
 
 	rsc.resourceid = ++lastResourceID;

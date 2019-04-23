@@ -98,3 +98,8 @@ void * Transform::generate() {
 int Transform::dispose() {
 	return 0;
 }
+
+vec4 Transform::getUpVector() {
+	vec3 rot = globalRotation();
+	return RotateZ(rot.z) * RotateY(rot.y) * RotateX(rot.x)  * vec4(0, 0, 1, 1);
+}

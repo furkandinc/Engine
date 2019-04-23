@@ -15,9 +15,9 @@ GLuint LightPosition;
 GLuint TextureMode;
 GLuint TextureID;
 
-vec4 light_ambient(1, 1, 1, 1.0);
-vec4 light_diffuse(1.0, 1.0, 1.0, 1.0);
-vec4 light_specular(1.0, 1.0, 1.0, 1.0);
+vec4 light_ambient(1, 1, 1, 1);
+vec4 light_diffuse(1, 1, 1, 1);
+vec4 light_specular(1, 1, 1, 1);
 
 FrameGL * FrameGL::frameInstance = NULL;
 
@@ -51,10 +51,9 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glewExperimental = GL_TRUE;
 	glewInit();
 	debug();
-
 	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
 
-	glClearColor(0, 0, 0, 1);
+	glClearColor(0, 0, 0, 0);
 	glutDisplayFunc(displayFunc);
 	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardDownFunc);
@@ -90,6 +89,7 @@ void refreshPointers() {
 	DiffuseProduct = glGetUniformLocation(program, "DiffuseProduct");
 	SpecularProduct = glGetUniformLocation(program, "SpecularProduct");
 	Shininess = glGetUniformLocation(program, "Shininess");
+	
 	LightPosition = glGetUniformLocation(program, "LightPosition");
 	TextureMode = glGetUniformLocation(program, "TextureMode");
 	TextureID = glGetUniformLocation(program, "TextureID");
@@ -105,7 +105,7 @@ GLuint LoadTexture(TextureGL * textureGL) {
 
 	glBindTexture(GL_TEXTURE_2D, textures);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureGL->getWidth(), textureGL->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, textureGL->getData());
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureGL->getWidth(), textureGL->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, textureGL->getData());
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -151,24 +151,23 @@ void FrameGL::render() {
 void FrameGL::displayFunc() {
 	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	Camera * camera = frameInstance->cam;
 	if (camera == nullptr) {
 		glutSwapBuffers();
 		return;
 	}
 
-	point4 eye = camera->getComponent<Transform>()->getPosition();
-	vec4 rotation = camera->getComponent<Transform>()->getRotation();
-	vec4 up = camera->getUpVector();
+	point4 eye = camera->getComponent<Transform>()->globalPosition();
+	vec4 rotation = camera->getComponent<Transform>()->globalRotation();
+	vec4 up = camera->getComponent<Transform>()->getUpVector();
 	mat4 mv = Look(eye, rotation, up);
 
 	mat4 mo;
 	
 	Object ** objectList = frameInstance->objectHandler->getList();
 	int count = frameInstance->objectHandler->getSize();
+	
 	for (int i = 0; i < count; i++) {
-		//printf("displayfunc:for%d\n", i);
 		Object * object = objectList[i];
 
 		Renderer * renderer = object->getComponent<Renderer>();
@@ -177,6 +176,11 @@ void FrameGL::displayFunc() {
 		Material * material = renderer->getMaterial();
 		ObjectGL * objectGL = mesh->getObjectGL();
 		TextureGL * textureGL = material->getColorTexture();
+
+		vec4 ambient_product = light_ambient * material->getAmbientColor();
+		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
+		vec4 specular_product = light_specular * material->getSpecularColor();
+		float material_shininess = material->getShininess();
 
 		if (objectGL->getDirty()) {
 			LoadObject(objectGL);
@@ -188,15 +192,9 @@ void FrameGL::displayFunc() {
 		mo = mv * transform->generateMatrix();
 		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
 
-		vec4 ambient_product = light_ambient * material->getAmbientColor();
-		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
-		vec4 specular_product = light_specular * material->getSpecularColor();
-
-		float material_shininess = material->getShininess();
-
-		glUniform4fv(AmbientProduct, 1, ambient_product);
-		glUniform4fv(DiffuseProduct, 1, diffuse_product);
-		glUniform4fv(SpecularProduct, 1, specular_product);
+		glUniform3fv(AmbientProduct, 1, ambient_product);
+		glUniform3fv(DiffuseProduct, 1, diffuse_product);
+		glUniform3fv(SpecularProduct, 1, specular_product);
 		glUniform1f(Shininess, material_shininess);
 
 		if (textureGL != nullptr) {
@@ -213,6 +211,7 @@ void FrameGL::displayFunc() {
 		glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
 		debug();
 	}
+	
 	glutSwapBuffers();
 }
 

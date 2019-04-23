@@ -2,33 +2,33 @@
 
 Material::Material() {
 	textureGL = nullptr;
-	setAmbientColor(vec4( 0.1, 0.1, 0.1, 1 ));
-	setDiffuseColor(vec4( 0.6, 0.6, 0.6, 1 ));
-	setSpecularColor(vec4(0.5, 0.5, 0.5, 1));
+	setAmbientColor(vec3( 0.1, 0.1, 0.1));
+	setDiffuseColor(vec3( 0.6, 0.6, 0.6));
+	setSpecularColor(vec3(0.5, 0.5, 0.5));
 	setShininess(400);
 }
 
-void Material::setAmbientColor(vec4 color){
+void Material::setAmbientColor(vec3 color){
 	ambientColor = color;
 }
 
-vec4 Material::getAmbientColor(){
+vec3 Material::getAmbientColor(){
 	return ambientColor;
 }
 
-void Material::setDiffuseColor(vec4 color){
+void Material::setDiffuseColor(vec3 color){
 	diffuseColor = color;
 }
 
-vec4 Material::getDiffuseColor(){
+vec3 Material::getDiffuseColor(){
 	return diffuseColor;
 }
 
-void Material::setSpecularColor(vec4 color){
+void Material::setSpecularColor(vec3 color){
 	specularColor = color;
 }
 
-vec4 Material::getSpecularColor(){
+vec3 Material::getSpecularColor(){
 	return specularColor;
 }
 
@@ -50,9 +50,9 @@ TextureGL * Material::getColorTexture() {
 
 void * Material::generate() {
 	Material * m = new Material();
-	m->ambientColor = vec4(ambientColor);
-	m->diffuseColor = vec4(diffuseColor);
-	m->specularColor = vec4(specularColor);
+	m->ambientColor = vec3(ambientColor);
+	m->diffuseColor = vec3(diffuseColor);
+	m->specularColor = vec3(specularColor);
 	m->shininess = shininess;
 	if (textureGL != nullptr)
 		m->textureGL = (TextureGL *)textureGL->generate();

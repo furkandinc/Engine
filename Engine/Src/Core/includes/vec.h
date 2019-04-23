@@ -421,7 +421,7 @@ namespace Angel {
 
 		vec4 operator * (const vec4& v) const
 		{
-			return vec4(x*v.x, y*v.y, z*v.z, w*v.z);
+			return vec4(x*v.x, y*v.y, z*v.z, w*v.w);
 		}
 
 		friend vec4 operator * (const GLfloat s, const vec4& v)
