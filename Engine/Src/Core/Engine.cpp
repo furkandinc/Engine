@@ -43,6 +43,13 @@ void Engine::setScene(Scene * scene) {
 void Engine::startGame() {
 	printf("Engine Started!\n");
 
+	// TODO read font as a resource
+	Font font;
+	readFontFamily(&font, "Assets\\Default\\Font\\courier.csv");
+	font.charuv = Engine::getInstance()->loadResource(BMPTYPE, "Assets\\Default\\Font\\courier.bmp");
+	font.charobj = Engine::getInstance()->loadResource(OBJTYPE, "Assets\\Default\\Shape\\plane.obj");
+	frame->loadFont(font);
+
 	scene->initScene();
 
 	initTime = clock();
@@ -230,11 +237,15 @@ void Engine::render() {
 		}
 
 		Renderer * renderer = list[i]->getComponent<Renderer>();
+		UIText * text = list[i]->getComponent<UIText>();
 		Transform * transform = list[i]->getComponent<Transform>();
 		if (renderer != nullptr && transform != nullptr) {
 			if (renderer->getMesh() != nullptr) {
 				frame->addObject(list[i]);
 			}
+		}
+		else if (text != nullptr && transform != nullptr) {
+			frame->addUIObject(list[i]);
 		}
 	}
 	

@@ -148,3 +148,25 @@ bool readOBJ(const char * filename, PointGL ** pointGL, int * numVertex) {
 	*numVertex = fCount * 3;
 	return true;
 }
+
+void readFontFamily(Font * font, const char * filename) {
+
+	// TODO parse .csv file
+	font->fontname = "Courier";
+	font->cellheight = 64;
+	font->cellwidth = 64;
+	font->imageheight = 1024;
+	font->imagewidth = 1024;
+	font->chars = (FontChar*)malloc(sizeof(FontChar) * 256);
+	font->size = 256;
+
+	for (int i = 0; i < 256; i++) {
+		FontChar fchar;
+		fchar.charid = i;
+		fchar.height = font->cellheight;
+		fchar.width = font->cellwidth;
+		fchar.x = (font->cellwidth * i) % font->imagewidth;
+		fchar.y = font->cellheight * (i / 16);
+		font->chars[i] = fchar;
+	}
+}

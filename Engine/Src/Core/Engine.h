@@ -15,6 +15,7 @@
 #include "Component\Renderer.h"
 #include "Component\Sound.h"
 #include "Component\Transform.h"
+#include "Component\UIText.h"
 
 #include "Input\KeyHandler.h"
 #include "Input\Keys.h"

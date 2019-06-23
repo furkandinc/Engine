@@ -2,6 +2,7 @@
 #include "..\includes\Angel.h"
 
 #define HASTEXTURE 1
+#define FONTTEXTURE 0
 #define NOTEXTURE -1
 
 typedef Angel::vec4 point4;
@@ -14,15 +15,23 @@ GLuint Shininess;
 GLuint LightPosition;
 GLuint TextureMode;
 GLuint TextureID;
+GLuint FontUv;
 
 vec4 light_ambient(1, 1, 1, 1);
 vec4 light_diffuse(1, 1, 1, 1);
 vec4 light_specular(1, 1, 1, 1);
 
+// TODO make list
+Font _font;
+TextureGL * _fontTexture;
+ObjectGL * _fontObj;
+
+
 FrameGL * FrameGL::frameInstance = NULL;
 
 FrameGL::FrameGL() {
 	objectHandler = new ObjectHandler();
+	uiObjectHandler = new ObjectHandler();
 }
 
 void debug() {
@@ -93,6 +102,7 @@ void refreshPointers() {
 	LightPosition = glGetUniformLocation(program, "LightPosition");
 	TextureMode = glGetUniformLocation(program, "TextureMode");
 	TextureID = glGetUniformLocation(program, "TextureID");
+	FontUv = glGetUniformLocation(program, "FontUv");
 
 	//fixed light to the camera
 	vec4 light_position(0, 0, 0, 1.0); //wrt camera
@@ -109,8 +119,8 @@ GLuint LoadTexture(TextureGL * textureGL) {
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(TextureID, 0);
 	textureGL->setDirty(false);
@@ -151,11 +161,21 @@ void FrameGL::render() {
 void FrameGL::displayFunc() {
 	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	Camera * camera = frameInstance->cam;
 	if (camera == nullptr) {
 		glutSwapBuffers();
 		return;
 	}
+
+	frameInstance->renderObj();
+	frameInstance->renderUI();
+	
+	glutSwapBuffers();
+}
+
+void FrameGL::renderObj() {
+	Camera * camera = frameInstance->cam;
 
 	point4 eye = camera->getComponent<Transform>()->globalPosition();
 	vec4 rotation = camera->getComponent<Transform>()->globalRotation();
@@ -163,20 +183,21 @@ void FrameGL::displayFunc() {
 	mat4 mv = Look(eye, rotation, up);
 
 	mat4 mo;
-	
+
 	Object ** objectList = frameInstance->objectHandler->getList();
 	int count = frameInstance->objectHandler->getSize();
-	
+
 	for (int i = 0; i < count; i++) {
 		Object * object = objectList[i];
 
-		Renderer * renderer = object->getComponent<Renderer>();
 		Transform * transform = object->getComponent<Transform>();
+
+		Renderer * renderer = object->getComponent<Renderer>();
+
 		Mesh * mesh = renderer->getMesh();
 		Material * material = renderer->getMaterial();
-		ObjectGL * objectGL = mesh->getObjectGL();
-		TextureGL * textureGL = material->getColorTexture();
-
+		ObjectGL * objectGL = renderer->getMesh()->getObjectGL();
+		
 		vec4 ambient_product = light_ambient * material->getAmbientColor();
 		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
 		vec4 specular_product = light_specular * material->getSpecularColor();
@@ -197,6 +218,7 @@ void FrameGL::displayFunc() {
 		glUniform3fv(SpecularProduct, 1, specular_product);
 		glUniform1f(Shininess, material_shininess);
 
+		TextureGL * textureGL = material->getColorTexture();
 		if (textureGL != nullptr) {
 			if (textureGL->getDirty()) {
 				LoadTexture(textureGL);
@@ -211,8 +233,79 @@ void FrameGL::displayFunc() {
 		glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
 		debug();
 	}
-	
-	glutSwapBuffers();
+}
+
+void FrameGL::renderUI() {
+	Camera * camera = frameInstance->cam;
+
+	point4 eye = camera->getComponent<Transform>()->globalPosition();
+	vec4 rotation = camera->getComponent<Transform>()->globalRotation();
+	vec4 up = camera->getComponent<Transform>()->getUpVector();
+	mat4 mv = Look(eye, rotation, up);
+
+	mat4 mo;
+
+	Object ** objectList = frameInstance->uiObjectHandler->getList();
+	int count = frameInstance->uiObjectHandler->getSize();
+
+	for (int i = 0; i < count; i++) {
+		Object * object = objectList[i];
+
+		Transform * transform = object->getComponent<Transform>();
+		UIText * uitext = object->getComponent<UIText>();
+
+		Material * material = uitext->getMaterial();;
+		ObjectGL * objectGL = _fontObj;
+		TextureGL * textureGL = _fontTexture;
+
+		vec4 ambient_product = light_ambient * material->getAmbientColor();
+		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
+		vec4 specular_product = light_specular * material->getSpecularColor();
+		float material_shininess = material->getShininess();
+
+		if (objectGL->getDirty()) {
+			LoadObject(objectGL);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, objectGL->getId());
+		refreshPointers();
+
+		glUniform3fv(AmbientProduct, 1, ambient_product);
+		glUniform3fv(DiffuseProduct, 1, diffuse_product);
+		glUniform3fv(SpecularProduct, 1, specular_product);
+		glUniform1f(Shininess, material_shininess);
+
+		glUniform1i(TextureMode, FONTTEXTURE);
+		glBindTexture(GL_TEXTURE_2D, textureGL->getId());
+
+		int len = strlen(uitext->getText());
+		int row = 0;
+		int col = 0;
+		for (int i = 0; i < len; i++) {
+			mo = mv * transform->generateMatrix() * Translate(col, 0, -row);
+			glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
+			FontChar fchar = _font.chars[uitext->getText()[i]];
+			switch (fchar.charid) {
+			case '\n':
+				col = 0;
+				row++;
+				continue;
+			case '\t':
+				col += 4;
+				continue;
+			default:
+				col++;
+			}
+		
+			vec2 fontOffset;
+			fontOffset.x = (float)fchar.x / _font.imagewidth;
+			fontOffset.y = 1 - ((float)fchar.y / _font.imageheight);
+			glUniform2fv(FontUv, 1, fontOffset);
+
+			glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
+			debug();
+		}
+	}
 }
 
 void FrameGL::addObject(Object * object) {
@@ -221,6 +314,14 @@ void FrameGL::addObject(Object * object) {
 
 void FrameGL::removeObject(Object * object) {
 	objectHandler->remove(object);
+}
+
+void FrameGL::addUIObject(Object * object) {
+	uiObjectHandler->add(object);
+}
+
+void FrameGL::removeUIObject(Object * object) {
+	uiObjectHandler->remove(object);
 }
 
 void FrameGL::idleFunc() {
@@ -292,4 +393,12 @@ void FrameGL::setCamera(Camera * camera) {
 	mat4 projection = camera->getProjection();
 
 	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
+}
+
+void FrameGL::loadFont(Font font) {
+	_font = font;
+	_fontTexture = new TextureGL(font.charuv);
+	_fontObj = new ObjectGL(font.charobj);
+	LoadTexture(_fontTexture);
+	LoadObject(_fontObj);
 }

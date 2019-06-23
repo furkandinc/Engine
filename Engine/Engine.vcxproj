@@ -96,11 +96,15 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"
+      <Command>mkdir "$(OutDir)Assets"
 mkdir "$(OutDir)Engine"
 mkdir "$(OutDir)Engine\include"
 mkdir "$(OutDir)Engine\bin"
 mkdir "$(OutDir)Engine\lib"
+mkdir "$(OutDir)Engine\bin\Assets"
+xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"
+xcopy /y /e  "$(ProjectDir)Assets" "$(OutDir)Assets"
+xcopy /y /e  "$(ProjectDir)Assets" "$(OutDir)Engine\bin\Assets"
 xcopy /y /e "$(ProjectDir)Src\Core" "$(OutDir)Engine\include"
 xcopy /y /d "$(ProjectDir)Src\Core\shader\*" "$(OutDir)Engine\bin"
 xcopy /y /d "$(OutDir)Engine.dll" "$(OutDir)Engine\bin"
@@ -117,6 +121,7 @@ xcopy /y /d "$(OutDir)Engine.lib" "$(OutDir)Engine\lib"</Command>
     <ClCompile Include="Src\Core\Component\Script.cpp" />
     <ClCompile Include="Src\Core\Component\Sound.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
+    <ClCompile Include="Src\Core\Component\UIText.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
     <ClCompile Include="Src\Core\includes\Reader.cpp" />
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
@@ -138,10 +143,12 @@ xcopy /y /d "$(OutDir)Engine.lib" "$(OutDir)Engine\lib"</Command>
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Core\Asset\Font.h" />
     <ClInclude Include="Src\Core\Asset\Material.h" />
     <ClInclude Include="Src\Core\Asset\Resource.h" />
     <ClInclude Include="Src\Core\Asset\Wave.h" />
     <ClInclude Include="Src\Core\Component\Sound.h" />
+    <ClInclude Include="Src\Core\Component\UIText.h" />
     <ClInclude Include="Src\Core\dllexp.h" />
     <ClInclude Include="Src\Core\Generable.h" />
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../dllexp.h"
+
 #define ResourceType int
 
 #define NULLTYPE -1
@@ -7,7 +9,7 @@
 #define OBJTYPE 101
 #define PNGTYPE 102
 
-typedef struct RESOURCE {
+typedef struct DLLDIR RESOURCE {
 	int resourceid = -1;
 	ResourceType resourcetype = NULLTYPE;
 	size_t unitsize;
