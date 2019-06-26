@@ -25,6 +25,7 @@ public:
 	void render();
 	void setSize(int width, int height);
 	void setCamera(Camera * camera);
+	void loadingScene();
 
 	static FrameGL * getInstance();
 

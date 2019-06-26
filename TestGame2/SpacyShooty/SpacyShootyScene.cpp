@@ -21,6 +21,9 @@ void SpacyShootyScene::initScene() {
 	Resource rscBmpAsteroid = Engine::getInstance()->loadResource(BMPTYPE, "Assets\\SpacyShooty\\DaAsteroid.bmp");
 	Resource rscPngAsteroid = Engine::getInstance()->loadResource(PNGTYPE, "Assets\\SpacyShooty\\DaAsteroid.png");
 	Resource rscPngShip = Engine::getInstance()->loadResource(PNGTYPE, "Assets\\SpacyShooty\\DaShip2.png");
+	Resource rscWavShoot = Engine::getInstance()->loadResource(WAVTYPE, "Assets\\SpacyShooty\\DaLazer.wav");
+	Resource rscWavBgm = Engine::getInstance()->loadResource(WAVTYPE, "Assets\\SpacyShooty\\DaBgm.wav");
+	Resource rscWavExplosion = Engine::getInstance()->loadResource(WAVTYPE, "Assets\\SpacyShooty\\DaExplosion.wav");
 
 	ObjectGL * oglCube = new ObjectGL(rscObjCube);
 	ObjectGL * oglShip = new ObjectGL(rscObjShip);
@@ -36,14 +39,10 @@ void SpacyShootyScene::initScene() {
 
 	// Assets Start
 
-	Wave * waveShoot = new Wave();
-	waveShoot->readData("Assets\\SpacyShooty\\DaLazer.wav");
-
-	Wave * waveBgm = new Wave();
-	waveBgm->readData("Assets\\SpacyShooty\\DaBgm.wav");
-
-	Wave * waveExplosion = new Wave();
-	waveExplosion->readData("Assets\\SpacyShooty\\DaExplosion.wav");
+	Wave * waveShoot = new Wave(rscWavShoot);
+	Wave * waveBgm = new Wave(rscWavBgm);
+	Wave * waveExplosion = new Wave(rscWavExplosion);
+	
 
 	Mesh * meshShip = new Mesh();
 	meshShip->setObjectGL(oglShip);
@@ -71,15 +70,15 @@ void SpacyShootyScene::initScene() {
 
 	Sound * soundShoot = new Sound();
 	soundShoot->setWave(waveShoot);
-	soundShoot->setVolume(100);
+	soundShoot->setVolume(50);
 
 	Sound * soundExplosion = new Sound();
 	soundExplosion->setWave(waveExplosion);
-	soundExplosion->setVolume(10);
+	soundExplosion->setVolume(20);
 
 	Sound * soundBgm = new Sound();
 	soundBgm->setWave(waveBgm);
-	soundBgm->setVolume(30);
+	soundBgm->setVolume(20);
 	// Components end
 
 	//Prefabs

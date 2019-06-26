@@ -75,8 +75,6 @@ bool Sound::get3D() {
 bool inline Sound::isValid() {
 	if (wave == nullptr)
 		return false;
-	if (!wave->isValid())
-		return false;
 	return true;
 }
 

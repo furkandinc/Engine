@@ -1,5 +1,6 @@
 #include "FrameGL.h"
 #include "..\includes\Angel.h"
+#include "..\Object\Camera\OrthographicCamera.h"
 
 #define HASTEXTURE 1
 #define FONTTEXTURE 0
@@ -401,4 +402,29 @@ void FrameGL::loadFont(Font font) {
 	_fontObj = new ObjectGL(font.charobj);
 	LoadTexture(_fontTexture);
 	LoadObject(_fontObj);
+}
+
+void FrameGL::loadingScene() {
+/*	OrthographicCamera * camera = new OrthographicCamera();
+	camera->setDepth(0.001, 100);
+	camera->setHeight(5);
+	camera->setWidth(5);
+	
+	Object * object = new Object();
+	object->addComponent(new UIText());
+	object->getComponent<UIText>()->setText("Loading");
+	object->getComponent<UIText>()->setMaterial(new Material());
+	object->getComponent<Transform>()->setPosition({ 0.1f, 0.1f, 0.1f });
+	object->getComponent<Transform>()->setRotation({ 90, 90, 90 });
+
+	this->setCamera(camera);
+	this->addUIObject(object);
+	*/
+	render();
+	/*
+	this->removeUIObject(object);
+	object->dispose();
+	camera->dispose();
+	free(object);
+	free(camera);*/
 }

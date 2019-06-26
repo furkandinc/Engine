@@ -1,5 +1,14 @@
 #include "Reader.h"
 
+bool fileExists(const char * filename) {
+	FILE* f = fopen(filename, "r");
+	if (!f) {
+		printf("file %s not found\n", filename);
+		return false;
+	}
+	fclose(f);
+	return true;
+}
 bool readBMP(const char* filename, int * w, int * h, GLubyte ** image) {
 	int i;
 	FILE* f = fopen(filename, "rb");

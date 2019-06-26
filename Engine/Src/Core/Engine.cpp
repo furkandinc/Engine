@@ -50,6 +50,8 @@ void Engine::startGame() {
 	font.charobj = Engine::getInstance()->loadResource(OBJTYPE, "Assets\\Default\\Shape\\plane.obj");
 	frame->loadFont(font);
 
+	frame->loadingScene();
+
 	scene->initScene();
 
 	initTime = clock();
@@ -88,6 +90,9 @@ void Engine::startGame() {
 
 Resource Engine::loadResource(ResourceType type, const char * filepath) {
 	Resource rsc;
+	if (fileExists(filepath)) {
+		printf("Loading resource %s\n", filepath);
+	}
 	if (type == OBJTYPE) {
 		PointGL * points;
 		int numVertex;
@@ -137,6 +142,13 @@ Resource Engine::loadResource(ResourceType type, const char * filepath) {
 		rsc.unitsize = sizeof(GLubyte);
 		rsc.argc = 2;
 		rsc.argv = argv;
+	}
+	else if (type == WAVTYPE) {
+		sf::SoundBuffer * buffer = new sf::SoundBuffer();
+		buffer->loadFromFile(filepath);
+		rsc.data = buffer;
+		rsc.unitsize = sizeof(sf::SoundBuffer);
+		rsc.size = 1;
 	}
 
 	rsc.resourceid = ++lastResourceID;

@@ -8,6 +8,7 @@
 #define BMPTYPE 100
 #define OBJTYPE 101
 #define PNGTYPE 102
+#define WAVTYPE 103
 
 typedef struct DLLDIR RESOURCE {
 	int resourceid = -1;

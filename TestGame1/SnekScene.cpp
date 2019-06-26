@@ -22,10 +22,12 @@ void SnekScene::initScene() {
 	objectHandler->add(art);
 
 	Resource cubeObjectResource = Engine::getInstance()->loadResource(OBJTYPE, "Assets\\cube.obj");
+	Resource hitSoundResource = Engine::getInstance()->loadResource(WAVTYPE, "Assets\\HitHollow.wav");
 	
 	ObjectGL * cubeObjectGL = new ObjectGL(cubeObjectResource);
 
 	Mesh * cubeMesh = new Mesh();
+	Wave * hitWave = new Wave(hitSoundResource);
 
 	cubeMesh->setObjectGL(cubeObjectGL);
 
@@ -50,9 +52,6 @@ void SnekScene::initScene() {
 	artScript->art = art;
 	artScript->boundaryWidth = 1280;
 	artScript->boundaryHeight = 720;
-
-	Wave * hitWave = new Wave();
-	hitWave->readData("Assets\\HitHollow.wav");
 
 	Sound * hitSound = new Sound();
 	hitSound->setWave(hitWave);
