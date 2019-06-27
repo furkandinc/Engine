@@ -1,6 +1,3 @@
-#ifndef COLLIDER_CPP
-#define COLLIDER_CPP
-
 #include "Collider.h"
 #include <stdlib.h>
 
@@ -53,4 +50,17 @@ void Collider::checkSize() {
 	}
 }
 
-#endif
+void * Collider::generate() {
+	Collider * c = new Collider();
+	c->setMesh((Mesh *)mesh->generate());
+	c->collidable = collidable;
+	return c;
+}
+
+int Collider::dispose() {
+	if (mesh != nullptr)
+		mesh->dispose();
+	free(mesh);
+	free(listenerList);
+	return 0;
+}

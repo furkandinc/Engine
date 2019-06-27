@@ -1,11 +1,10 @@
-#ifndef FRAMEGL_CPP
-#define FRAMEGL_CPP
-
-#define HASTEXTURE 1
-#define NOTEXTURE -1
-
 #include "FrameGL.h"
 #include "..\includes\Angel.h"
+#include "..\Object\Camera\OrthographicCamera.h"
+
+#define HASTEXTURE 1
+#define FONTTEXTURE 0
+#define NOTEXTURE -1
 
 typedef Angel::vec4 point4;
 
@@ -17,19 +16,29 @@ GLuint Shininess;
 GLuint LightPosition;
 GLuint TextureMode;
 GLuint TextureID;
+GLuint FontUv;
 
-vec4 light_ambient(1, 1, 1, 1.0);
-vec4 light_diffuse(1.0, 1.0, 1.0, 1.0);
-vec4 light_specular(1.0, 1.0, 1.0, 1.0);
+vec4 light_ambient(1, 1, 1, 1);
+vec4 light_diffuse(1, 1, 1, 1);
+vec4 light_specular(1, 1, 1, 1);
+
+// TODO make list
+Font _font;
+TextureGL * _fontTexture;
+ObjectGL * _fontObj;
+
 
 FrameGL * FrameGL::frameInstance = NULL;
 
-FrameGL::FrameGL() {}
+FrameGL::FrameGL() {
+	objectHandler = new ObjectHandler();
+	uiObjectHandler = new ObjectHandler();
+}
 
 void debug() {
 	GLenum errCode = glGetError();
 	if (errCode != 0) {
-		printf("Error %d\n", errCode);
+		printf("Error %d %s\n", errCode, gluErrorString(errCode));
 	}
 }
 
@@ -52,8 +61,9 @@ void FrameGL::init(int argc, char ** argv, const char * title, int width, int he
 	glewExperimental = GL_TRUE;
 	glewInit();
 	debug();
+	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
 
-	glClearColor(0, 0, 0, 1);
+	glClearColor(0, 0, 0, 0);
 	glutDisplayFunc(displayFunc);
 	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardDownFunc);
@@ -89,25 +99,55 @@ void refreshPointers() {
 	DiffuseProduct = glGetUniformLocation(program, "DiffuseProduct");
 	SpecularProduct = glGetUniformLocation(program, "SpecularProduct");
 	Shininess = glGetUniformLocation(program, "Shininess");
+	
 	LightPosition = glGetUniformLocation(program, "LightPosition");
 	TextureMode = glGetUniformLocation(program, "TextureMode");
 	TextureID = glGetUniformLocation(program, "TextureID");
+	FontUv = glGetUniformLocation(program, "FontUv");
 
 	//fixed light to the camera
 	vec4 light_position(0, 0, 0, 1.0); //wrt camera
 
 }
 
+GLuint LoadTexture(TextureGL * textureGL) {
+	GLuint textures;
+	glGenTextures(1, &textures);
+
+	glBindTexture(GL_TEXTURE_2D, textures);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureGL->getWidth(), textureGL->getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, textureGL->getData());
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(TextureID, 0);
+	textureGL->setDirty(false);
+	textureGL->setId(textures);
+
+	return textures;
+}
+
+GLuint LoadObject(ObjectGL * objectGL) {
+	GLuint bufferid;
+	glGenBuffers(1, &bufferid);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * objectGL->getSize(), (PointGL *) objectGL->getData(), GL_STATIC_DRAW);
+	debug();
+	objectGL->setDirty(false);
+	objectGL->setId(bufferid);
+	refreshPointers();
+	return bufferid;
+}
 
 void FrameGL::initBuffers() {
-	bufferGL = new BufferGL();
-
 	glEnable(GL_DEPTH_TEST);
 	debug();
 	program = InitShader("vshader2.glsl", "fshader2.glsl");
 	glUseProgram(program);
 	debug();
-	printf("Opengl Version: %s\n", glGetString(GL_VERSION));
 
 	glGenVertexArrays(1, &Vao);
 	glBindVertexArray(Vao);
@@ -122,109 +162,167 @@ void FrameGL::render() {
 void FrameGL::displayFunc() {
 	//printf("frame:display\n");
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	Camera * camera = frameInstance->cam;
 	if (camera == nullptr) {
 		glutSwapBuffers();
 		return;
 	}
 
-	point4 eye = camera->getComponent<Transform>()->getPosition();
-	vec4 rotation = camera->getComponent<Transform>()->getRotation();
-	vec4 up = camera->getUpVector();
-	mat4 mv = Look(eye, rotation, up);
-
-	mat4 mo;
-	BufferGL * buffer = frameInstance->bufferGL;
-
-	PointGL * points = buffer->getPoints();
-	int numPoints = buffer->getNumPoints();
-	mat4 * mos = buffer->getMatrices();
-	Integer * sizes = buffer->getSizes();
-	Integer * ids = buffer->getIDs();
-	int count = buffer->getCount();
-	bool dirty = buffer->getDirty();
-	Material * materials = buffer->getMaterials();
-
-	/*DEBUG*/
-	PointGL dbPoints[1000];
-	int db;
-	for (db = 0; db < numPoints && db < 1000; db++) {
-		dbPoints[db] = points[db];
-	}
-	/*DEBUG*/
-
-	if (dirty) {
-		//printf("displayfunc:dirty\n");
-		glGenBuffers(1, &Buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(PointGL) * numPoints, points, GL_STATIC_DRAW);
-		debug();
-		buffer->setDirty(false);
-		refreshPointers();
-	}
-
-	int i, offset = 0;
-	for (i = 0; i < count; i++) {
-		//printf("displayfunc:for%d\n", i);
-		if (ids[i].get() != -1) {
-			mo = mv * mos[i];
-			glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
-			Material material = materials[i];
-
-			vec4 ambient_product = light_ambient * material.getAmbientColor();
-			vec4 diffuse_product = light_diffuse * material.getDiffuseColor();
-			vec4 specular_product = light_specular * material.getSpecularColor();
-
-			float material_shininess = material.getShininess();
-
-			glUniform4fv(AmbientProduct, 1, ambient_product);
-			glUniform4fv(DiffuseProduct, 1, diffuse_product);
-			glUniform4fv(SpecularProduct, 1, specular_product);
-			glUniform1f(Shininess, material_shininess);
-
-			TextureGL * texture = material.getColorTexture();
-			if (texture != nullptr && texture->getData() != nullptr) {
-				if (texture->getDirty()) {
-					// Initialize texture objects
-					GLuint textures;
-					glGenTextures(1, &textures);
-
-					glBindTexture(GL_TEXTURE_2D, textures);
-
-					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture->getWidth(), texture->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, texture->getData());
-
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					glActiveTexture(GL_TEXTURE0);
-					glUniform1i(TextureID, 0);
-					texture->setDirty(false);
-					texture->setId(textures);
-				}
-				glUniform1i(TextureMode, HASTEXTURE);
-				glBindTexture(GL_TEXTURE_2D, texture->getId());
-			}
-			else {
-				glUniform1i(TextureMode, NOTEXTURE);
-			}
-
-			glDrawArrays(GL_TRIANGLES, offset, sizes[i].get());
-			debug();
-		}
-		offset += sizes[i].get();
-	}
-
+	frameInstance->renderObj();
+	frameInstance->renderUI();
+	
 	glutSwapBuffers();
 }
 
+void FrameGL::renderObj() {
+	Camera * camera = frameInstance->cam;
+
+	point4 eye = camera->getComponent<Transform>()->globalPosition();
+	vec4 rotation = camera->getComponent<Transform>()->globalRotation();
+	vec4 up = camera->getComponent<Transform>()->getUpVector();
+	mat4 mv = Look(eye, rotation, up);
+
+	mat4 mo;
+
+	Object ** objectList = frameInstance->objectHandler->getList();
+	int count = frameInstance->objectHandler->getSize();
+
+	for (int i = 0; i < count; i++) {
+		Object * object = objectList[i];
+
+		Transform * transform = object->getComponent<Transform>();
+
+		Renderer * renderer = object->getComponent<Renderer>();
+
+		Mesh * mesh = renderer->getMesh();
+		Material * material = renderer->getMaterial();
+		ObjectGL * objectGL = renderer->getMesh()->getObjectGL();
+		
+		vec4 ambient_product = light_ambient * material->getAmbientColor();
+		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
+		vec4 specular_product = light_specular * material->getSpecularColor();
+		float material_shininess = material->getShininess();
+
+		if (objectGL->getDirty()) {
+			LoadObject(objectGL);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, objectGL->getId());
+		refreshPointers();
+
+		mo = mv * transform->generateMatrix();
+		glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
+
+		glUniform3fv(AmbientProduct, 1, ambient_product);
+		glUniform3fv(DiffuseProduct, 1, diffuse_product);
+		glUniform3fv(SpecularProduct, 1, specular_product);
+		glUniform1f(Shininess, material_shininess);
+
+		TextureGL * textureGL = material->getColorTexture();
+		if (textureGL != nullptr) {
+			if (textureGL->getDirty()) {
+				LoadTexture(textureGL);
+			}
+			glUniform1i(TextureMode, HASTEXTURE);
+			glBindTexture(GL_TEXTURE_2D, textureGL->getId());
+		}
+		else {
+			glUniform1i(TextureMode, NOTEXTURE);
+		}
+
+		glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
+		debug();
+	}
+}
+
+void FrameGL::renderUI() {
+	Camera * camera = frameInstance->cam;
+
+	point4 eye = camera->getComponent<Transform>()->globalPosition();
+	vec4 rotation = camera->getComponent<Transform>()->globalRotation();
+	vec4 up = camera->getComponent<Transform>()->getUpVector();
+	mat4 mv = Look(eye, rotation, up);
+
+	mat4 mo;
+
+	Object ** objectList = frameInstance->uiObjectHandler->getList();
+	int count = frameInstance->uiObjectHandler->getSize();
+
+	for (int i = 0; i < count; i++) {
+		Object * object = objectList[i];
+
+		Transform * transform = object->getComponent<Transform>();
+		UIText * uitext = object->getComponent<UIText>();
+
+		Material * material = uitext->getMaterial();;
+		ObjectGL * objectGL = _fontObj;
+		TextureGL * textureGL = _fontTexture;
+
+		vec4 ambient_product = light_ambient * material->getAmbientColor();
+		vec4 diffuse_product = light_diffuse * material->getDiffuseColor();
+		vec4 specular_product = light_specular * material->getSpecularColor();
+		float material_shininess = material->getShininess();
+
+		if (objectGL->getDirty()) {
+			LoadObject(objectGL);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, objectGL->getId());
+		refreshPointers();
+
+		glUniform3fv(AmbientProduct, 1, ambient_product);
+		glUniform3fv(DiffuseProduct, 1, diffuse_product);
+		glUniform3fv(SpecularProduct, 1, specular_product);
+		glUniform1f(Shininess, material_shininess);
+
+		glUniform1i(TextureMode, FONTTEXTURE);
+		glBindTexture(GL_TEXTURE_2D, textureGL->getId());
+
+		int len = strlen(uitext->getText());
+		int row = 0;
+		int col = 0;
+		for (int i = 0; i < len; i++) {
+			mo = mv * transform->generateMatrix() * Translate(col, 0, -row);
+			glUniformMatrix4fv(ModelView, 1, GL_TRUE, mo);
+			FontChar fchar = _font.chars[uitext->getText()[i]];
+			switch (fchar.charid) {
+			case '\n':
+				col = 0;
+				row++;
+				continue;
+			case '\t':
+				col += 4;
+				continue;
+			default:
+				col++;
+			}
+		
+			vec2 fontOffset;
+			fontOffset.x = (float)fchar.x / _font.imagewidth;
+			fontOffset.y = 1 - ((float)fchar.y / _font.imageheight);
+			glUniform2fv(FontUv, 1, fontOffset);
+
+			glDrawArrays(GL_TRIANGLES, 0, objectGL->getSize());
+			debug();
+		}
+	}
+}
+
 void FrameGL::addObject(Object * object) {
-	bufferGL->add(object);
+	objectHandler->add(object);
 }
 
 void FrameGL::removeObject(Object * object) {
-	bufferGL->remove(object);
+	objectHandler->remove(object);
+}
+
+void FrameGL::addUIObject(Object * object) {
+	uiObjectHandler->add(object);
+}
+
+void FrameGL::removeUIObject(Object * object) {
+	uiObjectHandler->remove(object);
 }
 
 void FrameGL::idleFunc() {
@@ -297,4 +395,36 @@ void FrameGL::setCamera(Camera * camera) {
 
 	glUniformMatrix4fv(Projection, 1, GL_TRUE, projection);
 }
-#endif
+
+void FrameGL::loadFont(Font font) {
+	_font = font;
+	_fontTexture = new TextureGL(font.charuv);
+	_fontObj = new ObjectGL(font.charobj);
+	LoadTexture(_fontTexture);
+	LoadObject(_fontObj);
+}
+
+void FrameGL::loadingScene() {
+/*	OrthographicCamera * camera = new OrthographicCamera();
+	camera->setDepth(0.001, 100);
+	camera->setHeight(5);
+	camera->setWidth(5);
+	
+	Object * object = new Object();
+	object->addComponent(new UIText());
+	object->getComponent<UIText>()->setText("Loading");
+	object->getComponent<UIText>()->setMaterial(new Material());
+	object->getComponent<Transform>()->setPosition({ 0.1f, 0.1f, 0.1f });
+	object->getComponent<Transform>()->setRotation({ 90, 90, 90 });
+
+	this->setCamera(camera);
+	this->addUIObject(object);
+	*/
+	render();
+	/*
+	this->removeUIObject(object);
+	object->dispose();
+	camera->dispose();
+	free(object);
+	free(camera);*/
+}

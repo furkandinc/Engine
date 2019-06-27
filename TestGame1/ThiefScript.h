@@ -12,6 +12,10 @@ public:
 	void onUpdate(void);
 	void onCollide(Object * object);
 
+	//Generable
+	void * generate();
+	int dispose();
+
 	Object * thief;
 	Object * art;
 

@@ -15,6 +15,10 @@ public:
 	void setMesh(Mesh * mesh);
 	Mesh * getMesh();
 
+	//Generable
+	void * generate();
+	int dispose();
+
 private:
 	Mesh * mesh;
 	bool collidable;

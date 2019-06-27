@@ -2,8 +2,10 @@
 
 #include "../dllexp.h"
 #include "../OpenGL/ObjectGL.h"
+#include "../Generable.h"
+#include "../Component/Transform.h"
 
-class DLLDIR Boundary {
+class DLLDIR Boundary: public Generable {
 public:
 	Boundary();
 	void setLeft(float left);
@@ -12,14 +14,18 @@ public:
 	void setBottom(float bottom);
 	void setNear(float n);
 	void setFar(float f);
-	ObjectGL * getObjectGL();
+	void setTransform(Transform * transform);
+	bool collide(Boundary * boundary);
 
+	//Generable
+	void * generate();
+	int dispose();
 private:
-	float red, green, blue, alpha;
 	float left, right; //X
 	float top, bottom; //Y
 	float nearZ, farZ; //Z
-	void cubeMesh();
-	void quad(PointGL * pointBuffer, int indexStart, PointGL p1, PointGL p2, PointGL p3, PointGL p4);
-	ObjectGL * objectGL;
+
+	Transform * transform;
+
+	float * generateBound();
 };

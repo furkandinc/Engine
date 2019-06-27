@@ -4,18 +4,18 @@
 
 #include "dllexp.h"
 
-#include "Asset\CubeMesh.h"
 #include "Asset\Material.h"
 #include "Asset\Mesh.h"
 #include "Asset\Wave.h"
-#include "Asset\Script.h"
+#include "Asset\Resource.h"
 
+#include "Component\Script.h"
 #include "Component\Collider.h"
 #include "Component\Component.h"
-#include "Component\Control.h"
 #include "Component\Renderer.h"
 #include "Component\Sound.h"
 #include "Component\Transform.h"
+#include "Component\UIText.h"
 
 #include "Input\KeyHandler.h"
 #include "Input\Keys.h"
@@ -39,6 +39,7 @@
 
 #include "Scene\Scene.h"
 #include "Util\ArrayList.h"
+#include "includes\Reader.h"
 
 class DLLDIR Engine {
 public:
@@ -46,14 +47,16 @@ public:
 	void setFrame(FrameGL * frame);
 	void setScene(Scene * scene);
 	void startGame();
+	Resource loadResource(ResourceType type, const char * filepath);
+	Resource getResource(int resourceID);
 
 	Object * _createObject();
+	Object * _instantiate(Object * object);
 	void _removeObject(Object * object);
 	void _setScreenSize(int x, int y);
 	float _getDeltaTime();
 	int _keyStatus(int key);
 	Scene * _getScene(const char * sceneName);
-
 private:
 	Engine();
 	void tick(int tickType);
@@ -66,6 +69,8 @@ private:
 	ObjectHandler * objectHandler;
 	KeyHandler * keyHandler;
 	PhysicsEngine * physicsEngine;
+	ObjectHandler * deleteList;
+	ArrayList<Resource> * resourceList;
 	
 	int tickMax;
 	int tickCount;
@@ -76,10 +81,12 @@ private:
 	float lastDeltaTime;
 	int lastFrameCount;
 	int frameCount;
+	int lastResourceID = 0;
 };
 
 // Engine makros
 DLLDIR Object * createObject();
+DLLDIR Object * instantiate(Object * object);
 DLLDIR void removeObject(Object * object);
 DLLDIR void setScreenSize(int x, int y);
 DLLDIR float getDeltaTime();

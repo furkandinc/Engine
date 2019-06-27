@@ -1,15 +1,8 @@
-#ifndef PERSPECTIVE_CAMERA_CPP
-#define PERSPECTIVE_CAMERA_CPP
-
 #include "PerpectiveCamera.h"
 #include "../../Component/Renderer.h"
 #include "../../Component/Transform.h"
 
-
-
 PerspectiveCamera::PerspectiveCamera(){
-	Renderer * renderer = getComponent<Renderer>();
-	renderer->setMesh(nullptr); //don't render
 	Transform * transform = getComponent<Transform>();
 
 	//default initializations
@@ -17,7 +10,6 @@ PerspectiveCamera::PerspectiveCamera(){
 	aspect = 1280/720.0;
 	dMin = 1;
 	dMax = 1000000;
-	roll = 0;
 	transform->setPosition(vec3(0, 00, 00));
 	transform->setRotation(vec3(0, 0, 0));
 }
@@ -47,4 +39,3 @@ float PerspectiveCamera::getDepthMin(){
 float PerspectiveCamera::getDepthMax() {
 	return dMax;
 }
-#endif

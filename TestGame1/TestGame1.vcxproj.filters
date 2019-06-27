@@ -16,6 +16,7 @@
     <ClCompile Include="ArtScript.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\lodepng.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SnekScene.h">

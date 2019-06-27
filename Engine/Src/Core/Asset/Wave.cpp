@@ -1,24 +1,22 @@
 #include "Wave.h"
 
-Wave::Wave() {
-	valid = false;
-}
-
-void Wave::readData(const char * filepath) {
-	if (buffer.loadFromFile(filepath)) {
-		valid = true;
-	}
-	else {
-		valid = false;
-	}
-
-	sound.setBuffer(buffer);
+Wave::Wave(Resource resource) {
+	sound = new sf::Sound();
+	sf::SoundBuffer * soundBuffer = (sf::SoundBuffer *) resource.data;
+	sound->setBuffer(*(soundBuffer));
+	this->resource = resource;
 }
 
 sf::Sound * Wave::getData() {
-	return &sound;
+	return sound;
 }
 
-bool Wave::isValid() {
-	return valid;
+void * Wave::generate() {
+	Wave * wave = new Wave(resource);
+	return (void *)wave;
+}
+
+int Wave::dispose() {
+	free(sound);
+	return 0;
 }

@@ -7,8 +7,4 @@
 class DLLDIR Camera: public Object {
 public:
 	virtual mat4 getProjection() = 0;
-	void setRoll(float roll);
-	vec4 getUpVector();
-protected:
-	float roll;
 };

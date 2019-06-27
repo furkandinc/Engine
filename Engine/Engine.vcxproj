@@ -9,14 +9,6 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -29,26 +21,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -61,12 +40,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -87,12 +60,6 @@
     <Linkage-sfml-system>
     </Linkage-sfml-system>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)\Src\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\Src\Core;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -110,15 +77,6 @@
       <Command>xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -128,7 +86,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLLDIR_EX;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -138,34 +96,34 @@
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"</Command>
+      <Command>mkdir "$(OutDir)Assets"
+mkdir "$(OutDir)Engine"
+mkdir "$(OutDir)Engine\include"
+mkdir "$(OutDir)Engine\bin"
+mkdir "$(OutDir)Engine\lib"
+mkdir "$(OutDir)Engine\bin\Assets"
+xcopy /y /d  "$(ProjectDir)Src\Core\shader\*" "$(OutDir)"
+xcopy /y /e  "$(ProjectDir)Assets" "$(OutDir)Assets"
+xcopy /y /e  "$(ProjectDir)Assets" "$(OutDir)Engine\bin\Assets"
+xcopy /y /e "$(ProjectDir)Src\Core" "$(OutDir)Engine\include"
+xcopy /y /d "$(ProjectDir)Src\Core\shader\*" "$(OutDir)Engine\bin"
+xcopy /y /d "$(OutDir)Engine.dll" "$(OutDir)Engine\bin"
+xcopy /y /d "$(OutDir)Engine.lib" "$(OutDir)Engine\lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Core\Asset\CubeMesh.cpp" />
     <ClCompile Include="Src\Core\Asset\Material.cpp" />
+    <ClCompile Include="Src\Core\Asset\Mesh.cpp" />
     <ClCompile Include="Src\Core\Asset\Wave.cpp" />
     <ClCompile Include="Src\Core\Component\Collider.cpp" />
     <ClCompile Include="Src\Core\Component\Component.cpp" />
-    <ClCompile Include="Src\Core\Component\Control.cpp" />
     <ClCompile Include="Src\Core\Component\Renderer.cpp" />
+    <ClCompile Include="Src\Core\Component\Script.cpp" />
     <ClCompile Include="Src\Core\Component\Sound.cpp" />
     <ClCompile Include="Src\Core\Component\Transform.cpp" />
+    <ClCompile Include="Src\Core\Component\UIText.cpp" />
     <ClCompile Include="Src\Core\includes\InitShader.cpp" />
+    <ClCompile Include="Src\Core\includes\Reader.cpp" />
     <ClCompile Include="Src\Core\Input\KeyHandler.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\OrthographicCamera.cpp" />
     <ClCompile Include="Src\Core\Object\Camera\Camera.cpp" />
@@ -185,18 +143,20 @@
     <ClCompile Include="Src\Core\Util\Integer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Core\Asset\Font.h" />
     <ClInclude Include="Src\Core\Asset\Material.h" />
+    <ClInclude Include="Src\Core\Asset\Resource.h" />
     <ClInclude Include="Src\Core\Asset\Wave.h" />
-    <ClInclude Include="Src\Core\Component\Control.h" />
     <ClInclude Include="Src\Core\Component\Sound.h" />
+    <ClInclude Include="Src\Core\Component\UIText.h" />
     <ClInclude Include="Src\Core\dllexp.h" />
+    <ClInclude Include="Src\Core\Generable.h" />
     <ClInclude Include="Src\Core\Object\Camera\Camera.h" />
     <ClInclude Include="Src\Core\Object\Camera\OrthographicCamera.h" />
     <ClInclude Include="Src\Core\Object\Camera\PerpectiveCamera.h" />
     <ClInclude Include="Src\Core\OpenGL\TextureGL.h" />
     <ClInclude Include="Src\Core\Physics\Boundary.h" />
     <ClInclude Include="Src\Core\Asset\Mesh.h" />
-    <ClInclude Include="Src\Core\Asset\CubeMesh.h" />
     <ClInclude Include="Src\Core\Component\Collider.h" />
     <ClInclude Include="Src\Core\Component\Component.h" />
     <ClInclude Include="Src\Core\Component\Renderer.h" />
@@ -204,7 +164,7 @@
     <ClInclude Include="Src\Core\Engine.h" />
     <ClInclude Include="Src\Core\Input\KeyHandler.h" />
     <ClInclude Include="Src\Core\Input\Keys.h" />
-    <ClInclude Include="Src\Core\Asset\Script.h" />
+    <ClInclude Include="Src\Core\Component\Script.h" />
     <ClInclude Include="Src\Core\Object\Object.h" />
     <ClInclude Include="Src\Core\Object\ObjectHandler.h" />
     <ClInclude Include="Src\Core\OpenGL\BufferGL.h" />
@@ -229,6 +189,7 @@
     <Import Project="..\packages\sfml-system.redist.2.4.2.0\build\native\sfml-system.redist.targets" Condition="Exists('..\packages\sfml-system.redist.2.4.2.0\build\native\sfml-system.redist.targets')" />
     <Import Project="..\packages\sfml-system.2.4.2.0\build\native\sfml-system.targets" Condition="Exists('..\packages\sfml-system.2.4.2.0\build\native\sfml-system.targets')" />
     <Import Project="..\packages\sfml-audio.2.4.2.0\build\native\sfml-audio.targets" Condition="Exists('..\packages\sfml-audio.2.4.2.0\build\native\sfml-audio.targets')" />
+    <Import Project="..\packages\LodePNG.1.1.0\build\native\lodepng.targets" Condition="Exists('..\packages\LodePNG.1.1.0\build\native\lodepng.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -240,5 +201,6 @@
     <Error Condition="!Exists('..\packages\sfml-system.redist.2.4.2.0\build\native\sfml-system.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-system.redist.2.4.2.0\build\native\sfml-system.redist.targets'))" />
     <Error Condition="!Exists('..\packages\sfml-system.2.4.2.0\build\native\sfml-system.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-system.2.4.2.0\build\native\sfml-system.targets'))" />
     <Error Condition="!Exists('..\packages\sfml-audio.2.4.2.0\build\native\sfml-audio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sfml-audio.2.4.2.0\build\native\sfml-audio.targets'))" />
+    <Error Condition="!Exists('..\packages\LodePNG.1.1.0\build\native\lodepng.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LodePNG.1.1.0\build\native\lodepng.targets'))" />
   </Target>
 </Project>

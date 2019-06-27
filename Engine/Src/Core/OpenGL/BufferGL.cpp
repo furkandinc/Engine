@@ -1,9 +1,6 @@
-#ifndef BUFFERGL_CPP
-#define BUFFERGL_CPP
-
 #include "BufferGL.h"
 #include <stdio.h>
-
+/*
 BufferGL::BufferGL() {
 	count = 0;
 	lastGeneratedID = 100;
@@ -65,13 +62,13 @@ void BufferGL::add(Object * object) {
 	if (index < 0) {
 		//printf("Buffergl:add:index<0 id:%d\n", id);
 		addToArray(objectGL->getPoints(), objectGL->getPointsSize());
-		/*DEBUG*/
+		
 		PointGL dbPoints[1000];
 		int db;
 		for (db = 0; db < objectGL->getPointsSize() && db < 1000; db++) {
 			dbPoints[db] = objectGL->getPoints()[db];
 		}
-		/*DEBUG*/
+		
 		matrices->add(transform->generateMatrix());
 		sizes->add(objectGL->getPointsSize());
 		ids->add(id);
@@ -140,6 +137,4 @@ void BufferGL::addToArray(PointGL * points, int size) {
 	for (i = 0; i < size; i++) {
 		this->points->add(points[i]);
 	}
-}
-
-#endif
+}*/

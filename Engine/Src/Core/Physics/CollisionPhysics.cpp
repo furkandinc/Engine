@@ -52,12 +52,12 @@ bool isCollide(vec3 a1, vec3 a2, vec3 a3, vec3 b1, vec3 b2, vec3 b3) {
 }
 
 bool isCollide(ObjectGL * b1, Transform * t1, ObjectGL * b2, Transform * t2) {
-	PointGL * points1 = b1->getPoints();
-	PointGL * points2 = b2->getPoints();
+	PointGL * points1 = b1->getData();
+	PointGL * points2 = b2->getData();
 	mat4 matrice1 = t1->generateMatrix();
 	mat4 matrice2 = t2->generateMatrix();
-	for (int i = 0; i < b1->getPointsSize(); i += 3) {
-		for (int j = 0; j < b2->getPointsSize(); j += 3) {
+	for (int i = 0; i < b1->getSize(); i += 3) {
+		for (int j = 0; j < b2->getSize(); j += 3) {
 
 			vec4 a1 = matrice1 * points1[i].position;
 			vec4 a2 = matrice1 * points1[i + 1].position;
@@ -86,9 +86,13 @@ bool isCollide(ObjectGL * b1, Transform * t1, ObjectGL * b2, Transform * t2) {
 bool isCollide(Mesh * mesh1, Transform * t1, Mesh * mesh2, Transform * t2) {
 	Boundary * boundary1 = mesh1->getBoundary();
 	Boundary * boundary2 = mesh2->getBoundary();
+	
+	boundary1->setTransform(t1);
+	boundary2->setTransform(t2);
 
-	bool bound = isCollide(boundary1->getObjectGL(), t1, boundary2->getObjectGL(), t2);
 	bool result = false;
+	bool bound = boundary1->collide(boundary2);
+
 	if (bound) {
 		result = isCollide(mesh1->getObjectGL(), t1, mesh2->getObjectGL(), t2);
 	}

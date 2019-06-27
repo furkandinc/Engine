@@ -7,6 +7,7 @@
 #include "../includes/Angel.h"
 #include "../OpenGL/PointGL.h"
 #include "../Asset/Material.h"
+#include "../Asset/Resource.h"
 
 template <class T>
 ArrayList<T>::ArrayList(void) {
@@ -80,4 +81,5 @@ template class ArrayList<PointGL>;
 template class ArrayList<Integer>;
 template class ArrayList<mat4>;
 template class ArrayList<Material>;
+template class ArrayList<Resource>;
 #endif

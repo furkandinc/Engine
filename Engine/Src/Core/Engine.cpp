@@ -5,14 +5,15 @@
 
 #include <Engine.h>
 #include <stdio.h>
-#include <Object\Camera\Camera.h>
-#include <Component\Control.h>
+#include "lodepng.h"
 
 Engine::Engine() {
 	tickMax = 100;
 
 	this->keyHandler = new KeyHandler();
 	this->physicsEngine = new PhysicsEngine();
+	this->deleteList = new ObjectHandler();
+	this->resourceList = new ArrayList<Resource>();
 
 	printf("Engine Initialized! \n");
 }
@@ -40,7 +41,16 @@ void Engine::setScene(Scene * scene) {
 }
 
 void Engine::startGame() {
-	printf("Engine Started! \n");
+	printf("Engine Started!\n");
+
+	// TODO read font as a resource
+	Font font;
+	readFontFamily(&font, "Assets\\Default\\Font\\courier.csv");
+	font.charuv = Engine::getInstance()->loadResource(BMPTYPE, "Assets\\Default\\Font\\courier.bmp");
+	font.charobj = Engine::getInstance()->loadResource(OBJTYPE, "Assets\\Default\\Shape\\plane.obj");
+	frame->loadFont(font);
+
+	frame->loadingScene();
 
 	scene->initScene();
 
@@ -78,15 +88,101 @@ void Engine::startGame() {
 	}
 }
 
+Resource Engine::loadResource(ResourceType type, const char * filepath) {
+	Resource rsc;
+	if (fileExists(filepath)) {
+		printf("Loading resource %s\n", filepath);
+	}
+	if (type == OBJTYPE) {
+		PointGL * points;
+		int numVertex;
+		bool result = readOBJ(filepath, &points, &numVertex);
+		rsc.data = (void *)points;
+		rsc.size = numVertex;
+		rsc.unitsize = sizeof(PointGL);
+		rsc.argc = 0;
+		rsc.argv = nullptr;
+	}
+	else if (type == BMPTYPE) {
+		int w;
+		int h;
+		GLubyte * data;
+		bool result = readBMP(filepath, &w, &h, &data);
+		int * argv = (int *)malloc(sizeof(int) * 2);
+		argv[0] = w;
+		argv[1] = h;
+		rsc.data = (void *)data;
+		rsc.size = w * h * 4;
+		rsc.unitsize = sizeof(GLubyte);
+		rsc.argc = 2;
+		rsc.argv = (void *)argv;
+	}
+	else if (type == PNGTYPE) {
+		std::vector<GLubyte> * image = new std::vector<GLubyte>();
+		unsigned width, height;
+		unsigned error = lodepng::decode((*image), width, height, filepath);
+		if (error)
+			std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+		
+		// upside down the rows
+		int width_size = width * 4;
+		for (int i = 0; i < height / 2; i++) {
+			for (int j = 0; j < width_size ; j++) {
+				unsigned temp = (*image)[i * width_size + j];
+				(*image)[i * width_size + j] = (*image)[(height - i - 1) * width_size + j];
+				(*image)[(height - i - 1) * width_size + j] = temp;
+			}
+		}
+
+		int * argv = (int *)malloc(sizeof(int) * 2);
+		argv[0] = width;
+		argv[1] = height;
+		rsc.data = &(* image)[0];
+		rsc.size = width * height * 4;
+		rsc.unitsize = sizeof(GLubyte);
+		rsc.argc = 2;
+		rsc.argv = argv;
+	}
+	else if (type == WAVTYPE) {
+		sf::SoundBuffer * buffer = new sf::SoundBuffer();
+		buffer->loadFromFile(filepath);
+		rsc.data = buffer;
+		rsc.unitsize = sizeof(sf::SoundBuffer);
+		rsc.size = 1;
+	}
+
+	rsc.resourceid = ++lastResourceID;
+	rsc.resourcetype = type;
+	resourceList->add(rsc);
+	return rsc;
+}
+
+Resource Engine::getResource(int id) {
+	Resource ans;
+	for (int i = 0; i < resourceList->getCount(); i++) {
+		Resource temp = resourceList->get(i);
+		if (temp.resourceid == id) {
+			return temp;
+		}
+	}
+	return ans;
+}
+
 Object * Engine::_createObject() {
 	Object * object = new Object();
 	objectHandler->add(object);
+
 	return object;
 }
 
+Object * Engine::_instantiate(Object * object) {
+	Object * obj = (Object *)(object->generate());
+	objectHandler->add(obj);
+	return obj;
+}
+
 void Engine::_removeObject(Object * object) {
-	objectHandler->remove(object);
-	frame->removeObject(object);
+	deleteList->add(object);
 }
 
 void Engine::_setScreenSize(int x, int y) {
@@ -111,32 +207,37 @@ void Engine::tick(int tickType) {
 	Object ** list = objectHandler->getList();
 	for (int i = 0; i < objectHandler->getSize(); i++) {
 		Object * object = list[i];
-		Control * control = object->getComponent<Control>();
-		if (control != nullptr) {
-			Script * script = control->getScript();
-			if (script != nullptr) {
-				if (tickType == START) {
-					script->onStart();
-				}
-				else if (tickType == UPDATE) {
-					script->onUpdate();
-				}
+		Script * script = object->getComponent<Script>();
+		if (script != nullptr) {
+			if (tickType == START) {
+				script->onStart();
+			}
+			else if (tickType == UPDATE) {
+				script->onUpdate();
 			}
 		}
 	}
-
 	if (tickType == UPDATE) {
 		if (this->keyHandler != nullptr) {
 			this->keyHandler->tick();
 		}
 		physicsEngine->tick();
+		Object ** objDestroy = deleteList->getList();
+		for (int i = 0; i < deleteList->getSize(); i++) {
+			Object * object = objDestroy[deleteList->getSize() - 1];
+			objectHandler->remove(object);
+			frame->removeObject(object);
+			object->dispose();
+			free(object);
+			deleteList->remove(object);
+		}
+		
 	}
 
 	tickCount++;
 }
 
 void Engine::render() {
-	
 	Object ** list = this->objectHandler->getList();
 	int size = this->objectHandler->getSize();
 
@@ -146,13 +247,20 @@ void Engine::render() {
 		if (Camera * cam = dynamic_cast<Camera *>(object)) {
 			frame->setCamera(cam);
 		}
+
 		Renderer * renderer = list[i]->getComponent<Renderer>();
+		UIText * text = list[i]->getComponent<UIText>();
 		Transform * transform = list[i]->getComponent<Transform>();
 		if (renderer != nullptr && transform != nullptr) {
-			if(renderer->getMesh() != nullptr)
+			if (renderer->getMesh() != nullptr) {
 				frame->addObject(list[i]);
+			}
+		}
+		else if (text != nullptr && transform != nullptr) {
+			frame->addUIObject(list[i]);
 		}
 	}
+	
 	frame->render();
 	frameCount++;
 }
@@ -160,6 +268,10 @@ void Engine::render() {
 
 Object * createObject() {
 	return Engine::getInstance()->_createObject();
+}
+
+Object * instantiate(Object * object) {
+	return Engine::getInstance()->_instantiate(object);
 }
 
 void removeObject(Object * object) {

@@ -4,17 +4,20 @@
 #include <stdio.h>
 #include <utility>
 #include "../dllexp.h"
+#include "../Generable.h"
 
 class Component;
 
-class DLLDIR Object {
+class DLLDIR Object: public Generable {
 public:
 
 	Object();
 
 	void addComponent(Component * component);
 	template <typename T> T * getComponent();
-	Component * removeComponent(int index);
+	bool removeComponent(int index);
+	void setTag(const char * tag);
+	const char * getTag();
 
 	Object * parent();
 	Object ** children();
@@ -22,8 +25,12 @@ public:
 	void addChild(Object * object);
 	Object * removeChild(int index);
 
+	//Generable
+	void * generate();
+	int dispose();
 protected:
 	virtual void abstraction();
+	const char * tag;
 
 private:
 	Component ** componentList;

@@ -11,29 +11,17 @@
 #include "../Util/Integer.h"
 #include "../Component/Transform.h"
 #include "../Component/Renderer.h"
-
+/*
 class DLLDIR BufferGL {
 public:
 	BufferGL();
-	PointGL * getPoints();
-	int getNumPoints();
-	mat4 * getMatrices();
-	Integer * getSizes();
-	Integer * getIDs();
-	Material * getMaterials();
+	Object * getObject();
 	int getCount();
-	bool getDirty();
-	void setDirty(bool dirty);
 	void add(Object * object);
 	void remove(Object * object);
-
 private:
 
-	ArrayList<PointGL> * points;
-	ArrayList<mat4> * matrices;
-	ArrayList<Integer> * sizes;
-	ArrayList<Integer> * ids;
-	ArrayList<Material> * materials;
+	
 	int count;
 
 	bool dirty;
@@ -44,3 +32,5 @@ private:
 	int indexOfId(int id);
 	void addToArray(PointGL * points, int size);
 };
+*/
+

@@ -1,13 +1,11 @@
-#ifndef OBJECT_CPP
-#define OBJECT_CPP
-
 #include "Object.h"
-#include "../Asset/CubeMesh.h"
 #include "../Component/Component.h"
 #include "../Component/Transform.h"
 #include "../Component/Renderer.h"
 
 Object::Object() {
+	tag = "Tag";
+
 	childListSize = 5;
 	childList = (Object **)malloc(sizeof(Object *) * childListSize);
 	childListCount = 0;
@@ -19,10 +17,6 @@ Object::Object() {
 	parentObject = nullptr;
 
 	addComponent(new Transform());
-	Renderer * renderer = new Renderer();
-	renderer->setMesh(new CubeMesh());
-	renderer->setMaterial(new Material());
-	addComponent(renderer);
 };
 
 void Object::addComponent(Component * component) {
@@ -32,25 +26,20 @@ void Object::addComponent(Component * component) {
 	component->object = this;
 };
 
-Component * Object::removeComponent(int index) {
+bool Object::removeComponent(int index) {
 	if (index < 0 || index >= componentListCount) {
-		return nullptr;
+		return false;
 	}
 
-	Component * answer = nullptr;
-	for (int i = 0; i < componentListCount; i++) {
-		if (i == componentListCount) {
-			answer = componentList[i];
-			componentList[i] = (Component *) nullptr;
-		}
-		else if (i >= index) {
+	for (int i = index; i < componentListCount; i++) {
+		if (i != componentListSize - 1)
 			componentList[i] = componentList[i + 1];
-		}
+		else
+			componentList[i] = nullptr;
 	}
 
-	answer->object = nullptr;
 	componentListCount--;
-	return answer;
+	return true;
 }
 
 Object * Object::parent() {
@@ -118,4 +107,39 @@ void Object::resizeBuffers() {
 void Object::abstraction() {
 
 }
-#endif
+
+void * Object::generate() {
+	Object * obj = new Object();
+	obj->removeComponent(0); //initialized Transform
+	for (int i = 0; i < componentListCount; i++) {
+		obj->addComponent((Component *)componentList[i]->generate());
+	}
+	for (int i = 0; i < childListCount; i++) {
+		obj->addChild((Object *)childList[i]->generate());
+	}
+	obj->tag = tag;
+	return obj;
+}
+
+int Object::dispose() {
+	for (int i = 0; i < componentListCount; i++) {
+		componentList[i]->dispose();
+		free(componentList[i]);
+	}
+	for (int i = 0; i < childListCount; i++) {
+		childList[i]->dispose();
+		free(childList[i]);
+	}
+	free(componentList);
+	free(childList);
+
+	return 0;
+}
+
+void Object::setTag(const char * tag) {
+	this->tag = tag;
+}
+
+const char * Object::getTag() {
+	return tag;
+}

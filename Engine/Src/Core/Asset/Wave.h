@@ -1,17 +1,19 @@
 #pragma once
 
 #include <SFML\Audio.hpp>
-#include "../dllexp.h"
+#include "..\dllexp.h"
+#include "..\Generable.h"
+#include "Resource.h"
 
-class DLLDIR Wave {
+class DLLDIR Wave: public Generable {
 public:
-	Wave();
-	void readData(const char * filepath);
+	Wave(Resource resource);
 	sf::Sound * getData();
-	bool isValid();
 
+	//Generable
+	void * generate();
+	int dispose();
 protected:
-	sf::SoundBuffer buffer;
-	sf::Sound sound;
-	bool valid;
+	sf::Sound * sound;
+	Resource resource;
 };

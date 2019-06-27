@@ -1,8 +1,7 @@
-#ifndef TRANSFORM_CPP
-#define TRANSFORM_CPP
+#pragma once
 
-#include "../includes/Angel.h"
 #include "Transform.h"
+#include "../includes/Angel.h"
 #include "../Object/Object.h"
 
 Transform::Transform() {
@@ -87,4 +86,20 @@ Transform * Transform::findParentTransform() {
 	}
 	return nullptr;
 }
-#endif
+
+void * Transform::generate() {
+	Transform * transform = new Transform();
+	transform->position = this->position;
+	transform->rotation = this->rotation;
+	transform->scale = this->scale;
+	return transform;
+}
+
+int Transform::dispose() {
+	return 0;
+}
+
+vec4 Transform::getUpVector() {
+	vec3 rot = globalRotation();
+	return RotateZ(rot.z) * RotateY(rot.y) * RotateX(rot.x)  * vec4(0, 0, 1, 1);
+}

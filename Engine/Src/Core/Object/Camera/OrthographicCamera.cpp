@@ -1,6 +1,3 @@
-#ifndef ORTHOGRAPHIC_CAMERA_CPP
-#define ORTHOGRAPHIC_CAMERA_CPP
-
 #include "OrthographicCamera.h"
 #include "../../Component/Transform.h"
 #include "../../Component/Renderer.h"
@@ -10,10 +7,7 @@ OrthographicCamera::OrthographicCamera() {
 	height = 600;
 	dMin = 1;
 	dMax = 1000000;
-	roll = 0;
 	
-	Renderer * renderer = getComponent<Renderer>();
-	renderer->setMesh(nullptr);
 	Transform * transform = getComponent<Transform>();
 	transform->setPosition(vec3(400, 300, 1000));
 	transform->setRotation(vec3(-90, 90, 0));
@@ -57,6 +51,3 @@ float OrthographicCamera::getDepthMax()
 {
 	return dMax;
 }
-
-
-#endif

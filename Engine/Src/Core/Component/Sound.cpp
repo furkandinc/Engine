@@ -75,7 +75,22 @@ bool Sound::get3D() {
 bool inline Sound::isValid() {
 	if (wave == nullptr)
 		return false;
-	if (!wave->isValid())
-		return false;
 	return true;
+}
+
+void * Sound::generate() {
+	Sound * sound = new Sound();
+
+	sound->setWave((Wave *)this->wave->generate());
+	sound->setVolume(this->volume);
+	sound->setLoop(this->getLoop());
+
+	return sound;
+}
+
+int Sound::dispose() {
+	wave->dispose();
+	free(wave);
+
+	return 0;
 }

@@ -8,7 +8,7 @@
 #define __ANGEL_VEC_H__
 
 #include "Angel.h"
-
+#include "../dllexp.h"
 
 
 namespace Angel {
@@ -18,7 +18,7 @@ namespace Angel {
 	//  vec2.h - 2D vector
 	//
 
-	struct vec2 {
+	struct DLLDIR vec2 {
 
 		GLfloat  x;
 		GLfloat  y;
@@ -184,7 +184,7 @@ namespace Angel {
 	//
 	//////////////////////////////////////////////////////////////////////////////
 
-	struct vec3 {
+	struct DLLDIR vec3 {
 
 		GLfloat  x;
 		GLfloat  y;
@@ -359,7 +359,7 @@ namespace Angel {
 	//
 	//////////////////////////////////////////////////////////////////////////////
 
-	struct vec4 {
+	struct DLLDIR vec4 {
 
 		GLfloat  x;
 		GLfloat  y;
@@ -421,7 +421,7 @@ namespace Angel {
 
 		vec4 operator * (const vec4& v) const
 		{
-			return vec4(x*v.x, y*v.y, z*v.z, w*v.z);
+			return vec4(x*v.x, y*v.y, z*v.z, w*v.w);
 		}
 
 		friend vec4 operator * (const GLfloat s, const vec4& v)
